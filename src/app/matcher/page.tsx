@@ -34,8 +34,10 @@ function MatchRow({ match, matchId, showGroup }: { match: Group["matches"][0]; m
     ? "bg-blue-600 text-white"
     : "bg-red-600 text-white";
 
+  const isSwedenMatch = match.home === "Sverige" || match.away === "Sverige";
+
   return (
-    <div className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-[#f5c518]/20 transition-all">
+    <div className={`border rounded-xl p-4 transition-all ${isSwedenMatch ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10 hover:border-[#f5c518]/20"}`}>
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2 text-xs text-gray-500">
           {showGroup && (
@@ -54,7 +56,7 @@ function MatchRow({ match, matchId, showGroup }: { match: Group["matches"][0]; m
       </div>
       <div className="flex items-center justify-between gap-4">
         <div className="flex-1 flex items-center justify-end gap-2">
-          <span className="font-bold text-white text-sm sm:text-base">{match.home}</span>
+          <span className={`font-bold text-sm sm:text-base ${match.home === "Sverige" ? "text-[#f5c518]" : "text-white"}`}>{match.home}</span>
           <span className="text-lg">{getFlag(match.home)}</span>
         </div>
         <div className="shrink-0 px-3">
@@ -62,7 +64,7 @@ function MatchRow({ match, matchId, showGroup }: { match: Group["matches"][0]; m
         </div>
         <div className="flex-1 flex items-center gap-2">
           <span className="text-lg">{getFlag(match.away)}</span>
-          <span className="font-bold text-white text-sm sm:text-base">{match.away}</span>
+          <span className={`font-bold text-sm sm:text-base ${match.away === "Sverige" ? "text-[#f5c518]" : "text-white"}`}>{match.away}</span>
         </div>
       </div>
       <MatchComments matchId={matchId} />
