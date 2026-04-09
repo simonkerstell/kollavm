@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User } from "@/lib/tippa-types";
 import { supabase } from "@/lib/supabase";
+import { ensureGlobalLeague } from "@/lib/tippa-store";
 
 interface AuthContextType {
   user: User | null;
@@ -26,12 +27,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ? mapUser(session.user) : null);
+      const mapped = session?.user ? mapUser(session.user) : null;
+      setUser(mapped);
+      if (mapped) ensureGlobalLeague(mapped.id);
       setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ? mapUser(session.user) : null);
+      const mapped = session?.user ? mapUser(session.user) : null;
+      setUser(mapped);
+      if (mapped) ensureGlobalLeague(mapped.id);
     });
 
     return () => subscription.unsubscribe();

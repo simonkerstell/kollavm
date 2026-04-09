@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { createLeague, joinLeague, getUserLeagues, getLeagueMembers } from "@/lib/tippa-store";
+import { createLeague, joinLeague, getUserLeagues, getLeagueMembers, GLOBAL_LEAGUE } from "@/lib/tippa-store";
 import { League } from "@/lib/tippa-types";
 import { Trophy, Plus, Users, Copy, Check, ChevronLeft } from "lucide-react";
 
@@ -73,15 +73,22 @@ export default function LigorPage() {
           <h1 className="text-3xl font-black text-white">{selectedLeague.name}</h1>
           <p className="text-gray-400 text-sm mt-1">{members.length} deltagare</p>
         </div>
-        <div className="bg-white/5 border border-[#f5c518]/20 rounded-xl p-4 mb-8 flex items-center justify-between">
-          <div>
-            <p className="text-xs text-gray-400 mb-0.5">Inbjudningskod – dela med dina vänner</p>
-            <p className="font-black text-[#f5c518] text-2xl tracking-widest">{selectedLeague.inviteCode}</p>
+        {selectedLeague.id !== GLOBAL_LEAGUE.id && (
+          <div className="bg-white/5 border border-[#f5c518]/20 rounded-xl p-4 mb-8 flex items-center justify-between">
+            <div>
+              <p className="text-xs text-gray-400 mb-0.5">Inbjudningskod – dela med dina vänner</p>
+              <p className="font-black text-[#f5c518] text-2xl tracking-widest">{selectedLeague.inviteCode}</p>
+            </div>
+            <button onClick={() => copyCode(selectedLeague.inviteCode)} className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm transition-colors">
+              {copiedCode === selectedLeague.inviteCode ? <><Check size={14} /> Kopierad</> : <><Copy size={14} /> Kopiera</>}
+            </button>
           </div>
-          <button onClick={() => copyCode(selectedLeague.inviteCode)} className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm transition-colors">
-            {copiedCode === selectedLeague.inviteCode ? <><Check size={14} /> Kopierad</> : <><Copy size={14} /> Kopiera</>}
-          </button>
-        </div>
+        )}
+        {selectedLeague.id === GLOBAL_LEAGUE.id && (
+          <div className="bg-[#f5c518]/10 border border-[#f5c518]/20 rounded-xl p-4 mb-8 text-sm text-gray-300">
+            Alla registrerade användare tävlar automatiskt i den globala ligan. Tippa matcher för att klättra på listan!
+          </div>
+        )}
         <h2 className="font-bold text-white text-lg mb-4 flex items-center gap-2"><Users size={18} className="text-[#f5c518]" /> Tabell</h2>
         <div className="space-y-2">
           {members.length === 0 && <p className="text-gray-500 text-sm">Inga poäng ännu – matcherna har inte spelats.</p>}
@@ -107,12 +114,19 @@ export default function LigorPage() {
         <div className="mb-10">
           <h2 className="font-bold text-white mb-3">Dina ligor</h2>
           <div className="space-y-3">
-            {leagues.map(l => (
-              <button key={l.id} onClick={() => setSelectedLeague(l)} className="w-full flex items-center justify-between bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#f5c518]/30 rounded-xl p-4 transition-all">
-                <div className="flex items-center gap-3"><Trophy size={18} className="text-[#f5c518]" /><span className="font-semibold text-white">{l.name}</span></div>
-                <span className="text-gray-400 text-sm">Se tabell →</span>
-              </button>
-            ))}
+            {leagues.map(l => {
+              const isGlobal = l.id === GLOBAL_LEAGUE.id;
+              return (
+                <button key={l.id} onClick={() => setSelectedLeague(l)} className={`w-full flex items-center justify-between hover:bg-white/10 border hover:border-[#f5c518]/30 rounded-xl p-4 transition-all ${isGlobal ? "bg-[#f5c518]/5 border-[#f5c518]/20" : "bg-white/5 border-white/10"}`}>
+                  <div className="flex items-center gap-3">
+                    <Trophy size={18} className="text-[#f5c518]" />
+                    <span className="font-semibold text-white">{l.name}</span>
+                    {isGlobal && <span className="text-[10px] font-bold bg-[#f5c518] text-[#0a1628] px-1.5 py-0.5 rounded-full">ALLA</span>}
+                  </div>
+                  <span className="text-gray-400 text-sm">Se tabell →</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

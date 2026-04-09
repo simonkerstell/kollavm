@@ -49,6 +49,25 @@ export function getAllPredictions(): Prediction[] {
   return get<Prediction>("kollavm_predictions");
 }
 
+export const GLOBAL_LEAGUE: League = {
+  id: "global",
+  name: "KollaVM Global",
+  inviteCode: "GLOBAL",
+  adminId: "system",
+  createdAt: "2026-01-01T00:00:00.000Z",
+};
+
+export function ensureGlobalLeague(userId: string) {
+  const leagues = get<League>("kollavm_leagues");
+  if (!leagues.find(l => l.id === GLOBAL_LEAGUE.id)) {
+    set("kollavm_leagues", [...leagues, GLOBAL_LEAGUE]);
+  }
+  const members = get<LeagueMember>("kollavm_league_members");
+  if (!members.find(m => m.leagueId === GLOBAL_LEAGUE.id && m.userId === userId)) {
+    set("kollavm_league_members", [...members, { leagueId: GLOBAL_LEAGUE.id, userId, totalPoints: 0 }]);
+  }
+}
+
 export function createLeague(name: string, adminId: string): League {
   const leagues = get<League>("kollavm_leagues");
   const league: League = {
