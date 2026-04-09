@@ -22,7 +22,7 @@ type Tab = "matcher" | "gruppspel" | "slutspel";
 
 // --- Match Tip Card ---
 
-function MatchTipCard({ groupId, matchIndex, match, existingPred }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0]; existingPred?: Prediction }) {
+function MatchTipCard({ groupId, matchIndex, match, existingPred, saveAllTrigger }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0]; existingPred?: Prediction; saveAllTrigger?: number }) {
   const { user } = useAuth();
   const [home, setHome] = useState(existingPred?.homeGoals?.toString() ?? "");
   const [away, setAway] = useState(existingPred?.awayGoals?.toString() ?? "");
@@ -44,6 +44,14 @@ function MatchTipCard({ groupId, matchIndex, match, existingPred }: { groupId: s
     } catch { /* ignore */ }
     setSaving(false);
   }
+
+  // Save when "Spara alla" is triggered
+  useEffect(() => {
+    if (saveAllTrigger && saveAllTrigger > 0 && home !== "" && away !== "" && !saved) {
+      handleSave();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saveAllTrigger]);
 
   return (
     <div className={`bg-white/5 border rounded-xl p-4 transition-all ${saved ? "border-green-500/30" : "border-white/10"}`}>
@@ -267,6 +275,7 @@ export default function TippaPage() {
 
   const [loadingData, setLoadingData] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saveAllTrigger, setSaveAllTrigger] = useState(0);
 
   function copyInviteLink() {
     navigator.clipboard.writeText("https://kollavm.se/tippa");
@@ -479,9 +488,15 @@ export default function TippaPage() {
               </div>
               <div className="space-y-3">
                 {selectedGroup.matches.map((match, i) => (
-                  <MatchTipCard key={i} groupId={selectedGroup.id} matchIndex={i} match={match} existingPred={getPred(`${selectedGroup.id}-${i}`)} />
+                  <MatchTipCard key={i} groupId={selectedGroup.id} matchIndex={i} match={match} existingPred={getPred(`${selectedGroup.id}-${i}`)} saveAllTrigger={saveAllTrigger} />
                 ))}
               </div>
+              <button
+                onClick={() => setSaveAllTrigger(prev => prev + 1)}
+                className="w-full mt-6 bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black py-3 rounded-full text-sm transition-colors"
+              >
+                Spara alla tips i grupp {selectedGroup.id}
+              </button>
             </>
           )}
         </>
