@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import { groups } from "@/data/groups";
 import { savePrediction, getPrediction } from "@/lib/tippa-store";
-import { ChevronLeft, Trophy, Check, Users, Share2, Clock } from "lucide-react";
+import { ChevronLeft, Trophy, Check, Users, Share2, Clock, Pencil } from "lucide-react";
 import Link from "next/link";
 
 function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0] }) {
@@ -13,30 +13,37 @@ function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIn
   const existing = user ? getPrediction(user.id, matchId) : undefined;
   const [home, setHome] = useState(existing?.homeGoals?.toString() ?? "");
   const [away, setAway] = useState(existing?.awayGoals?.toString() ?? "");
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(!!existing);
+  const [editing, setEditing] = useState(false);
 
   const allTeams = groups.flatMap(g => g.teams);
   const homeFlag = allTeams.find(t => t.name === match.home)?.flag ?? "";
   const awayFlag = allTeams.find(t => t.name === match.away)?.flag ?? "";
 
+  const isLocked = saved && !editing;
+
   function handleSave() {
     if (!user || home === "" || away === "") return;
     savePrediction({ userId: user.id, matchId, homeGoals: parseInt(home), awayGoals: parseInt(away) });
     setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    setEditing(false);
+  }
+
+  function handleEdit() {
+    setEditing(true);
   }
 
   return (
-    <div className={`bg-white/5 border rounded-xl p-4 transition-all ${existing ? "border-[#f5c518]/30" : "border-white/10"}`}>
+    <div className={`bg-white/5 border rounded-xl p-4 transition-all ${saved ? "border-green-500/30" : "border-white/10"}`}>
       <div className="flex items-center justify-between gap-2 mb-4">
         <div className="flex-1 text-right">
           <p className="text-2xl">{homeFlag}</p>
           <p className="font-bold text-white text-sm">{match.home}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <input type="number" min="0" max="20" value={home} onChange={e => setHome(e.target.value)} className="w-12 text-center bg-white/10 border border-white/20 rounded-lg py-2 text-white font-black text-lg focus:outline-none focus:border-[#f5c518]/50" placeholder="–" />
+          <input type="number" min="0" max="20" value={home} onChange={e => { setHome(e.target.value); if (!editing && saved) setEditing(true); }} disabled={isLocked} className={`w-12 text-center border rounded-lg py-2 font-black text-lg focus:outline-none focus:border-[#f5c518]/50 ${isLocked ? "bg-white/5 border-white/10 text-green-400" : "bg-white/10 border-white/20 text-white"}`} placeholder="–" />
           <span className="text-gray-500 font-bold">–</span>
-          <input type="number" min="0" max="20" value={away} onChange={e => setAway(e.target.value)} className="w-12 text-center bg-white/10 border border-white/20 rounded-lg py-2 text-white font-black text-lg focus:outline-none focus:border-[#f5c518]/50" placeholder="–" />
+          <input type="number" min="0" max="20" value={away} onChange={e => { setAway(e.target.value); if (!editing && saved) setEditing(true); }} disabled={isLocked} className={`w-12 text-center border rounded-lg py-2 font-black text-lg focus:outline-none focus:border-[#f5c518]/50 ${isLocked ? "bg-white/5 border-white/10 text-green-400" : "bg-white/10 border-white/20 text-white"}`} placeholder="–" />
         </div>
         <div className="flex-1 text-left">
           <p className="text-2xl">{awayFlag}</p>
@@ -45,9 +52,22 @@ function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIn
       </div>
       <div className="flex items-center justify-between text-xs text-gray-500">
         <span>{match.date} · {match.time}</span>
-        <button onClick={handleSave} disabled={home === "" || away === ""} className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-semibold transition-all text-xs ${saved ? "bg-green-500/20 text-green-400" : home !== "" && away !== "" ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
-          {saved ? <><Check size={12} /> Sparat</> : "Spara"}
-        </button>
+        <div className="flex items-center gap-2">
+          {isLocked ? (
+            <>
+              <span className="flex items-center gap-1 px-3 py-1.5 rounded-full font-semibold text-xs bg-green-500/20 text-green-400">
+                <Check size={12} /> Sparat
+              </span>
+              <button onClick={handleEdit} className="flex items-center gap-1 px-3 py-1.5 rounded-full font-semibold text-xs bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white transition-colors">
+                <Pencil size={12} /> Ändra
+              </button>
+            </>
+          ) : (
+            <button onClick={handleSave} disabled={home === "" || away === ""} className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-semibold transition-all text-xs ${home !== "" && away !== "" ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
+              Spara
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
