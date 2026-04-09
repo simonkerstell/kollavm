@@ -24,12 +24,19 @@ export default function MatchComments({ matchId }: { matchId: string }) {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setComments(getComments(matchId));
-  }, [matchId]);
+    if (open) {
+      setLoading(true);
+      getComments(matchId).then(c => {
+        setComments(c);
+        setLoading(false);
+      });
+    }
+  }, [matchId, open]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!user || !text.trim()) return;
     setError("");
@@ -47,14 +54,19 @@ export default function MatchComments({ matchId }: { matchId: string }) {
       text: text.trim(),
       createdAt: new Date().toISOString(),
     };
-    addComment(comment);
-    setComments(getComments(matchId));
-    setText("");
+
+    try {
+      await addComment(comment);
+      setComments(prev => [...prev, comment]);
+      setText("");
+    } catch {
+      setError("Kunde inte spara kommentaren.");
+    }
   }
 
-  function handleDelete(id: string) {
-    deleteComment(id);
-    setComments(getComments(matchId));
+  async function handleDelete(id: string) {
+    await deleteComment(id);
+    setComments(prev => prev.filter(c => c.id !== id));
   }
 
   return (
@@ -69,7 +81,9 @@ export default function MatchComments({ matchId }: { matchId: string }) {
 
       {open && (
         <div className="mt-3 space-y-3">
-          {comments.length > 0 && (
+          {loading ? (
+            <p className="text-gray-500 text-xs">Laddar kommentarer...</p>
+          ) : comments.length > 0 && (
             <div className="space-y-2 max-h-60 overflow-y-auto">
               {comments.map((c) => (
                 <div key={c.id} className="bg-white/5 rounded-lg px-3 py-2">

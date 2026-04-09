@@ -325,26 +325,38 @@ export async function getUserQuizResults(userId: string): Promise<QuizResult[]> 
   }));
 }
 
-// --- Comments (localStorage for now) ---
+// --- Comments ---
 
-function getLS<T>(key: string): T[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem(key) ?? "[]"); } catch { return []; }
-}
-function setLS<T>(key: string, data: T[]) {
-  if (typeof window !== "undefined") localStorage.setItem(key, JSON.stringify(data));
+export async function addComment(comment: Comment) {
+  const { error } = await supabase
+    .from("comments")
+    .insert({
+      id: comment.id,
+      match_id: comment.matchId,
+      user_id: comment.userId,
+      user_name: comment.userName,
+      text: comment.text,
+      created_at: comment.createdAt,
+    });
+  if (error) throw new Error(error.message);
 }
 
-export function addComment(comment: Comment) {
-  const all = getLS<Comment>("kollavm_comments");
-  setLS("kollavm_comments", [...all, comment]);
+export async function getComments(matchId: string): Promise<Comment[]> {
+  const { data } = await supabase
+    .from("comments")
+    .select("*")
+    .eq("match_id", matchId)
+    .order("created_at", { ascending: true });
+  return (data ?? []).map(d => ({
+    id: d.id,
+    matchId: d.match_id,
+    userId: d.user_id,
+    userName: d.user_name,
+    text: d.text,
+    createdAt: d.created_at,
+  }));
 }
-export function getComments(matchId: string): Comment[] {
-  return getLS<Comment>("kollavm_comments")
-    .filter(c => c.matchId === matchId)
-    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-}
-export function deleteComment(commentId: string) {
-  const all = getLS<Comment>("kollavm_comments");
-  setLS("kollavm_comments", all.filter(c => c.id !== commentId));
+
+export async function deleteComment(commentId: string) {
+  await supabase.from("comments").delete().eq("id", commentId);
 }
