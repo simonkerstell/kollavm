@@ -84,7 +84,7 @@ export default function HemmaPage() {
         <>
           <div className="mb-10">
             <h1 className="text-4xl font-black text-white mb-2">
-              VM-känsla <span className="text-[#f5c518]">hemma</span>
+              Kolla VM <span className="text-[#f5c518]">hemma</span>
             </h1>
             <p className="text-gray-400 max-w-xl">
               Välj en kategori för att hitta produkterna du behöver inför VM 2026.
