@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Countdown from "@/components/Countdown";
-import { Calendar, Home, MapPin, BookOpen } from "lucide-react";
+import { Calendar, Home, MapPin, BookOpen, Trophy } from "lucide-react";
 
 const quickLinks = [
   { href: "/matcher", icon: Calendar, label: "Matchschema", desc: "Alla VM-matcher & live-resultat" },
@@ -36,6 +36,17 @@ export default function HomePage() {
           <Countdown />
 
           <p className="text-gray-500 text-sm mt-4">till avspark 11 juni 2026</p>
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
+            <Link
+              href="/tippa"
+              className="inline-flex items-center gap-2 bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black px-8 py-3.5 rounded-full text-lg transition-colors"
+            >
+              <Trophy size={20} />
+              Tippa VM 2026
+            </Link>
+            <span className="text-gray-500 text-sm">Skapa konto & tävla mot dina vänner</span>
+          </div>
         </div>
       </section>
 

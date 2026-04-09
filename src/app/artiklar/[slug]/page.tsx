@@ -47,11 +47,6 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <p className="text-gray-400 text-lg">{article.excerpt}</p>
           </div>
 
-          <div className="rounded-2xl overflow-hidden mb-8 aspect-[16/9]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={article.heroImage} alt={article.title} className="w-full h-full object-cover" />
-          </div>
-
           <div className="prose prose-invert max-w-none">
             {paragraphs.map((para, i) => {
               if (para.startsWith("# ")) return <h1 key={i} className="text-3xl font-black text-white mt-8 mb-4">{para.slice(2)}</h1>;
@@ -85,15 +80,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <h3 className="font-bold text-white text-lg mb-4">Relaterade artiklar</h3>
             <div className="space-y-4">
               {related.map((rel) => (
-                <Link key={rel.id} href={`/artiklar/${rel.slug}`} className="flex gap-3 group">
-                  <div className="w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={rel.heroImage} alt={rel.title} className="w-full h-full object-cover" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-200 group-hover:text-[#f5c518] transition-colors leading-tight">{rel.title}</p>
-                    <p className="text-xs text-gray-500 mt-1">{new Date(rel.date).toLocaleDateString("sv-SE")}</p>
-                  </div>
+                <Link key={rel.id} href={`/artiklar/${rel.slug}`} className="block group bg-white/5 border border-white/10 rounded-xl p-3 hover:border-[#f5c518]/30 transition-all">
+                  <p className="text-sm font-semibold text-gray-200 group-hover:text-[#f5c518] transition-colors leading-tight">{rel.title}</p>
+                  <p className="text-xs text-gray-500 mt-1">{new Date(rel.date).toLocaleDateString("sv-SE")}</p>
                 </Link>
               ))}
             </div>
