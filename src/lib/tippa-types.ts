@@ -36,6 +36,21 @@ export interface Comment {
   createdAt: string;
 }
 
+export interface GroupPrediction {
+  userId: string;
+  groupId: string;
+  firstPlace: string;
+  secondPlace: string;
+  points?: number;
+}
+
+export interface BracketPrediction {
+  userId: string;
+  stage: "r32" | "r16" | "qf" | "sf" | "final" | "champion";
+  teamName: string;
+  points?: number;
+}
+
 export type MatchOutcome = "home" | "draw" | "away";
 
 export function getOutcome(home: number, away: number): MatchOutcome {

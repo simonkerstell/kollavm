@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Prediction, League, LeagueMember, Comment } from "./tippa-types";
+import { Prediction, League, LeagueMember, Comment, GroupPrediction, BracketPrediction } from "./tippa-types";
 
 export const GLOBAL_LEAGUE_ID = "00000000-0000-0000-0000-000000000001";
 
@@ -144,9 +144,21 @@ export async function getLeagueMembers(leagueId: string): Promise<(LeagueMember 
 
   const userIds = members.map((m) => m.user_id);
 
-  // Get predictions for all members
+  // Get all types of predictions for all members
   const { data: preds } = await supabase
     .from("predictions")
+    .select("user_id, points")
+    .in("user_id", userIds)
+    .not("points", "is", null);
+
+  const { data: groupPreds } = await supabase
+    .from("group_predictions")
+    .select("user_id, points")
+    .in("user_id", userIds)
+    .not("points", "is", null);
+
+  const { data: bracketPreds } = await supabase
+    .from("bracket_predictions")
     .select("user_id, points")
     .in("user_id", userIds)
     .not("points", "is", null);
@@ -158,10 +170,12 @@ export async function getLeagueMembers(leagueId: string): Promise<(LeagueMember 
     namesMap[uid] = (data as string) ?? "Okänd";
   }
 
-  // Calculate total points per user
+  // Calculate total points per user (match + group + bracket)
   const pointsMap: Record<string, number> = {};
-  for (const p of preds ?? []) {
-    pointsMap[p.user_id] = (pointsMap[p.user_id] ?? 0) + (p.points ?? 0);
+  for (const list of [preds, groupPreds, bracketPreds]) {
+    for (const p of list ?? []) {
+      pointsMap[p.user_id] = (pointsMap[p.user_id] ?? 0) + (p.points ?? 0);
+    }
   }
 
   return members
@@ -172,6 +186,67 @@ export async function getLeagueMembers(leagueId: string): Promise<(LeagueMember 
       name: namesMap[m.user_id] ?? "Okänd",
     }))
     .sort((a, b) => b.totalPoints - a.totalPoints);
+}
+
+// --- Group Predictions ---
+
+export async function saveGroupPrediction(pred: GroupPrediction) {
+  const { error } = await supabase
+    .from("group_predictions")
+    .upsert(
+      {
+        user_id: pred.userId,
+        group_id: pred.groupId,
+        first_place: pred.firstPlace,
+        second_place: pred.secondPlace,
+      },
+      { onConflict: "user_id,group_id" }
+    );
+  if (error) throw new Error(error.message);
+}
+
+export async function getUserGroupPredictions(userId: string): Promise<GroupPrediction[]> {
+  const { data } = await supabase
+    .from("group_predictions")
+    .select("*")
+    .eq("user_id", userId);
+  return (data ?? []).map((d) => ({
+    userId: d.user_id,
+    groupId: d.group_id,
+    firstPlace: d.first_place,
+    secondPlace: d.second_place,
+    points: d.points ?? undefined,
+  }));
+}
+
+// --- Bracket Predictions ---
+
+export async function saveBracketPredictions(userId: string, stage: string, teams: string[]) {
+  // Delete existing predictions for this stage, then insert new ones
+  await supabase
+    .from("bracket_predictions")
+    .delete()
+    .eq("user_id", userId)
+    .eq("stage", stage);
+
+  if (teams.length > 0) {
+    const rows = teams.map((t) => ({ user_id: userId, stage, team_name: t }));
+    const { error } = await supabase.from("bracket_predictions").insert(rows);
+    if (error) throw new Error(error.message);
+  }
+}
+
+export async function getUserBracketPredictions(userId: string): Promise<BracketPrediction[]> {
+  const { data } = await supabase
+    .from("bracket_predictions")
+    .select("*")
+    .eq("user_id", userId);
+  return (data ?? []).map((d) => ({
+    userId: d.user_id,
+    stage: d.stage,
+    teamName: d.team_name,
+    points: d.points ?? undefined,
+  }));
 }
 
 // --- Comments (localStorage for now) ---
