@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/restauranger`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${base}/artiklar`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/tippa`, priority: 0.7, changeFrequency: "daily" as const },
+    { url: `${base}/faq`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/villkor`, priority: 0.3, changeFrequency: "yearly" as const },
   ];
 

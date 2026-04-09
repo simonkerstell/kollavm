@@ -31,6 +31,7 @@ export default function Navbar() {
     { href: "/hemma", label: "Kolla VM hemma" },
     { href: "/restauranger", label: "Restauranger" },
     { href: "/artiklar", label: "VM-guide" },
+    { href: "/faq", label: "FAQ" },
   ];
 
   return (

@@ -20,6 +20,7 @@ export default function Footer() {
               <li><Link href="/hemma" className="hover:text-[#f5c518]">Kolla VM hemma</Link></li>
               <li><Link href="/restauranger" className="hover:text-[#f5c518]">Restauranger</Link></li>
               <li><Link href="/artiklar" className="hover:text-[#f5c518]">VM-guide</Link></li>
+              <li><Link href="/faq" className="hover:text-[#f5c518]">FAQ</Link></li>
             </ul>
           </div>
 
