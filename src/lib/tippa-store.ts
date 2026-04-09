@@ -1,5 +1,5 @@
 "use client";
-import { User, Prediction, League, LeagueMember } from "./tippa-types";
+import { User, Prediction, League, LeagueMember, Comment } from "./tippa-types";
 import { v4 as uuidv4 } from "uuid";
 
 function get<T>(key: string): T[] {
@@ -105,4 +105,19 @@ export function getLeagueMembers(leagueId: string): (LeagueMember & { name: stri
     const points = preds.filter(p => p.userId === m.userId && p.points !== undefined).reduce((sum, p) => sum + (p.points ?? 0), 0);
     return { ...m, totalPoints: points, name: user?.name ?? "Okänd" };
   }).sort((a, b) => b.totalPoints - a.totalPoints);
+}
+
+// Comments
+export function addComment(comment: Comment) {
+  const all = get<Comment>("kollavm_comments");
+  set("kollavm_comments", [...all, comment]);
+}
+export function getComments(matchId: string): Comment[] {
+  return get<Comment>("kollavm_comments")
+    .filter(c => c.matchId === matchId)
+    .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+}
+export function deleteComment(commentId: string) {
+  const all = get<Comment>("kollavm_comments");
+  set("kollavm_comments", all.filter(c => c.id !== commentId));
 }

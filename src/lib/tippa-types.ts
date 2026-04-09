@@ -27,6 +27,15 @@ export interface LeagueMember {
   totalPoints: number;
 }
 
+export interface Comment {
+  id: string;
+  matchId: string;
+  userId: string;
+  userName: string;
+  text: string;
+  createdAt: string;
+}
+
 export type MatchOutcome = "home" | "draw" | "away";
 
 export function getOutcome(home: number, away: number): MatchOutcome {

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { groups, Group } from "@/data/groups";
 import { Calendar, MapPin, ChevronLeft } from "lucide-react";
+import MatchComments from "@/components/MatchComments";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("sv-SE", {
@@ -44,7 +45,7 @@ function GroupCard({ group, onClick }: { group: Group; onClick: () => void }) {
   );
 }
 
-function MatchRow({ match }: { match: Group["matches"][0] }) {
+function MatchRow({ match, matchId }: { match: Group["matches"][0]; matchId: string }) {
   const channelStyle = match.channel === "SVT"
     ? "bg-blue-600 text-white"
     : "bg-red-600 text-white";
@@ -82,6 +83,7 @@ function MatchRow({ match }: { match: Group["matches"][0] }) {
           <span className="font-bold text-white text-sm sm:text-base">{match.away}</span>
         </div>
       </div>
+      <MatchComments matchId={matchId} />
     </div>
   );
 }
@@ -135,7 +137,7 @@ function GroupDetail({ group, onBack }: { group: Group; onBack: () => void }) {
             <p className="text-sm text-[#f5c518] font-semibold capitalize mb-2">{formatDate(date)}</p>
             <div className="space-y-2">
               {matches.map((m, i) => (
-                <MatchRow key={i} match={m} />
+                <MatchRow key={i} match={m} matchId={`${group.id}-${m.home}-${m.away}`} />
               ))}
             </div>
           </div>
