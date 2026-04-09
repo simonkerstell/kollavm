@@ -447,6 +447,220 @@ Dekorationerna sätter stämningen, men för den kompletta VM-upplevelsen behöv
 Missa inte heller att kolla in vårt matchschema för alla VM-matcher, och tippa resultaten mot dina vänner för att göra varje match lite extra spännande.
     `,
   },
+  {
+    id: "6",
+    slug: "vem-sander-vm-2026-svt-tv4",
+    title: "Vem sänder fotbolls-VM 2026? SVT och TV4 delar på matcherna",
+    excerpt: "SVT och TV4 sänder alla matcher under fotbolls-VM 2026. Här är allt du behöver veta om vilka kanaler som visar vilka matcher och hur du ser dem.",
+    date: "2026-04-10",
+    category: "VM-guide",
+    heroImage: "",
+    content: `
+## SVT och TV4 sänder alla VM-matcher 2026
+
+Precis som vid tidigare mästerskap delar SVT och TV4 på sändningarna av fotbolls-VM 2026. Det betyder att alla matcher visas gratis på svensk fri-TV – du behöver ingen betaltjänst för att följa turneringen.
+
+## Vilken kanal visar vilka matcher?
+
+SVT och TV4 har delat upp matcherna mellan sig. Generellt gäller:
+
+- **TV4** sänder de flesta av Sveriges matcher och flera av de största gruppspelsmatcherna
+- **SVT** sänder resterande gruppspelsmatcher och delar på slutspelsmatcherna
+- **Alla Sveriges matcher** visas på både SVT och TV4 beroende på match – kolla matchschemat för exakt kanal per match
+
+Båda kanalerna har studiosändningar med försnack, analys i halvtid och eftersnack.
+
+## Hur ser jag matcherna?
+
+### På TV
+Alla matcher visas gratis via SVT1/SVT2 eller TV4. Du behöver bara en vanlig TV-antenn, kabel-TV eller IPTV.
+
+### Via streaming
+- **SVT Play** – streama alla SVT-sända matcher gratis på svtplay.se eller i appen
+- **TV4 Play** – streama alla TV4-sända matcher gratis på tv4play.se eller i appen
+
+### Utomhus
+Vill du se matcherna utomhus? Kolla vår guide om bästa TV och TV-stativ så du kan flytta ut skärmen på uteplatsen. Komplettera med en soundbar för bra ljud utomhus.
+
+## Tips för bästa tittarupplevelsen
+
+- Kolla vårt matchschema i förväg så du vet exakt vilken kanal och tid som gäller
+- Ladda ner SVT Play och TV4 Play på din telefon eller surfplatta som backup
+- Om du kollar på restaurang – kolla våra restaurangtips för bästa VM-krogarna
+
+## Gör VM extra kul
+
+Passa på att tippa resultaten mot dina vänner medan du kollar matcherna. Skapa ett konto och tävla i vår tippliga – det gör varje match lite mer spännande!
+    `,
+  },
+  {
+    id: "7",
+    slug: "var-spelas-fotbolls-vm-2026",
+    title: "Var spelas fotbolls-VM 2026? Alla städer och arenor",
+    excerpt: "Fotbolls-VM 2026 spelas i USA, Kanada och Mexiko. Här är alla värdstäder, arenor och vad du behöver veta om turneringens spelplatser.",
+    date: "2026-04-11",
+    category: "VM-guide",
+    heroImage: "",
+    content: `
+## Fotbolls-VM 2026 spelas i tre länder
+
+FIFA World Cup 2026 är det första VM som arrangeras av tre länder samtidigt: USA, Kanada och Mexiko. Turneringen spelas mellan 11 juni och 19 juli 2026 och är den största någonsin med 48 deltagande lag.
+
+## Värdländer och städer
+
+### USA (flest matcher)
+USA står för majoriteten av matcherna, inklusive semifinaler och final. Några av de viktigaste arenorna:
+
+- **MetLife Stadium, New York/New Jersey** – finalarena den 19 juli
+- **SoFi Stadium, Los Angeles** – en av de modernaste arenorna i världen
+- **AT&T Stadium, Dallas** – enormt stadion med tak
+- **Hard Rock Stadium, Miami** – tropisk stämning i Florida
+- **Levi's Stadium, San Francisco** – Silicon Valley-arenan
+- **Gillette Stadium, Boston** – på USA:s östkust
+- **Lincoln Financial Field, Philadelphia** – historisk stad
+- **Lumen Field, Seattle** – känd för fantastisk stämning
+- **Arrowhead Stadium, Kansas City** – NFL-legendar
+- **Rose Bowl, Los Angeles** – klassiker från VM 1994
+
+### Kanada
+- **BC Place, Vancouver** – Sveriges närhet om de tar sig långt
+- **BMO Field, Toronto** – Kanadas största fotbollsarena
+
+### Mexiko
+- **Estadio Azteca, Mexico City** – legendarisk arena som har huserat två VM-finaler (1970 och 1986)
+- **Estadio Akron, Guadalajara** – modern arena i Mexikos näst största stad
+
+## Tidsskillnad mot Sverige
+
+Matcherna spelas i nordamerikanska tidszoner, vilket innebär att de flesta matcher visas på kvällen svensk tid:
+
+- **Östkusten (New York, Miami, Boston)** – 6 timmars tidsskillnad. Avspark kl 18 lokal tid = 00:00 svensk tid
+- **Centrala USA (Dallas, Kansas City)** – 7 timmars tidsskillnad
+- **Västkusten (Los Angeles, San Francisco, Seattle)** – 9 timmars tidsskillnad
+- **Mexiko** – 7-8 timmars tidsskillnad
+
+De flesta gruppspelsmatcher har avspark mellan 21:00 och 03:00 svensk tid.
+
+## Sveriges matcher
+
+Sverige spelar i grupp F och har alla sina gruppspelsmatcher i USA. Kolla vår detaljerade guide om Sveriges VM-grupp 2026 för matchdatum och tider, eller se hela matchschemat.
+
+## Se matcherna hemma
+
+Oavsett om du kollar matcherna tidigt eller sent – fixa en bra setup hemma med rätt utemöbler, en bra TV och kalla drycker. Och glöm inte att tippa resultaten innan matcherna börjar!
+    `,
+  },
+  {
+    id: "8",
+    slug: "nar-spelar-sverige-vm-2026",
+    title: "När spelar Sverige i VM 2026? Alla matcher, tider och kanaler",
+    excerpt: "Här är alla Sveriges matcher i fotbolls-VM 2026 med datum, avsparkstider i svensk tid, TV-kanaler och arenor. Missa inte en enda match!",
+    date: "2026-04-12",
+    category: "VM-guide",
+    heroImage: "",
+    content: `
+## Sveriges matcher i VM 2026
+
+Sverige är tillbaka i fotbolls-VM och spelar i grupp F tillsammans med Nederländerna, Japan och Tunisien. Här är alla Sveriges gruppspelsmatcher med datum, tider och kanaler.
+
+## Match 1: Nederländerna – Sverige
+
+- **Datum:** 14 juni 2026
+- **Avspark:** 21:00 svensk tid
+- **Arena:** Lincoln Financial Field, Philadelphia
+- **Kanal:** TV4
+
+Sveriges första match i VM 2026 blir en tuff utmaning direkt – borta mot Nederländerna. En klassisk fotbollsmatch mellan två europeiska tungviktare. Matchen spelas i Philadelphia på USA:s östkust.
+
+## Match 2: Sverige – Tunisien
+
+- **Datum:** 19 juni 2026
+- **Avspark:** 00:00 svensk tid (natten mot den 19:e)
+- **Arena:** Levi's Stadium, San Francisco
+- **Kanal:** SVT
+
+Sveriges andra match spelas sent svensk tid eftersom den spelas i San Francisco på västkusten. Tunisien är ett lag Sverige bör slå om de vill avancera från gruppen.
+
+## Match 3: Sverige – Japan
+
+- **Datum:** 22 juni 2026
+- **Avspark:** 22:00 svensk tid
+- **Arena:** Gillette Stadium, Boston
+- **Kanal:** SVT
+
+Sista gruppspelsmatchen mot Japan kan mycket väl bli avgörande för om Sverige går vidare eller inte. Japan har blivit ett riktigt starkt lag de senaste åren och det här blir en nyckelmatch.
+
+## Hur ser jag Sveriges matcher?
+
+Alla Sveriges matcher visas gratis på svensk fri-TV. Match 1 sänds på TV4, match 2 och 3 på SVT. Du kan också streama via TV4 Play och SVT Play. Läs mer i vår guide om vilka kanaler som sänder VM 2026.
+
+## Tips inför Sveriges matcher
+
+- Kolla vårt kompletta matchschema för alla tider och resultat
+- Tippa resultaten och tävla mot vänner i vår tippliga
+- Fixa en bra VM-hörna hemma med rätt utemöbler och en bra TV
+- Skaffa supporterprylar som Sverige-tröjor och kepsar – kolla vår guide om VM-dekorationer och supporterprylar
+- Eller hitta en bra krog via våra restaurangtips
+    `,
+  },
+  {
+    id: "9",
+    slug: "sveriges-vm-grupp-2026",
+    title: "Sveriges VM-grupp 2026 – Grupp F med Nederländerna, Japan & Tunisien",
+    excerpt: "Allt om Sveriges grupp F i fotbolls-VM 2026. Analys av motståndarna Nederländerna, Japan och Tunisien, samt Sveriges chanser att gå vidare.",
+    date: "2026-04-13",
+    category: "VM-guide",
+    heroImage: "",
+    content: `
+## Grupp F – Sveriges grupp i VM 2026
+
+Sverige har lottats i grupp F i fotbolls-VM 2026 tillsammans med Nederländerna, Japan och Tunisien. Det är en tuff men inte omöjlig grupp – här analyserar vi motståndarna och Sveriges chanser.
+
+## Nederländerna 🇳🇱
+
+Nederländerna är den klara favoriten i gruppen. Med spelare i världens bästa ligor och en lång tradition av framgångsrik fotboll är Oranje ett lag som alltid är farliga. De nådde kvartsfinalen i VM 2022 och har fortsatt att vara ett topplag.
+
+**Styrkor:** Teknisk skicklighet, erfarenhet, bredd i truppen
+**Svagheter:** Kan underprestera i stora matcher
+
+## Japan 🇯🇵
+
+Japan har utvecklats enormt de senaste åren och slog ut både Tyskland och Spanien i gruppspelet i VM 2022. De har en välorganiserad spelstil och flera spelare i europeiska toppligor. Japan är ett farligt lag som inte ska underskattas.
+
+**Styrkor:** Taktisk disciplin, snabba omställningar, teknik
+**Svagheter:** Kan ha svårt i fysiska matcher
+
+## Tunisien 🇹🇳
+
+Tunisien representerar afrikansk fotboll och har visat att de kan vara konkurrenskraftiga mot de bästa. I VM 2022 slog de Frankrike i gruppspelet. De är välorganiserade defensivt men kan ha svårt att skapa chanser mot bättre lag.
+
+**Styrkor:** Defensiv organisation, stridbarhet, lagets sammanhållning
+**Svagheter:** Begränsad offensiv kapacitet mot topplag
+
+## Sveriges chanser
+
+Sverige har en realistisk chans att ta sig vidare från gruppen. Nyckelmatcherna blir mot Tunisien och Japan – där behöver Sverige ta poäng. En förlust mot Nederländerna i premiären behöver inte vara katastrof om de övriga matcherna vinns.
+
+I det nya formatet med 48 lag går de två bästa i varje grupp vidare direkt, plus de åtta bästa treorna. Det betyder att även en tredjeplats kan räcka för avancemang.
+
+## Matchschema för grupp F
+
+- 14 juni: Nederländerna – Sverige (TV4, 21:00)
+- 15 juni: Japan – Tunisien (SVT, 00:00)
+- 18 juni: Nederländerna – Japan (TV4, 21:00)
+- 19 juni: Sverige – Tunisien (SVT, 00:00)
+- 22 juni: Nederländerna – Tunisien (TV4, 22:00)
+- 22 juni: Sverige – Japan (SVT, 22:00)
+
+Se alla matcher i vårt matchschema och tippa resultaten mot dina vänner. Läs även vår guide om när Sveriges matcher spelas för mer detaljer om varje match.
+
+## Förbered dig för VM
+
+Se matcherna hemma med bra utemöbler på uteplatsen, en bra TV och kalla drycker. Klä dig i Sveriges färger med våra supporterprylar – kolla vår guide om VM-dekorationer och supporterprylar.
+
+Föredrar du att kolla på krog? Kolla våra restaurangtips.
+    `,
+  },
 ];
 
 export const products: Product[] = [
