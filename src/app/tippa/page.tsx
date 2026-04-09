@@ -168,8 +168,12 @@ function BracketMatchCard({
   const awayClickable = isR32 || !!awayResolved;
 
   if (isR32) {
-    // For R32: show a dropdown to pick the winner
-    const allTeamNames = groups.flatMap(g => g.teams.map(t => t.name));
+    // Filter teams to only those from eligible groups
+    const eligibleGroups = new Set([...(matchDef.homeGroups ?? []), ...(matchDef.awayGroups ?? [])]);
+    const eligibleTeams = groups
+      .filter(g => eligibleGroups.has(g.id))
+      .flatMap(g => g.teams.map(t => t.name));
+
     return (
       <div className={`bg-white/5 border rounded-xl p-3 transition-all ${currentPick ? "border-green-500/30" : "border-white/10"}`}>
         <div className="flex items-center justify-between gap-2 mb-2">
@@ -187,7 +191,7 @@ function BracketMatchCard({
             className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#f5c518]/50 appearance-none cursor-pointer"
           >
             <option value="" className="bg-[#0d1f3c]">Välj vinnare...</option>
-            {allTeamNames.map(t => <option key={t} value={t} className="bg-[#0d1f3c]">{getFlag(t)} {t}</option>)}
+            {eligibleTeams.map(t => <option key={t} value={t} className="bg-[#0d1f3c]">{getFlag(t)} {t}</option>)}
           </select>
           <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
         </div>
