@@ -34,10 +34,6 @@ export default function HomePage() {
         }} />
 
         <div className="relative z-10 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-[#f5c518]/10 border border-[#f5c518]/30 rounded-full px-4 py-1.5 text-sm text-[#f5c518] font-medium mb-6">
-            ⚽ Fotbolls-VM 2026 · USA, Kanada & Mexiko
-          </div>
-
           <h1 className="text-5xl md:text-7xl font-black text-white leading-tight mb-4">
             Håll koll på<br />
             <span className="text-[#f5c518]">varje match</span>
