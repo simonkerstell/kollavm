@@ -54,9 +54,17 @@ function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIn
 }
 
 export default function TippaPage() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<typeof groups[0] | null>(null);
+
+  if (loading) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+        <p className="text-gray-400">Laddar...</p>
+      </div>
+    );
+  }
 
   if (!user) {
     return (

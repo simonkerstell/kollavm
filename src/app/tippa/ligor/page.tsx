@@ -7,7 +7,7 @@ import { League } from "@/lib/tippa-types";
 import { Trophy, Plus, Users, Copy, Check, ChevronLeft } from "lucide-react";
 
 export default function LigorPage() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [leagues, setLeagues] = useState<League[]>([]);
   const [newName, setNewName] = useState("");
@@ -46,6 +46,10 @@ export default function LigorPage() {
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
+  }
+
+  if (loading) {
+    return <div className="max-w-2xl mx-auto px-4 py-20 text-center"><p className="text-gray-400">Laddar...</p></div>;
   }
 
   if (!user) {

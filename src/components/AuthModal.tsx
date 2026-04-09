@@ -10,7 +10,6 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [confirmSent, setConfirmSent] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,7 +25,7 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
       if (error) {
         setError(error.message);
       } else {
-        setConfirmSent(true);
+        onClose();
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -37,20 +36,6 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
       }
     }
     setLoading(false);
-  }
-
-  if (confirmSent) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-        <div className="bg-[#0d1f3c] border border-[#f5c518]/20 rounded-2xl p-8 w-full max-w-md relative text-center">
-          <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white"><X size={20} /></button>
-          <div className="text-5xl mb-4">✉️</div>
-          <h2 className="text-2xl font-black text-white mb-2">Kolla din e-post!</h2>
-          <p className="text-gray-400 text-sm">Vi har skickat en bekräftelselänk till <span className="text-[#f5c518] font-semibold">{email}</span>. Klicka på länken för att aktivera ditt konto.</p>
-          <button onClick={onClose} className="mt-6 bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black py-3 px-8 rounded-full transition-colors">OK</button>
-        </div>
-      </div>
-    );
   }
 
   return (
