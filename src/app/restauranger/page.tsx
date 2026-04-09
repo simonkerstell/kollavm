@@ -3,18 +3,34 @@
 import { useState } from "react";
 import { restaurants } from "@/data/mock-data";
 import { Monitor, Sun, MapPin } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function RestaurangerPage() {
   const [cityFilter, setCityFilter] = useState("Alla");
   const [formData, setFormData] = useState({ name: "", city: "", link: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
   const cities = ["Alla", ...Array.from(new Set(restaurants.map((r) => r.city)))];
   const filtered = cityFilter === "Alla" ? restaurants : restaurants.filter((r) => r.city === cityFilter);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError("");
+    const { error } = await supabase.from("restaurant_tips").insert({
+      name: formData.name,
+      city: formData.city,
+      link: formData.link || null,
+      message: formData.message || null,
+    });
+    setSending(false);
+    if (error) {
+      setError("Något gick fel, försök igen.");
+    } else {
+      setSubmitted(true);
+    }
   }
 
   return (
@@ -125,11 +141,13 @@ export default function RestaurangerPage() {
                 placeholder="Berätta mer om stället..."
               />
             </div>
+            {error && <p className="text-red-400 text-sm">{error}</p>}
             <button
               type="submit"
-              className="bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-bold px-6 py-2.5 rounded-full text-sm transition-colors"
+              disabled={sending}
+              className="bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-bold px-6 py-2.5 rounded-full text-sm transition-colors disabled:opacity-50"
             >
-              Skicka tips
+              {sending ? "Skickar..." : "Skicka tips"}
             </button>
           </form>
         )}
