@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Countdown from "@/components/Countdown";
-import { Calendar, Home, MapPin, BookOpen, Trophy } from "lucide-react";
+import { Calendar, MapPin, BookOpen, Trophy } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "KollaVM – Din guide till fotbolls-VM 2026",
@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 
 const quickLinks = [
   { href: "/matcher", icon: Calendar, label: "Matchschema", desc: "Alla VM-matcher & live-resultat" },
-  { href: "/hemma", icon: Home, label: "Kolla VM hemma", desc: "Produkter för den perfekta VM-känslan" },
+  { href: "/tippa", icon: Trophy, label: "Tippa", desc: "Tippa matcher & tävla mot vänner" },
+  { href: "/vm-guide", icon: BookOpen, label: "VM-guide", desc: "Artiklar, produkttips, restauranger & FAQ" },
   { href: "/restauranger", icon: MapPin, label: "Restaurangtips", desc: "Hitta bästa stället att se matchen" },
-  { href: "/artiklar", icon: BookOpen, label: "VM-guide", desc: "Tips, guider och produktrecensioner" },
 ];
 
 export default function HomePage() {

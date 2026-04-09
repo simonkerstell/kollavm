@@ -1,18 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { AvatarConfig, DEFAULT_AVATAR } from "@/lib/tippa-types";
 import { getAvatar } from "@/lib/tippa-store";
 import Avatar from "./Avatar";
 import ProfileModal from "./ProfileModal";
 
+const mainLinks = [
+  { href: "/matcher", label: "Matchschema" },
+  { href: "/tippa", label: "Tippa" },
+];
+
+const guideSubLinks = [
+  { href: "/artiklar", label: "Artiklar & tips" },
+  { href: "/hemma", label: "Kolla VM hemma" },
+  { href: "/restauranger", label: "Restauranger" },
+  { href: "/faq", label: "Vanliga frågor" },
+];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
+  const [mobileGuideOpen, setMobileGuideOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(DEFAULT_AVATAR);
+  const guideRef = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuth();
   const now = new Date();
   const vmStart = new Date("2026-06-11");
@@ -25,14 +40,16 @@ export default function Navbar() {
     }
   }, [user]);
 
-  const links = [
-    { href: "/matcher", label: "Matchschema" },
-    { href: "/tippa", label: "Tippa" },
-    { href: "/hemma", label: "Kolla VM hemma" },
-    { href: "/restauranger", label: "Restauranger" },
-    { href: "/artiklar", label: "VM-guide" },
-    { href: "/faq", label: "FAQ" },
-  ];
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (guideRef.current && !guideRef.current.contains(e.target as Node)) {
+        setGuideOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   return (
     <>
@@ -50,7 +67,7 @@ export default function Navbar() {
             </Link>
 
             <div className="hidden md:flex items-center gap-8">
-              {links.map((link) => (
+              {mainLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -59,6 +76,39 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+
+              {/* VM-guide dropdown */}
+              <div className="relative" ref={guideRef}>
+                <button
+                  onClick={() => setGuideOpen(!guideOpen)}
+                  className="flex items-center gap-1 text-gray-300 hover:text-[#f5c518] transition-colors font-medium"
+                >
+                  VM-guide
+                  <ChevronDown size={14} className={`transition-transform ${guideOpen ? "rotate-180" : ""}`} />
+                </button>
+                {guideOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-56 bg-[#0d1f3c] border border-[#f5c518]/20 rounded-xl shadow-2xl overflow-hidden">
+                    <Link
+                      href="/vm-guide"
+                      onClick={() => setGuideOpen(false)}
+                      className="block px-4 py-3 text-[#f5c518] font-bold text-sm hover:bg-white/5 transition-colors border-b border-white/10"
+                    >
+                      Alla kategorier →
+                    </Link>
+                    {guideSubLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setGuideOpen(false)}
+                        className="block px-4 py-3 text-gray-300 hover:text-[#f5c518] hover:bg-white/5 transition-colors text-sm font-medium"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {user && (
                 <div className="flex items-center gap-3">
                   <button
@@ -82,9 +132,10 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* Mobile menu */}
         {open && (
           <div className="md:hidden bg-[#0a1628] border-t border-[#f5c518]/20 px-4 py-4 flex flex-col gap-4">
-            {links.map((link) => (
+            {mainLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -94,6 +145,33 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+
+            {/* Mobile VM-guide accordion */}
+            <button
+              onClick={() => setMobileGuideOpen(!mobileGuideOpen)}
+              className="flex items-center justify-between text-gray-300 hover:text-[#f5c518] transition-colors font-medium text-lg"
+            >
+              VM-guide
+              <ChevronDown size={16} className={`transition-transform ${mobileGuideOpen ? "rotate-180" : ""}`} />
+            </button>
+            {mobileGuideOpen && (
+              <div className="pl-4 flex flex-col gap-3 border-l-2 border-[#f5c518]/20">
+                <Link href="/vm-guide" onClick={() => setOpen(false)} className="text-[#f5c518] font-semibold text-base">
+                  Alla kategorier
+                </Link>
+                {guideSubLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-gray-400 hover:text-[#f5c518] transition-colors font-medium text-base"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             {user && (
               <button
                 onClick={() => { setShowProfile(true); setOpen(false); }}
