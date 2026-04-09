@@ -86,10 +86,6 @@ export default function HemmaPage() {
             </p>
           </div>
 
-          <div className="bg-[#f5c518]/10 border border-[#f5c518]/20 rounded-xl p-4 mb-10 text-sm text-[#f5c518]">
-            ℹ️ Som affiliate-partner kan vi tjäna provision på köp via våra länkar. Detta påverkar inte vår redaktionella bedömning.
-          </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {productCategories.map((cat) => {
               const count = products.filter((p) => p.categoryKey === cat.key).length;
