@@ -12,12 +12,12 @@ import ProfileModal from "./ProfileModal";
 const mainLinks = [
   { href: "/matcher", label: "Matchschema" },
   { href: "/tippa", label: "Tippa" },
+  { href: "/restauranger", label: "Restauranger" },
 ];
 
 const guideSubLinks = [
   { href: "/artiklar", label: "Artiklar & tips" },
   { href: "/hemma", label: "Kolla VM hemma" },
-  { href: "/restauranger", label: "Restauranger" },
   { href: "/faq", label: "Vanliga frågor" },
 ];
 

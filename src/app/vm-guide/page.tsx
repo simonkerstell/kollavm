@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Home, MapPin, HelpCircle } from "lucide-react";
+import { BookOpen, Home, HelpCircle } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "VM-guide 2026 – Allt du behöver veta",
@@ -24,12 +24,6 @@ const sections = [
     icon: Home,
     label: "Kolla VM hemma",
     desc: "Utemöbler, dryckeskylar, TV-stativ, ljud och dekorationer för den perfekta VM-upplevelsen hemma.",
-  },
-  {
-    href: "/restauranger",
-    icon: MapPin,
-    label: "Restauranger",
-    desc: "Hitta de bästa sportbarerna och restaurangerna att se VM-matcherna på i Stockholm, Göteborg och Malmö.",
   },
   {
     href: "/faq",
