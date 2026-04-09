@@ -35,7 +35,8 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-[#f5c518]/10 text-xs text-gray-500">
           <p className="mb-1">© 2026 KollaVM. Alla rättigheter förbehållna.</p>
-          <p>Som affiliate-partner kan vi tjäna provision på köp via våra länkar. Detta påverkar inte vår redaktionella bedömning.</p>
+          <p className="mb-2">Som affiliate-partner kan vi tjäna provision på köp via våra länkar. Detta påverkar inte vår redaktionella bedömning.</p>
+          <Link href="/villkor" className="text-gray-500 hover:text-[#f5c518] transition-colors">Användarvillkor & integritetspolicy</Link>
         </div>
       </div>
     </footer>
