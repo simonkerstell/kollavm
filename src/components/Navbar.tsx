@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { user, logout } = useAuth();
   const now = new Date();
   const vmStart = new Date("2026-06-11");
   const vmEnd = new Date("2026-07-19");
@@ -13,7 +15,8 @@ export default function Navbar() {
 
   const links = [
     { href: "/matcher", label: "Matchschema" },
-    { href: "/hemma", label: "VM hemma" },
+    { href: "/tippa", label: "Tippa" },
+    { href: "/hemma", label: "Kolla VM hemma" },
     { href: "/restauranger", label: "Restauranger" },
     { href: "/artiklar", label: "Artiklar" },
   ];
@@ -42,6 +45,12 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {user && (
+              <div className="flex items-center gap-3">
+                <span className="text-gray-400 text-sm">{user.name}</span>
+                <button onClick={logout} className="text-xs text-gray-500 hover:text-[#f5c518] transition-colors">Logga ut</button>
+              </div>
+            )}
           </div>
 
           <button
