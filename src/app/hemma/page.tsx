@@ -5,11 +5,6 @@ import { products, productCategories, ProductCategory, Product } from "@/data/mo
 import { ExternalLink, ChevronLeft } from "lucide-react";
 
 const retailerColors: Record<string, string> = {
-  JYSK: "bg-blue-600",
-  IKEA: "bg-yellow-500 text-[#0a1628]",
-  MIO: "bg-orange-600",
-  Biltema: "bg-red-600",
-  Elgiganten: "bg-green-600",
   Amazon: "bg-[#f5c518] text-[#0a1628]",
 };
 
