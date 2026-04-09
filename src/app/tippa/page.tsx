@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import { groups } from "@/data/groups";
 import { savePrediction, getPrediction } from "@/lib/tippa-store";
-import { ChevronLeft, Trophy, Check } from "lucide-react";
+import { ChevronLeft, Trophy, Check, Users, Share2, Clock } from "lucide-react";
 import Link from "next/link";
 
 function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0] }) {
@@ -92,7 +92,7 @@ export default function TippaPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {!selectedGroup ? (
         <>
-          <div className="flex items-start justify-between mb-8">
+          <div className="flex items-start justify-between mb-6">
             <div>
               <h1 className="text-4xl font-black text-white mb-1">Tippa <span className="text-[#f5c518]">VM 2026</span></h1>
               <p className="text-gray-400">Hej, {user.name}! Välj en grupp och tippa matcherna.</p>
@@ -101,6 +101,43 @@ export default function TippaPage() {
               <Trophy size={14} /> Mina ligor
             </Link>
           </div>
+
+          {/* Info & regler */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-start gap-3">
+              <Trophy size={18} className="text-[#f5c518] shrink-0 mt-0.5" />
+              <div>
+                <p className="text-white font-semibold text-sm">Poängsystem</p>
+                <p className="text-gray-400 text-xs mt-0.5"><span className="text-[#f5c518] font-bold">3p</span> exakt resultat · <span className="font-bold text-white">1p</span> rätt utfall · <span className="text-gray-500 font-bold">0p</span> fel</p>
+              </div>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-start gap-3">
+              <Clock size={18} className="text-[#f5c518] shrink-0 mt-0.5" />
+              <div>
+                <p className="text-white font-semibold text-sm">Ändra tips</p>
+                <p className="text-gray-400 text-xs mt-0.5">Du kan ändra ditt tips fram till 5 min innan matchstart</p>
+              </div>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-start gap-3">
+              <Users size={18} className="text-[#f5c518] shrink-0 mt-0.5" />
+              <div>
+                <p className="text-white font-semibold text-sm">Tävla med vänner</p>
+                <p className="text-gray-400 text-xs mt-0.5">Skapa en liga och bjud in dina kompisar</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bjud in vänner CTA */}
+          <div className="bg-[#f5c518]/10 border border-[#f5c518]/30 rounded-xl p-4 mb-8 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Share2 size={20} className="text-[#f5c518] shrink-0" />
+              <p className="text-sm text-gray-200"><span className="font-bold text-white">Bjud in en vän!</span> Skapa en liga, dela koden och tävla om vem som tippar bäst.</p>
+            </div>
+            <Link href="/tippa/ligor" className="shrink-0 bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-bold px-5 py-2 rounded-full text-sm transition-colors">
+              Skapa liga
+            </Link>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {groups.map(group => {
               const tipped = group.matches.filter((_, i) => getPrediction(user.id, `${group.id}-${i}`)).length;
