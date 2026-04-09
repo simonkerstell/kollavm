@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { createLeague, joinLeague, getUserLeagues, getLeagueMembers, GLOBAL_LEAGUE } from "@/lib/tippa-store";
-import { League } from "@/lib/tippa-types";
+import { createLeague, joinLeague, getUserLeagues, getLeagueMembers, GLOBAL_LEAGUE_ID } from "@/lib/tippa-store";
+import { League, LeagueMember } from "@/lib/tippa-types";
 import { Trophy, Plus, Users, Copy, Check, ChevronLeft } from "lucide-react";
 
 export default function LigorPage() {
@@ -15,27 +15,46 @@ export default function LigorPage() {
   const [joinError, setJoinError] = useState("");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [selectedLeague, setSelectedLeague] = useState<League | null>(null);
+  const [members, setMembers] = useState<(LeagueMember & { name: string })[]>([]);
+  const [loadingLeagues, setLoadingLeagues] = useState(false);
+  const [loadingMembers, setLoadingMembers] = useState(false);
 
   useEffect(() => {
-    if (user) setLeagues(getUserLeagues(user.id));
+    if (!user) return;
+    setLoadingLeagues(true);
+    getUserLeagues(user.id).then((l) => {
+      setLeagues(l);
+      setLoadingLeagues(false);
+    });
   }, [user]);
 
-  function handleCreate(e: React.FormEvent) {
+  useEffect(() => {
+    if (!selectedLeague) return;
+    setLoadingMembers(true);
+    getLeagueMembers(selectedLeague.id).then((m) => {
+      setMembers(m);
+      setLoadingMembers(false);
+    });
+  }, [selectedLeague]);
+
+  async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     if (!user || !newName.trim()) return;
-    const league = createLeague(newName.trim(), user.id);
-    setLeagues(getUserLeagues(user.id));
+    const league = await createLeague(newName.trim(), user.id);
+    const updated = await getUserLeagues(user.id);
+    setLeagues(updated);
     setNewName("");
     setSelectedLeague(league);
   }
 
-  function handleJoin(e: React.FormEvent) {
+  async function handleJoin(e: React.FormEvent) {
     e.preventDefault();
     if (!user || !inviteCode.trim()) return;
     setJoinError("");
     try {
-      joinLeague(inviteCode.trim(), user.id);
-      setLeagues(getUserLeagues(user.id));
+      await joinLeague(inviteCode.trim(), user.id);
+      const updated = await getUserLeagues(user.id);
+      setLeagues(updated);
       setInviteCode("");
     } catch (err: unknown) {
       setJoinError(err instanceof Error ? err.message : "Ogiltig kod");
@@ -65,7 +84,6 @@ export default function LigorPage() {
   }
 
   if (selectedLeague) {
-    const members = getLeagueMembers(selectedLeague.id);
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
         <button onClick={() => setSelectedLeague(null)} className="text-gray-400 hover:text-[#f5c518] text-sm font-medium mb-8 flex items-center gap-1"><ChevronLeft size={14} /> Tillbaka</button>
@@ -73,7 +91,7 @@ export default function LigorPage() {
           <h1 className="text-3xl font-black text-white">{selectedLeague.name}</h1>
           <p className="text-gray-400 text-sm mt-1">{members.length} deltagare</p>
         </div>
-        {selectedLeague.id !== GLOBAL_LEAGUE.id && (
+        {selectedLeague.id !== GLOBAL_LEAGUE_ID && (
           <div className="bg-white/5 border border-[#f5c518]/20 rounded-xl p-4 mb-8 flex items-center justify-between">
             <div>
               <p className="text-xs text-gray-400 mb-0.5">Inbjudningskod – dela med dina vänner</p>
@@ -84,22 +102,26 @@ export default function LigorPage() {
             </button>
           </div>
         )}
-        {selectedLeague.id === GLOBAL_LEAGUE.id && (
+        {selectedLeague.id === GLOBAL_LEAGUE_ID && (
           <div className="bg-[#f5c518]/10 border border-[#f5c518]/20 rounded-xl p-4 mb-8 text-sm text-gray-300">
             Alla registrerade användare tävlar automatiskt i den globala ligan. Tippa matcher för att klättra på listan!
           </div>
         )}
         <h2 className="font-bold text-white text-lg mb-4 flex items-center gap-2"><Users size={18} className="text-[#f5c518]" /> Tabell</h2>
-        <div className="space-y-2">
-          {members.length === 0 && <p className="text-gray-500 text-sm">Inga poäng ännu – matcherna har inte spelats.</p>}
-          {members.map((m, i) => (
-            <div key={m.userId} className={`flex items-center gap-4 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
-              <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
-              <span className="flex-1 font-semibold text-white">{m.name}{m.userId === user.id && <span className="text-xs text-[#f5c518] ml-2">(du)</span>}</span>
-              <span className="font-black text-[#f5c518] text-lg">{m.totalPoints}p</span>
-            </div>
-          ))}
-        </div>
+        {loadingMembers ? (
+          <p className="text-gray-400 text-sm">Laddar...</p>
+        ) : (
+          <div className="space-y-2">
+            {members.length === 0 && <p className="text-gray-500 text-sm">Inga poäng ännu – matcherna har inte spelats.</p>}
+            {members.map((m, i) => (
+              <div key={m.userId} className={`flex items-center gap-4 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
+                <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
+                <span className="flex-1 font-semibold text-white">{m.name}{m.userId === user.id && <span className="text-xs text-[#f5c518] ml-2">(du)</span>}</span>
+                <span className="font-black text-[#f5c518] text-lg">{m.totalPoints}p</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -110,12 +132,14 @@ export default function LigorPage() {
         <h1 className="text-4xl font-black text-white mb-1">Mina <span className="text-[#f5c518]">ligor</span></h1>
         <p className="text-gray-400">Tävla mot dina vänner om vem som tippar bäst.</p>
       </div>
-      {leagues.length > 0 && (
+      {loadingLeagues ? (
+        <p className="text-gray-400 text-sm mb-10">Laddar ligor...</p>
+      ) : leagues.length > 0 && (
         <div className="mb-10">
           <h2 className="font-bold text-white mb-3">Dina ligor</h2>
           <div className="space-y-3">
             {leagues.map(l => {
-              const isGlobal = l.id === GLOBAL_LEAGUE.id;
+              const isGlobal = l.id === GLOBAL_LEAGUE_ID;
               return (
                 <button key={l.id} onClick={() => setSelectedLeague(l)} className={`w-full flex items-center justify-between hover:bg-white/10 border hover:border-[#f5c518]/30 rounded-xl p-4 transition-all ${isGlobal ? "bg-[#f5c518]/5 border-[#f5c518]/20" : "bg-white/5 border-white/10"}`}>
                   <div className="flex items-center gap-3">

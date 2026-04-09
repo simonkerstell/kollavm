@@ -1,20 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import { groups } from "@/data/groups";
-import { savePrediction, getPrediction } from "@/lib/tippa-store";
+import { savePrediction, getUserPredictions } from "@/lib/tippa-store";
+import { Prediction } from "@/lib/tippa-types";
 import { ChevronLeft, Trophy, Check, Users, Share2, Clock, Pencil } from "lucide-react";
 import Link from "next/link";
 
-function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0] }) {
+function MatchTipCard({ groupId, matchIndex, match, existingPred }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0]; existingPred?: Prediction }) {
   const { user } = useAuth();
-  const matchId = `${groupId}-${matchIndex}`;
-  const existing = user ? getPrediction(user.id, matchId) : undefined;
-  const [home, setHome] = useState(existing?.homeGoals?.toString() ?? "");
-  const [away, setAway] = useState(existing?.awayGoals?.toString() ?? "");
-  const [saved, setSaved] = useState(!!existing);
+  const [home, setHome] = useState(existingPred?.homeGoals?.toString() ?? "");
+  const [away, setAway] = useState(existingPred?.awayGoals?.toString() ?? "");
+  const [saved, setSaved] = useState(!!existingPred);
   const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const allTeams = groups.flatMap(g => g.teams);
   const homeFlag = allTeams.find(t => t.name === match.home)?.flag ?? "";
@@ -22,11 +22,17 @@ function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIn
 
   const isLocked = saved && !editing;
 
-  function handleSave() {
+  async function handleSave() {
     if (!user || home === "" || away === "") return;
-    savePrediction({ userId: user.id, matchId, homeGoals: parseInt(home), awayGoals: parseInt(away) });
-    setSaved(true);
-    setEditing(false);
+    setSaving(true);
+    try {
+      await savePrediction({ userId: user.id, matchId: `${groupId}-${matchIndex}`, homeGoals: parseInt(home), awayGoals: parseInt(away) });
+      setSaved(true);
+      setEditing(false);
+    } catch {
+      // silently fail
+    }
+    setSaving(false);
   }
 
   function handleEdit() {
@@ -63,8 +69,8 @@ function MatchTipCard({ groupId, matchIndex, match }: { groupId: string; matchIn
               </button>
             </>
           ) : (
-            <button onClick={handleSave} disabled={home === "" || away === ""} className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-semibold transition-all text-xs ${home !== "" && away !== "" ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
-              Spara
+            <button onClick={handleSave} disabled={home === "" || away === "" || saving} className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-semibold transition-all text-xs ${home !== "" && away !== "" && !saving ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
+              {saving ? "Sparar..." : "Spara"}
             </button>
           )}
         </div>
@@ -77,8 +83,23 @@ export default function TippaPage() {
   const { user, loading } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<typeof groups[0] | null>(null);
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [loadingPreds, setLoadingPreds] = useState(false);
 
-  if (loading) {
+  useEffect(() => {
+    if (!user) return;
+    setLoadingPreds(true);
+    getUserPredictions(user.id).then((preds) => {
+      setPredictions(preds);
+      setLoadingPreds(false);
+    });
+  }, [user]);
+
+  function getPred(matchId: string) {
+    return predictions.find(p => p.matchId === matchId);
+  }
+
+  if (loading || loadingPreds) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <p className="text-gray-400">Laddar...</p>
@@ -160,7 +181,7 @@ export default function TippaPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {groups.map(group => {
-              const tipped = group.matches.filter((_, i) => getPrediction(user.id, `${group.id}-${i}`)).length;
+              const tipped = group.matches.filter((_, i) => getPred(`${group.id}-${i}`)).length;
               const all = group.matches.length;
               return (
                 <button key={group.id} onClick={() => setSelectedGroup(group)} className="w-full text-left bg-white/5 hover:bg-[#f5c518]/5 border border-white/10 hover:border-[#f5c518]/40 rounded-2xl p-6 transition-all group">
@@ -200,7 +221,7 @@ export default function TippaPage() {
           </div>
           <div className="space-y-3">
             {selectedGroup.matches.map((match, i) => (
-              <MatchTipCard key={i} groupId={selectedGroup.id} matchIndex={i} match={match} />
+              <MatchTipCard key={i} groupId={selectedGroup.id} matchIndex={i} match={match} existingPred={getPred(`${selectedGroup.id}-${i}`)} />
             ))}
           </div>
         </>

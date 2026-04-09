@@ -1,123 +1,199 @@
-"use client";
-import { User, Prediction, League, LeagueMember, Comment } from "./tippa-types";
-import { v4 as uuidv4 } from "uuid";
+import { supabase } from "./supabase";
+import { Prediction, League, LeagueMember, Comment } from "./tippa-types";
 
-function get<T>(key: string): T[] {
-  if (typeof window === "undefined") return [];
-  try { return JSON.parse(localStorage.getItem(key) ?? "[]"); } catch { return []; }
-}
-function set<T>(key: string, data: T[]) {
-  if (typeof window !== "undefined") localStorage.setItem(key, JSON.stringify(data));
-}
-
-export function getCurrentUser(): User | null {
-  if (typeof window === "undefined") return null;
-  try { return JSON.parse(localStorage.getItem("kollavm_user") ?? "null"); } catch { return null; }
-}
-export function setCurrentUser(user: User | null) {
-  if (typeof window === "undefined") return;
-  if (user) localStorage.setItem("kollavm_user", JSON.stringify(user));
-  else localStorage.removeItem("kollavm_user");
-}
-export function register(name: string, email: string, password: string): User {
-  const users = get<User & { password: string }>("kollavm_users");
-  if (users.find(u => u.email === email)) throw new Error("E-postadressen används redan");
-  const user: User = { id: uuidv4(), name, email, createdAt: new Date().toISOString() };
-  set("kollavm_users", [...users, { ...user, password }]);
-  setCurrentUser(user);
-  return user;
-}
-export function login(email: string, password: string): User {
-  const users = get<User & { password: string }>("kollavm_users");
-  const found = users.find(u => u.email === email && u.password === password);
-  if (!found) throw new Error("Fel e-post eller lösenord");
-  const user: User = { id: found.id, name: found.name, email: found.email, createdAt: found.createdAt };
-  setCurrentUser(user);
-  return user;
-}
-export function logout() { setCurrentUser(null); }
-
-export function savePrediction(pred: Prediction) {
-  const all = get<Prediction>("kollavm_predictions");
-  const filtered = all.filter(p => !(p.userId === pred.userId && p.matchId === pred.matchId));
-  set("kollavm_predictions", [...filtered, pred]);
-}
-export function getPrediction(userId: string, matchId: string): Prediction | undefined {
-  return get<Prediction>("kollavm_predictions").find(p => p.userId === userId && p.matchId === matchId);
-}
-export function getAllPredictions(): Prediction[] {
-  return get<Prediction>("kollavm_predictions");
-}
+export const GLOBAL_LEAGUE_ID = "00000000-0000-0000-0000-000000000001";
 
 export const GLOBAL_LEAGUE: League = {
-  id: "global",
+  id: GLOBAL_LEAGUE_ID,
   name: "KollaVM Global",
   inviteCode: "GLOBAL",
   adminId: "system",
   createdAt: "2026-01-01T00:00:00.000Z",
 };
 
-export function ensureGlobalLeague(userId: string) {
-  const leagues = get<League>("kollavm_leagues");
-  if (!leagues.find(l => l.id === GLOBAL_LEAGUE.id)) {
-    set("kollavm_leagues", [...leagues, GLOBAL_LEAGUE]);
-  }
-  const members = get<LeagueMember>("kollavm_league_members");
-  if (!members.find(m => m.leagueId === GLOBAL_LEAGUE.id && m.userId === userId)) {
-    set("kollavm_league_members", [...members, { leagueId: GLOBAL_LEAGUE.id, userId, totalPoints: 0 }]);
-  }
+// --- Predictions ---
+
+export async function savePrediction(pred: Prediction) {
+  const { error } = await supabase
+    .from("predictions")
+    .upsert(
+      {
+        user_id: pred.userId,
+        match_id: pred.matchId,
+        home_goals: pred.homeGoals,
+        away_goals: pred.awayGoals,
+      },
+      { onConflict: "user_id,match_id" }
+    );
+  if (error) throw new Error(error.message);
 }
 
-export function createLeague(name: string, adminId: string): League {
-  const leagues = get<League>("kollavm_leagues");
-  const league: League = {
-    id: uuidv4(),
-    name,
-    inviteCode: Math.random().toString(36).slice(2, 8).toUpperCase(),
-    adminId,
-    createdAt: new Date().toISOString(),
+export async function getPrediction(userId: string, matchId: string): Promise<Prediction | undefined> {
+  const { data } = await supabase
+    .from("predictions")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("match_id", matchId)
+    .maybeSingle();
+  if (!data) return undefined;
+  return {
+    userId: data.user_id,
+    matchId: data.match_id,
+    homeGoals: data.home_goals,
+    awayGoals: data.away_goals,
+    points: data.points ?? undefined,
   };
-  set("kollavm_leagues", [...leagues, league]);
-  joinLeague(league.inviteCode, adminId);
-  return league;
-}
-export function joinLeague(inviteCode: string, userId: string): League {
-  const leagues = get<League>("kollavm_leagues");
-  const league = leagues.find(l => l.inviteCode === inviteCode.toUpperCase());
-  if (!league) throw new Error("Ogiltig inbjudningskod");
-  const members = get<LeagueMember>("kollavm_league_members");
-  if (!members.find(m => m.leagueId === league.id && m.userId === userId)) {
-    set("kollavm_league_members", [...members, { leagueId: league.id, userId, totalPoints: 0 }]);
-  }
-  return league;
-}
-export function getUserLeagues(userId: string): League[] {
-  const members = get<LeagueMember>("kollavm_league_members").filter(m => m.userId === userId);
-  const leagues = get<League>("kollavm_leagues");
-  return leagues.filter(l => members.find(m => m.leagueId === l.id));
-}
-export function getLeagueMembers(leagueId: string): (LeagueMember & { name: string })[] {
-  const members = get<LeagueMember>("kollavm_league_members").filter(m => m.leagueId === leagueId);
-  const users = get<User & { password: string }>("kollavm_users");
-  const preds = get<Prediction>("kollavm_predictions");
-  return members.map(m => {
-    const user = users.find(u => u.id === m.userId);
-    const points = preds.filter(p => p.userId === m.userId && p.points !== undefined).reduce((sum, p) => sum + (p.points ?? 0), 0);
-    return { ...m, totalPoints: points, name: user?.name ?? "Okänd" };
-  }).sort((a, b) => b.totalPoints - a.totalPoints);
 }
 
-// Comments
+export async function getUserPredictions(userId: string): Promise<Prediction[]> {
+  const { data } = await supabase
+    .from("predictions")
+    .select("*")
+    .eq("user_id", userId);
+  return (data ?? []).map((d) => ({
+    userId: d.user_id,
+    matchId: d.match_id,
+    homeGoals: d.home_goals,
+    awayGoals: d.away_goals,
+    points: d.points ?? undefined,
+  }));
+}
+
+// --- Leagues ---
+
+export async function ensureGlobalLeague(userId: string) {
+  // Make sure the user is a member of the global league
+  await supabase
+    .from("league_members")
+    .upsert({ league_id: GLOBAL_LEAGUE_ID, user_id: userId }, { onConflict: "league_id,user_id" });
+}
+
+export async function createLeague(name: string, adminId: string): Promise<League> {
+  const inviteCode = Math.random().toString(36).slice(2, 8).toUpperCase();
+  const { data, error } = await supabase
+    .from("leagues")
+    .insert({ name, invite_code: inviteCode, admin_id: adminId })
+    .select()
+    .single();
+  if (error) throw new Error(error.message);
+
+  // Auto-join the creator
+  await supabase
+    .from("league_members")
+    .insert({ league_id: data.id, user_id: adminId });
+
+  return {
+    id: data.id,
+    name: data.name,
+    inviteCode: data.invite_code,
+    adminId: data.admin_id,
+    createdAt: data.created_at,
+  };
+}
+
+export async function joinLeague(inviteCode: string, userId: string): Promise<League> {
+  const { data: league, error: findError } = await supabase
+    .from("leagues")
+    .select("*")
+    .eq("invite_code", inviteCode.toUpperCase())
+    .maybeSingle();
+
+  if (findError) throw new Error(findError.message);
+  if (!league) throw new Error("Ogiltig inbjudningskod");
+
+  const { error: joinError } = await supabase
+    .from("league_members")
+    .upsert({ league_id: league.id, user_id: userId }, { onConflict: "league_id,user_id" });
+
+  if (joinError) throw new Error(joinError.message);
+
+  return {
+    id: league.id,
+    name: league.name,
+    inviteCode: league.invite_code,
+    adminId: league.admin_id,
+    createdAt: league.created_at,
+  };
+}
+
+export async function getUserLeagues(userId: string): Promise<League[]> {
+  const { data } = await supabase
+    .from("league_members")
+    .select("league_id, leagues(*)")
+    .eq("user_id", userId);
+
+  return (data ?? []).map((d) => {
+    const l = d.leagues as unknown as Record<string, string>;
+    return {
+      id: l.id,
+      name: l.name,
+      inviteCode: l.invite_code,
+      adminId: l.admin_id,
+      createdAt: l.created_at,
+    };
+  });
+}
+
+export async function getLeagueMembers(leagueId: string): Promise<(LeagueMember & { name: string })[]> {
+  const { data: members } = await supabase
+    .from("league_members")
+    .select("league_id, user_id")
+    .eq("league_id", leagueId);
+
+  if (!members || members.length === 0) return [];
+
+  const userIds = members.map((m) => m.user_id);
+
+  // Get predictions for all members
+  const { data: preds } = await supabase
+    .from("predictions")
+    .select("user_id, points")
+    .in("user_id", userIds)
+    .not("points", "is", null);
+
+  // Get names via the database function
+  const namesMap: Record<string, string> = {};
+  for (const uid of userIds) {
+    const { data } = await supabase.rpc("get_user_name", { uid });
+    namesMap[uid] = (data as string) ?? "Okänd";
+  }
+
+  // Calculate total points per user
+  const pointsMap: Record<string, number> = {};
+  for (const p of preds ?? []) {
+    pointsMap[p.user_id] = (pointsMap[p.user_id] ?? 0) + (p.points ?? 0);
+  }
+
+  return members
+    .map((m) => ({
+      leagueId: m.league_id,
+      userId: m.user_id,
+      totalPoints: pointsMap[m.user_id] ?? 0,
+      name: namesMap[m.user_id] ?? "Okänd",
+    }))
+    .sort((a, b) => b.totalPoints - a.totalPoints);
+}
+
+// --- Comments (localStorage for now) ---
+
+function getLS<T>(key: string): T[] {
+  if (typeof window === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(key) ?? "[]"); } catch { return []; }
+}
+function setLS<T>(key: string, data: T[]) {
+  if (typeof window !== "undefined") localStorage.setItem(key, JSON.stringify(data));
+}
+
 export function addComment(comment: Comment) {
-  const all = get<Comment>("kollavm_comments");
-  set("kollavm_comments", [...all, comment]);
+  const all = getLS<Comment>("kollavm_comments");
+  setLS("kollavm_comments", [...all, comment]);
 }
 export function getComments(matchId: string): Comment[] {
-  return get<Comment>("kollavm_comments")
+  return getLS<Comment>("kollavm_comments")
     .filter(c => c.matchId === matchId)
     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 }
 export function deleteComment(commentId: string) {
-  const all = get<Comment>("kollavm_comments");
-  set("kollavm_comments", all.filter(c => c.id !== commentId));
+  const all = getLS<Comment>("kollavm_comments");
+  setLS("kollavm_comments", all.filter(c => c.id !== commentId));
 }
