@@ -24,16 +24,8 @@ export default function ArtikklarPage() {
           <Link
             key={article.id}
             href={`/artiklar/${article.slug}`}
-            className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-[#f5c518]/30 transition-all"
+            className="group bg-white/5 border border-white/10 rounded-2xl hover:border-[#f5c518]/30 transition-all"
           >
-            <div className="aspect-[16/9] overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={article.heroImage}
-                alt={article.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${categoryColors[article.category]}`}>

@@ -45,16 +45,25 @@ function GroupCard({ group, onClick }: { group: Group; onClick: () => void }) {
 }
 
 function MatchRow({ match }: { match: Group["matches"][0] }) {
+  const channelStyle = match.channel === "SVT"
+    ? "bg-blue-600 text-white"
+    : "bg-red-600 text-white";
+
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-[#f5c518]/20 transition-all">
-      <div className="flex items-center gap-2 text-xs text-gray-500 mb-3">
-        <Calendar size={12} />
-        <span className="capitalize">{formatDate(match.date)}</span>
-        <span>·</span>
-        <span>{match.time}</span>
-        <span>·</span>
-        <MapPin size={12} />
-        <span className="truncate">{match.venue}</span>
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2 text-xs text-gray-500">
+          <Calendar size={12} />
+          <span className="capitalize">{formatDate(match.date)}</span>
+          <span>·</span>
+          <span>{match.time}</span>
+          <span>·</span>
+          <MapPin size={12} />
+          <span className="truncate">{match.venue}</span>
+        </div>
+        <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full shrink-0 ml-2 ${channelStyle}`}>
+          {match.channel}
+        </span>
       </div>
       <div className="flex items-center justify-between gap-4">
         <div className="flex-1 flex items-center justify-end gap-2">

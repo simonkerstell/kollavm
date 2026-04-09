@@ -17,7 +17,7 @@ export default function Footer() {
             <h3 className="font-semibold text-white mb-3">Sidor</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link href="/matcher" className="hover:text-[#f5c518]">Matchschema</Link></li>
-              <li><Link href="/hemma" className="hover:text-[#f5c518]">VM hemma</Link></li>
+              <li><Link href="/hemma" className="hover:text-[#f5c518]">Kolla VM hemma</Link></li>
               <li><Link href="/restauranger" className="hover:text-[#f5c518]">Restauranger</Link></li>
               <li><Link href="/artiklar" className="hover:text-[#f5c518]">Artiklar</Link></li>
             </ul>

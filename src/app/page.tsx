@@ -4,7 +4,7 @@ import { Calendar, Home, MapPin, BookOpen } from "lucide-react";
 
 const quickLinks = [
   { href: "/matcher", icon: Calendar, label: "Matchschema", desc: "Alla VM-matcher & live-resultat" },
-  { href: "/hemma", icon: Home, label: "VM hemma", desc: "Produkter för den perfekta VM-känslan" },
+  { href: "/hemma", icon: Home, label: "Kolla VM hemma", desc: "Produkter för den perfekta VM-känslan" },
   { href: "/restauranger", icon: MapPin, label: "Restaurangtips", desc: "Hitta bästa stället att se matchen" },
   { href: "/artiklar", icon: BookOpen, label: "Artiklar", desc: "Tips, guider och produktrecensioner" },
 ];

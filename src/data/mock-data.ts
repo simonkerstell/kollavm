@@ -20,17 +20,63 @@ export interface Article {
   heroImage: string;
 }
 
+export interface ProductCategory {
+  key: string;
+  label: string;
+  emoji: string;
+  description: string;
+  heroImage: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
-  category: string;
+  categoryKey: string;
   emoji: string;
   image: string;
   affiliateLink: string;
   retailer?: string;
   price?: string;
 }
+
+export const productCategories: ProductCategory[] = [
+  {
+    key: "utemobler",
+    label: "Utemöbler",
+    emoji: "🪑",
+    description: "Loungegrupper, soffor och stolar för uteplatsen",
+    heroImage: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80",
+  },
+  {
+    key: "dryck",
+    label: "Dryck & kylning",
+    emoji: "🍺",
+    description: "Öltappar, kylboxar och bardiskar",
+    heroImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+  },
+  {
+    key: "elektronik",
+    label: "Elektronik & TV",
+    emoji: "📺",
+    description: "TV-ställ, projektorer och tillbehör",
+    heroImage: "https://images.unsplash.com/photo-1593359677879-a4bb92f4834a?w=600&q=80",
+  },
+  {
+    key: "ljud",
+    label: "Ljud",
+    emoji: "🔊",
+    description: "Utomhushögtalare och soundbars",
+    heroImage: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80",
+  },
+  {
+    key: "dekorationer",
+    label: "Dekorationer",
+    emoji: "🎉",
+    description: "VM-flaggor, lyktor och feststämning",
+    heroImage: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80",
+  },
+];
 
 export const restaurants: Restaurant[] = [
   {
@@ -225,158 +271,27 @@ Med dessa fem saker på plats är du fullt rustad för att arrangera årets VM-f
 ];
 
 export const products: Product[] = [
-  // TV-ställ
-  {
-    id: "1",
-    name: "TV-ställ på hjul – Flexibel montering",
-    description: "Smidigt TV-ställ med hjul för enkel omplacering. Passar TV-apparater upp till 75 tum.",
-    category: "TV-ställ på hjul",
-    emoji: "📺",
-    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f4834a?w=600&q=80",
-    affiliateLink: "#affiliate",
-    retailer: "Elgiganten",
-    price: "1 299 kr",
-  },
+  // Utemöbler
+  { id: "u1", name: "Loungeset AGERMOSE 6-sits", description: "Stort 6-sits loungeset i svart konstrotting med tjocka vädertåliga dynor. Perfekt för VM-kvällar med hela gänget.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80", affiliateLink: "https://jysk.se/utemobler/loungeset", retailer: "JYSK", price: "4 995 kr" },
+  { id: "u2", name: "NÄMMARÖ 4-sits möbelgrupp", description: "Skandinaviskt formgiven loungegrupp i akaciaträ med beige kuddar. Tål väder och vind – lämna den ute hela sommaren.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80", affiliateLink: "https://www.ikea.com/se/sv/cat/loungeset-21960/", retailer: "IKEA", price: "3 666 kr" },
+  { id: "u3", name: "TALLSKÄR 4-sits loungeset", description: "Svart metall-loungeset med flätad sits. Stilren design för både modern och klassisk uteplats.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=80", affiliateLink: "https://www.ikea.com/se/sv/cat/loungeset-21960/", retailer: "IKEA", price: "3 515 kr" },
+  { id: "u4", name: "Connect Utegrupp med soffa & pall", description: "Grå rattangrupp med rymlig soffa, pall med förvaringsutrymme och soffbord. Regntåliga dynor ingår.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1653624533654-3c0cf5fae08f?w=600&q=80", affiliateLink: "https://www.mio.se/uteliv/utemobler/loungemobler", retailer: "MIO", price: "6 990 kr" },
+  { id: "u5", name: "Mallorca Utegrupp med ropflätad soffa", description: "Stilren loungegrupp med handflätad rop-detalj och cementbord. Djupt sittdjup – sjunker ner och missa aldrig en sekund.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80", affiliateLink: "https://www.mio.se/uteliv/utemobler/loungemobler", retailer: "MIO", price: "8 490 kr" },
+  { id: "u6", name: "Loungesoffa ONDRUP m/schäslong 3-sits", description: "Stor 3-sits loungesoffa med schäslong i grå konstrotting. Lägg upp benen i halvlek.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=600&q=80", affiliateLink: "https://jysk.se/utemobler/loungemobler/loungesoffa", retailer: "JYSK", price: "3 495 kr" },
+  { id: "u7", name: "Maxime Utegrupp – Aluminium", description: "Skandinavisk design med lackat aluminiumram och snabbtorkande dynor. Hållbar och lätt att flytta.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1599598425947-5202edd56fdc?w=600&q=80", affiliateLink: "https://www.mio.se/uteliv/utemobler/loungemobler", retailer: "MIO", price: "9 990 kr" },
+  { id: "u8", name: "Loungeset 4-sits – Budgetvänligt", description: "Enkelt och prisvärt loungeset i stål med dynor. Perfekt om du vill ha fler sittplatser utan att spräcka budgeten.", categoryKey: "utemobler", emoji: "🪑", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", affiliateLink: "https://www.biltema.se/fritid/tradgard/tradgardsmobler/utemobler/loungeset-2000042063", retailer: "Biltema", price: "1 499 kr" },
 
-  // Utemöbler & loungegrupper
-  {
-    id: "2a",
-    name: "Loungeset AGERMOSE 6-sits",
-    description: "Stort 6-sits loungeset i svart konstrotting med tjocka vädertåliga dynor. Perfekt för VM-kvällar på uteplatsen med hela gänget.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80",
-    affiliateLink: "https://jysk.se/utemobler/loungeset",
-    retailer: "JYSK",
-    price: "4 995 kr",
-  },
-  {
-    id: "2b",
-    name: "NÄMMARÖ 4-sits möbelgrupp",
-    description: "Skandinaviskt formgiven loungegrupp i akaciaträ med beige kuddar. Tål väder och vind – lämna den ute hela sommaren.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80",
-    affiliateLink: "https://www.ikea.com/se/sv/cat/loungeset-21960/",
-    retailer: "IKEA",
-    price: "3 666 kr",
-  },
-  {
-    id: "2c",
-    name: "TALLSKÄR 4-sits loungeset",
-    description: "Svart metall-loungeset med flätad sits. Stilren design som passar både modern och klassisk uteplats. Finns i flera färger.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=600&q=80",
-    affiliateLink: "https://www.ikea.com/se/sv/cat/loungeset-21960/",
-    retailer: "IKEA",
-    price: "3 515 kr",
-  },
-  {
-    id: "2d",
-    name: "Connect Utegrupp med soffa & pall",
-    description: "Grå rattangrupp med rymlig soffa, pall med förvaringsutrymme och soffbord. Regntåliga dynor ingår – kasta på dem och börja kolla match.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1653624533654-3c0cf5fae08f?w=600&q=80",
-    affiliateLink: "https://www.mio.se/uteliv/utemobler/loungemobler",
-    retailer: "MIO",
-    price: "6 990 kr",
-  },
-  {
-    id: "2e",
-    name: "Mallorca Utegrupp med ropflätad soffa",
-    description: "Stilren loungegrupp med handflätad rop-detalj och cement-fiberbord. Djupt sittdjup – sjunker ner och missa aldrig en sekund.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80",
-    affiliateLink: "https://www.mio.se/uteliv/utemobler/loungemobler",
-    retailer: "MIO",
-    price: "8 490 kr",
-  },
-  {
-    id: "2f",
-    name: "Loungeset 4-sits – Budgetvänligt",
-    description: "Enkelt och prisvärt loungeset i stål med dynor. Från Biltema – perfekt om du vill ha fler sittplatser utan att spräcka budgeten.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
-    affiliateLink: "https://www.biltema.se/fritid/tradgard/tradgardsmobler/utemobler/loungeset-2000042063",
-    retailer: "Biltema",
-    price: "1 499 kr",
-  },
-  {
-    id: "2g",
-    name: "Maxime Utegrupp – Aluminium & tyg",
-    description: "Skandinavisk design med lackat aluminiumram och tjocka snabbtorkande dynor. Hållbar, lätt och enkel att flytta till bästa matchplats.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1599598425947-5202edd56fdc?w=600&q=80",
-    affiliateLink: "https://www.mio.se/uteliv/utemobler/loungemobler",
-    retailer: "MIO",
-    price: "9 990 kr",
-  },
-  {
-    id: "2h",
-    name: "Loungesoffa ONDRUP m/schäslong 3-sits",
-    description: "Stor 3-sits loungesoffa med schäslong i grå konstrotting. Rymlig nog för hela laget – lägg upp benen i halvlek.",
-    category: "Utemöbler & loungegrupper",
-    emoji: "🪑",
-    image: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=600&q=80",
-    affiliateLink: "https://jysk.se/utemobler/loungemobler/loungesoffa",
-    retailer: "JYSK",
-    price: "3 495 kr",
-  },
+  // Dryck & kylning
+  { id: "d1", name: "BeerTender Hemöltapp", description: "Häll upp perfekt kylt öl hemma. Passar 5-liters fat. Enkel att rengöra.", categoryKey: "dryck", emoji: "🍺", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", affiliateLink: "#affiliate", retailer: "Elgiganten", price: "1 990 kr" },
+  { id: "d2", name: "Coleman 50L Kylbox", description: "Storsäljaren! Håller isen i upp till 5 dagar. Rymmer 72 burkar – räcker för hela matchen.", categoryKey: "dryck", emoji: "🧊", image: "https://images.unsplash.com/photo-1534361960057-19f4434a01d7?w=600&q=80", affiliateLink: "#affiliate", retailer: "Biltema", price: "799 kr" },
+  { id: "d3", name: "DraughtMaster Hemöltapp", description: "Premium-alternativet med imponerande design. Fungerar med PerfectDraft-fat. Imponera på gästerna.", categoryKey: "dryck", emoji: "🍺", image: "https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&q=80", affiliateLink: "#affiliate", retailer: "Elgiganten", price: "2 490 kr" },
 
-  // Kylboxar
-  {
-    id: "3",
-    name: "Coleman 50L Kylbox",
-    description: "Storsäljaren! Håller isen i upp till 5 dagar. Rymmer 72 burkar.",
-    category: "Ice coolers & kylboxar",
-    emoji: "🧊",
-    image: "https://images.unsplash.com/photo-1534361960057-19f4434a01d7?w=600&q=80",
-    affiliateLink: "#affiliate",
-    retailer: "Biltema",
-    price: "799 kr",
-  },
+  // Elektronik & TV
+  { id: "e1", name: "TV-ställ på hjul – 75 tum", description: "Smidigt TV-ställ med hjul för enkel omplacering. Passar TV-apparater upp till 75 tum.", categoryKey: "elektronik", emoji: "📺", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f4834a?w=600&q=80", affiliateLink: "#affiliate", retailer: "Elgiganten", price: "1 299 kr" },
 
-  // Öltappar
-  {
-    id: "4",
-    name: "BeerTender Hemöltapp",
-    description: "Häll upp perfekt kylt öl hemma. Passar 5-liters fat. Enkel att rengöra.",
-    category: "Öltappar & bardiskar",
-    emoji: "🍺",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
-    affiliateLink: "#affiliate",
-    retailer: "Elgiganten",
-    price: "1 990 kr",
-  },
+  // Ljud
+  { id: "l1", name: "JBL Charge 5 – Utomhushögtalare", description: "Kraftfull vattentålig Bluetooth-högtalare. 20 timmars batteritid. Perfekt utomhus.", categoryKey: "ljud", emoji: "🔊", image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80", affiliateLink: "#affiliate", retailer: "Elgiganten", price: "1 799 kr" },
 
   // Dekorationer
-  {
-    id: "5",
-    name: "VM-flaggset 32 nationer",
-    description: "Komplett set med flaggor för alla 32 VM-nationer. Perfekt för att dekorera festen.",
-    category: "Dekorationer & VM-flaggor",
-    emoji: "🎉",
-    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80",
-    affiliateLink: "#affiliate",
-    retailer: "Amazon",
-    price: "299 kr",
-  },
-
-  // Högtalare
-  {
-    id: "6",
-    name: "JBL Charge 5 – Utomhushögtalare",
-    description: "Kraftfull vattentålig Bluetooth-högtalare. 20 timmars batteritid. Perfekt utomhus.",
-    category: "Utomhushögtalare",
-    emoji: "🔊",
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=600&q=80",
-    affiliateLink: "#affiliate",
-    retailer: "Elgiganten",
-    price: "1 799 kr",
-  },
+  { id: "dec1", name: "VM-flaggset 32 nationer", description: "Komplett set med flaggor för alla 32 VM-nationer. Perfekt för att dekorera festen.", categoryKey: "dekorationer", emoji: "🎉", image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&q=80", affiliateLink: "#affiliate", retailer: "Amazon", price: "299 kr" },
 ];
