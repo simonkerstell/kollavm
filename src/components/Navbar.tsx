@@ -18,6 +18,7 @@ const mainLinks = [
 const guideSubLinks = [
   { href: "/artiklar", label: "Artiklar & tips" },
   { href: "/hemma", label: "Kolla VM hemma" },
+  { href: "/quiz", label: "VM-quiz" },
   { href: "/faq", label: "Vanliga frågor" },
 ];
 

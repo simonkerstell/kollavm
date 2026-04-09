@@ -71,6 +71,21 @@ export const DEFAULT_AVATAR: AvatarConfig = {
   accessory: "none",
 };
 
+export interface Badge {
+  id: string;
+  name: string;
+  emoji: string;
+  description: string;
+  earned: boolean;
+}
+
+export interface QuizResult {
+  userId: string;
+  score: number;
+  totalQuestions: number;
+  createdAt: string;
+}
+
 export type MatchOutcome = "home" | "draw" | "away";
 
 export function getOutcome(home: number, away: number): MatchOutcome {

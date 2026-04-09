@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Prediction, League, LeagueMember, Comment, GroupPrediction, AvatarConfig, DEFAULT_AVATAR } from "./tippa-types";
+import { Prediction, League, LeagueMember, Comment, GroupPrediction, AvatarConfig, DEFAULT_AVATAR, QuizResult } from "./tippa-types";
 
 export const GLOBAL_LEAGUE_ID = "00000000-0000-0000-0000-000000000001";
 
@@ -300,6 +300,29 @@ export async function getAvatarsBatch(userIds: string[]): Promise<Record<string,
     };
   }
   return result;
+}
+
+// --- Quiz ---
+
+export async function saveQuizResult(userId: string, score: number) {
+  const { error } = await supabase
+    .from("quiz_results")
+    .insert({ user_id: userId, score, total_questions: 10 });
+  if (error) throw new Error(error.message);
+}
+
+export async function getUserQuizResults(userId: string): Promise<QuizResult[]> {
+  const { data } = await supabase
+    .from("quiz_results")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  return (data ?? []).map(d => ({
+    userId: d.user_id,
+    score: d.score,
+    totalQuestions: d.total_questions,
+    createdAt: d.created_at,
+  }));
 }
 
 // --- Comments (localStorage for now) ---
