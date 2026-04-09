@@ -222,17 +222,20 @@ export async function getUserGroupPredictions(userId: string): Promise<GroupPred
 // --- Bracket Predictions ---
 
 export async function saveBracketPick(userId: string, matchId: string, winner: string) {
-  // Delete existing pick for this match, then insert new one
+  // Delete existing pick for this match
   await supabase
     .from("bracket_predictions")
     .delete()
     .eq("user_id", userId)
     .eq("stage", matchId);
 
-  const { error } = await supabase
-    .from("bracket_predictions")
-    .insert({ user_id: userId, stage: matchId, team_name: winner });
-  if (error) throw new Error(error.message);
+  // Only insert if there's a winner (empty = undo)
+  if (winner) {
+    const { error } = await supabase
+      .from("bracket_predictions")
+      .insert({ user_id: userId, stage: matchId, team_name: winner });
+    if (error) throw new Error(error.message);
+  }
 }
 
 export async function getUserBracketPredictions(userId: string): Promise<Record<string, string>> {

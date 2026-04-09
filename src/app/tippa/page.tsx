@@ -10,7 +10,7 @@ import {
   saveBracketPick, getUserBracketPredictions,
 } from "@/lib/tippa-store";
 import { Prediction, GroupPrediction } from "@/lib/tippa-types";
-import { ChevronLeft, Trophy, Check, Users, Pencil, Copy, ChevronDown } from "lucide-react";
+import { ChevronLeft, Trophy, Check, Users, Pencil, Copy, ChevronDown, Undo2 } from "lucide-react";
 import Link from "next/link";
 
 const allTeams = groups.flatMap(g => g.teams);
@@ -196,8 +196,13 @@ function BracketMatchCard({
           <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
         </div>
         {currentPick && (
-          <div className="mt-2 flex items-center gap-1 text-xs text-green-400 font-semibold">
-            <Check size={10} /> {getFlag(currentPick)} {currentPick}
+          <div className="mt-2 flex items-center justify-between">
+            <div className="flex items-center gap-1 text-xs text-green-400 font-semibold">
+              <Check size={10} /> {getFlag(currentPick)} {currentPick}
+            </div>
+            <button onClick={() => onPick(matchDef.id, "")} className="flex items-center gap-1 text-[10px] text-gray-500 hover:text-red-400 transition-colors">
+              <Undo2 size={10} /> Ångra
+            </button>
           </div>
         )}
       </div>
@@ -209,7 +214,11 @@ function BracketMatchCard({
     <div className={`bg-white/5 border rounded-xl p-3 transition-all ${currentPick ? "border-green-500/30" : "border-white/10"}`}>
       <div className="flex items-center gap-1 mb-2">
         <span className="text-[10px] text-gray-600 font-mono">{matchDef.id.toUpperCase()}</span>
-        {currentPick && <span className="ml-auto flex items-center gap-1 text-[10px] text-green-400 font-semibold"><Check size={8} /></span>}
+        {currentPick && (
+          <button onClick={() => onPick(matchDef.id, "")} className="ml-auto flex items-center gap-1 text-[10px] text-gray-500 hover:text-red-400 transition-colors">
+            <Undo2 size={8} /> Ångra
+          </button>
+        )}
       </div>
       <div className="flex gap-2">
         <button
@@ -295,18 +304,25 @@ export default function TippaPage() {
   }, [user]);
 
   async function handleBracketPick(matchId: string, winner: string) {
-    if (!user || !winner) return;
+    if (!user) return;
 
-    // Clear any downstream picks that depended on the old winner
     const oldWinner = bracketPicks[matchId];
-    if (oldWinner && oldWinner !== winner) {
-      const newPicks = { ...bracketPicks, [matchId]: winner };
-      // Find matches that depend on this match and clear them if the team changed
-      const toClear: string[] = [];
+    const isClearing = !winner;
+    const newPicks = { ...bracketPicks };
+
+    if (isClearing) {
+      delete newPicks[matchId];
+    } else {
+      newPicks[matchId] = winner;
+    }
+
+    // Clear downstream picks that depended on the old winner
+    const toClear: string[] = [];
+    if (oldWinner) {
       function clearDownstream(mId: string) {
         for (const m of allBracketMatches) {
           if (m.homeFrom === mId || m.awayFrom === mId) {
-            if (newPicks[m.id] === oldWinner) {
+            if (newPicks[m.id] && (isClearing || newPicks[m.id] === oldWinner)) {
               toClear.push(m.id);
               delete newPicks[m.id];
               clearDownstream(m.id);
@@ -315,16 +331,14 @@ export default function TippaPage() {
         }
       }
       clearDownstream(matchId);
-      setBracketPicks(newPicks);
+    }
 
-      // Save the new pick and clear downstream in DB
-      await saveBracketPick(user.id, matchId, winner);
-      for (const id of toClear) {
-        await saveBracketPick(user.id, id, "");
-      }
-    } else {
-      setBracketPicks(prev => ({ ...prev, [matchId]: winner }));
-      await saveBracketPick(user.id, matchId, winner);
+    setBracketPicks(newPicks);
+
+    // Save to DB
+    await saveBracketPick(user.id, matchId, winner);
+    for (const id of toClear) {
+      await saveBracketPick(user.id, id, "");
     }
   }
 
