@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Prediction, League, LeagueMember, Comment, GroupPrediction } from "./tippa-types";
+import { Prediction, League, LeagueMember, Comment, GroupPrediction, AvatarConfig, DEFAULT_AVATAR } from "./tippa-types";
 
 export const GLOBAL_LEAGUE_ID = "00000000-0000-0000-0000-000000000001";
 
@@ -248,6 +248,58 @@ export async function getUserBracketPredictions(userId: string): Promise<Record<
     picks[d.stage] = d.team_name;
   }
   return picks;
+}
+
+// --- Avatars ---
+
+export async function getAvatar(userId: string): Promise<AvatarConfig> {
+  const { data } = await supabase
+    .from("avatars")
+    .select("*")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (!data) return DEFAULT_AVATAR;
+  return {
+    skinTone: data.skin_tone,
+    hairStyle: data.hair_style,
+    hairColor: data.hair_color,
+    jerseyColor: data.jersey_color,
+    accessory: data.accessory,
+  };
+}
+
+export async function saveAvatar(userId: string, config: AvatarConfig) {
+  const { error } = await supabase
+    .from("avatars")
+    .upsert({
+      user_id: userId,
+      skin_tone: config.skinTone,
+      hair_style: config.hairStyle,
+      hair_color: config.hairColor,
+      jersey_color: config.jerseyColor,
+      accessory: config.accessory,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "user_id" });
+  if (error) throw new Error(error.message);
+}
+
+export async function getAvatarsBatch(userIds: string[]): Promise<Record<string, AvatarConfig>> {
+  if (userIds.length === 0) return {};
+  const { data } = await supabase
+    .from("avatars")
+    .select("*")
+    .in("user_id", userIds);
+  const result: Record<string, AvatarConfig> = {};
+  for (const d of data ?? []) {
+    result[d.user_id] = {
+      skinTone: d.skin_tone,
+      hairStyle: d.hair_style,
+      hairColor: d.hair_color,
+      jerseyColor: d.jersey_color,
+      accessory: d.accessory,
+    };
+  }
+  return result;
 }
 
 // --- Comments (localStorage for now) ---

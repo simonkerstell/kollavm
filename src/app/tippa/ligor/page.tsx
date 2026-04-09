@@ -2,9 +2,10 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
-import { createLeague, joinLeague, getUserLeagues, getLeagueMembers, GLOBAL_LEAGUE_ID } from "@/lib/tippa-store";
-import { League, LeagueMember } from "@/lib/tippa-types";
+import { createLeague, joinLeague, getUserLeagues, getLeagueMembers, getAvatarsBatch, GLOBAL_LEAGUE_ID } from "@/lib/tippa-store";
+import { League, LeagueMember, AvatarConfig } from "@/lib/tippa-types";
 import { Trophy, Plus, Users, Copy, Check, ChevronLeft } from "lucide-react";
+import Avatar from "@/components/Avatar";
 
 export default function LigorPage() {
   const { user, loading } = useAuth();
@@ -16,6 +17,7 @@ export default function LigorPage() {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [selectedLeague, setSelectedLeague] = useState<League | null>(null);
   const [members, setMembers] = useState<(LeagueMember & { name: string })[]>([]);
+  const [avatars, setAvatars] = useState<Record<string, AvatarConfig>>({});
   const [loadingLeagues, setLoadingLeagues] = useState(false);
   const [loadingMembers, setLoadingMembers] = useState(false);
 
@@ -31,8 +33,10 @@ export default function LigorPage() {
   useEffect(() => {
     if (!selectedLeague) return;
     setLoadingMembers(true);
-    getLeagueMembers(selectedLeague.id).then((m) => {
+    getLeagueMembers(selectedLeague.id).then(async (m) => {
       setMembers(m);
+      const avs = await getAvatarsBatch(m.map(x => x.userId));
+      setAvatars(avs);
       setLoadingMembers(false);
     });
   }, [selectedLeague]);
@@ -114,8 +118,9 @@ export default function LigorPage() {
           <div className="space-y-2">
             {members.length === 0 && <p className="text-gray-500 text-sm">Inga poäng ännu – matcherna har inte spelats.</p>}
             {members.map((m, i) => (
-              <div key={m.userId} className={`flex items-center gap-4 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
-                <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
+              <div key={m.userId} className={`flex items-center gap-3 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
+                <span className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
+                <Avatar config={avatars[m.userId]} size={32} />
                 <span className="flex-1 font-semibold text-white">{m.name}{m.userId === user.id && <span className="text-xs text-[#f5c518] ml-2">(du)</span>}</span>
                 <span className="font-black text-[#f5c518] text-lg">{m.totalPoints}p</span>
               </div>

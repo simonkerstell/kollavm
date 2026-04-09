@@ -55,6 +55,22 @@ export interface BracketMatch {
   nextSlot?: "home" | "away";
 }
 
+export interface AvatarConfig {
+  skinTone: string;
+  hairStyle: "short" | "curly" | "long" | "bald" | "mohawk";
+  hairColor: string;
+  jerseyColor: string;
+  accessory: "none" | "sunglasses" | "cap" | "headband";
+}
+
+export const DEFAULT_AVATAR: AvatarConfig = {
+  skinTone: "#F5D0A9",
+  hairStyle: "short",
+  hairColor: "#3B2F2F",
+  jerseyColor: "#F5C518",
+  accessory: "none",
+};
+
 export type MatchOutcome = "home" | "draw" | "away";
 
 export function getOutcome(home: number, away: number): MatchOutcome {
