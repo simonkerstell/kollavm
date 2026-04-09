@@ -44,11 +44,15 @@ export interface GroupPrediction {
   points?: number;
 }
 
-export interface BracketPrediction {
-  userId: string;
-  stage: "r32" | "r16" | "qf" | "sf" | "final" | "champion";
-  teamName: string;
-  points?: number;
+export interface BracketMatch {
+  id: string;        // "m73" - "m103"
+  round: "r32" | "r16" | "qf" | "sf" | "final";
+  homeLabel: string;  // e.g. "Etta A" or "Vinnare M73"
+  awayLabel: string;
+  homeSource?: { matchId: string } | { groupPos: string };
+  awaySource?: { matchId: string } | { groupPos: string };
+  nextMatchId?: string;
+  nextSlot?: "home" | "away";
 }
 
 export type MatchOutcome = "home" | "draw" | "away";

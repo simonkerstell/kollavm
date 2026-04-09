@@ -1,15 +1,16 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal";
 import { groups } from "@/data/groups";
+import { bracketRounds, allBracketMatches } from "@/data/bracket";
 import {
   savePrediction, getUserPredictions,
   saveGroupPrediction, getUserGroupPredictions,
-  saveBracketPredictions, getUserBracketPredictions,
+  saveBracketPick, getUserBracketPredictions,
 } from "@/lib/tippa-store";
-import { Prediction, GroupPrediction, BracketPrediction } from "@/lib/tippa-types";
-import { ChevronLeft, Trophy, Check, Users, Clock, Pencil, Copy, ChevronDown } from "lucide-react";
+import { Prediction, GroupPrediction } from "@/lib/tippa-types";
+import { ChevronLeft, Trophy, Check, Users, Pencil, Copy, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 const allTeams = groups.flatMap(g => g.teams);
@@ -18,13 +19,6 @@ function getFlag(name: string) {
 }
 
 type Tab = "matcher" | "gruppspel" | "slutspel";
-
-const BRACKET_STAGES = [
-  { key: "qf", label: "Kvartsfinal", count: 8, points: "2p" },
-  { key: "sf", label: "Semifinal", count: 4, points: "3p" },
-  { key: "final", label: "Final", count: 2, points: "5p" },
-  { key: "champion", label: "VM-vinnare", count: 1, points: "10p" },
-] as const;
 
 // --- Match Tip Card ---
 
@@ -155,72 +149,93 @@ function GroupPredCard({ group, existing, onSaved }: { group: typeof groups[0]; 
   );
 }
 
-// --- Bracket Stage Picker ---
+// --- Bracket Match Card ---
 
-function BracketStagePicker({
-  stage,
-  label,
-  count,
-  pointsLabel,
-  availableTeams,
-  selected,
-  onToggle,
-  onSave,
-  saved,
-  saving,
+function BracketMatchCard({
+  matchDef,
+  picks,
+  onPick,
 }: {
-  stage: string;
-  label: string;
-  count: number;
-  pointsLabel: string;
-  availableTeams: string[];
-  selected: string[];
-  onToggle: (team: string) => void;
-  onSave: () => void;
-  saved: boolean;
-  saving: boolean;
+  matchDef: typeof allBracketMatches[0];
+  picks: Record<string, string>;
+  onPick: (matchId: string, winner: string) => void;
 }) {
+  const homeResolved = matchDef.homeFrom ? (picks[matchDef.homeFrom] ?? null) : null;
+  const awayResolved = matchDef.awayFrom ? (picks[matchDef.awayFrom] ?? null) : null;
+  const currentPick = picks[matchDef.id];
+  const isR32 = matchDef.round === "r32";
+  const homeClickable = isR32 || !!homeResolved;
+  const awayClickable = isR32 || !!awayResolved;
+
+  if (isR32) {
+    // For R32: show a dropdown to pick the winner
+    const allTeamNames = groups.flatMap(g => g.teams.map(t => t.name));
+    return (
+      <div className={`bg-white/5 border rounded-xl p-3 transition-all ${currentPick ? "border-green-500/30" : "border-white/10"}`}>
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <span className="text-[10px] text-gray-600 font-mono">{matchDef.id.toUpperCase()}</span>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span>{matchDef.homeLabel}</span>
+            <span className="text-gray-700">vs</span>
+            <span>{matchDef.awayLabel}</span>
+          </div>
+        </div>
+        <div className="relative">
+          <select
+            value={currentPick ?? ""}
+            onChange={e => onPick(matchDef.id, e.target.value)}
+            className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#f5c518]/50 appearance-none cursor-pointer"
+          >
+            <option value="" className="bg-[#0d1f3c]">Välj vinnare...</option>
+            {allTeamNames.map(t => <option key={t} value={t} className="bg-[#0d1f3c]">{getFlag(t)} {t}</option>)}
+          </select>
+          <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+        </div>
+        {currentPick && (
+          <div className="mt-2 flex items-center gap-1 text-xs text-green-400 font-semibold">
+            <Check size={10} /> {getFlag(currentPick)} {currentPick}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // For later rounds: show two team buttons, click to pick winner
   return (
-    <div className={`bg-white/5 border rounded-2xl p-5 transition-all ${saved ? "border-green-500/30" : "border-white/10"}`}>
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h3 className="text-white font-black text-lg">{label}</h3>
-          <p className="text-gray-400 text-xs">Välj {count} lag · <span className="text-[#f5c518] font-bold">{pointsLabel}</span> per rätt lag</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className={`text-sm font-bold ${selected.length === count ? "text-green-400" : "text-gray-500"}`}>{selected.length}/{count}</span>
-          {saved && <span className="flex items-center gap-1 text-xs text-green-400 font-semibold"><Check size={12} /> Sparat</span>}
-        </div>
+    <div className={`bg-white/5 border rounded-xl p-3 transition-all ${currentPick ? "border-green-500/30" : "border-white/10"}`}>
+      <div className="flex items-center gap-1 mb-2">
+        <span className="text-[10px] text-gray-600 font-mono">{matchDef.id.toUpperCase()}</span>
+        {currentPick && <span className="ml-auto flex items-center gap-1 text-[10px] text-green-400 font-semibold"><Check size={8} /></span>}
       </div>
-
-      <div className="flex flex-wrap gap-2 mb-4">
-        {availableTeams.map(team => {
-          const isSelected = selected.includes(team);
-          return (
-            <button
-              key={team}
-              onClick={() => onToggle(team)}
-              disabled={!isSelected && selected.length >= count}
-              className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                isSelected
-                  ? "bg-[#f5c518] text-[#0a1628] font-bold"
-                  : selected.length >= count
-                  ? "bg-white/5 text-gray-600 cursor-not-allowed"
-                  : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white cursor-pointer"
-              }`}
-            >
-              <span>{getFlag(team)}</span>
-              <span>{team}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {!saved && (
-        <button onClick={onSave} disabled={selected.length !== count || saving} className={`w-full py-2.5 rounded-full font-bold text-sm transition-all ${selected.length === count && !saving ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
-          {saving ? "Sparar..." : "Spara"}
+      <div className="flex gap-2">
+        <button
+          onClick={() => homeResolved && onPick(matchDef.id, homeResolved)}
+          disabled={!homeClickable}
+          className={`flex-1 py-2.5 px-2 rounded-lg text-sm font-semibold transition-all text-center ${
+            currentPick === homeResolved && homeResolved
+              ? "bg-[#f5c518] text-[#0a1628] font-black"
+              : homeClickable
+              ? "bg-white/10 text-white hover:bg-[#f5c518]/20 hover:text-[#f5c518] cursor-pointer"
+              : "bg-white/5 text-gray-600 cursor-not-allowed"
+          }`}
+        >
+          {homeResolved ? <><span className="mr-1">{getFlag(homeResolved)}</span>{homeResolved}</> : <span className="text-gray-600 text-xs">{matchDef.homeLabel}</span>}
         </button>
-      )}
+        <span className="text-gray-700 self-center text-xs font-bold">vs</span>
+        <button
+          onClick={() => awayResolved && onPick(matchDef.id, awayResolved)}
+          disabled={!awayClickable}
+          className={`flex-1 py-2.5 px-2 rounded-lg text-sm font-semibold transition-all text-center ${
+            currentPick === awayResolved && awayResolved
+              ? "bg-[#f5c518] text-[#0a1628] font-black"
+              : awayClickable
+              ? "bg-white/10 text-white hover:bg-[#f5c518]/20 hover:text-[#f5c518] cursor-pointer"
+              : "bg-white/5 text-gray-600 cursor-not-allowed"
+          }`}
+        >
+          {awayResolved ? <><span className="mr-1">{getFlag(awayResolved)}</span>{awayResolved}</> : <span className="text-gray-600 text-xs">{matchDef.awayLabel}</span>}
+        </button>
+      </div>
     </div>
   );
 }
@@ -233,15 +248,9 @@ export default function TippaPage() {
   const [tab, setTab] = useState<Tab>("matcher");
   const [selectedGroup, setSelectedGroup] = useState<typeof groups[0] | null>(null);
 
-  // Match predictions
   const [predictions, setPredictions] = useState<Prediction[]>([]);
-  // Group predictions
   const [groupPreds, setGroupPreds] = useState<GroupPrediction[]>([]);
-  // Bracket predictions
-  const [bracketPreds, setBracketPreds] = useState<BracketPrediction[]>([]);
-  const [bracketSelections, setBracketSelections] = useState<Record<string, string[]>>({ qf: [], sf: [], final: [], champion: [] });
-  const [bracketSaved, setBracketSaved] = useState<Record<string, boolean>>({ qf: false, sf: false, final: false, champion: false });
-  const [bracketSaving, setBracketSaving] = useState<Record<string, boolean>>({ qf: false, sf: false, final: false, champion: false });
+  const [bracketPicks, setBracketPicks] = useState<Record<string, string>>({});
 
   const [loadingData, setLoadingData] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -259,22 +268,10 @@ export default function TippaPage() {
       getUserPredictions(user.id),
       getUserGroupPredictions(user.id),
       getUserBracketPredictions(user.id),
-    ]).then(([preds, gPreds, bPreds]) => {
+    ]).then(([preds, gPreds, bPicks]) => {
       setPredictions(preds);
       setGroupPreds(gPreds);
-      setBracketPreds(bPreds);
-
-      // Populate bracket selections from existing predictions
-      const selections: Record<string, string[]> = { qf: [], sf: [], final: [], champion: [] };
-      const savedState: Record<string, boolean> = { qf: false, sf: false, final: false, champion: false };
-      for (const bp of bPreds) {
-        if (selections[bp.stage]) {
-          selections[bp.stage].push(bp.teamName);
-          savedState[bp.stage] = true;
-        }
-      }
-      setBracketSelections(selections);
-      setBracketSaved(savedState);
+      setBracketPicks(bPicks);
       setLoadingData(false);
     });
   }, [user]);
@@ -287,33 +284,45 @@ export default function TippaPage() {
     return groupPreds.find(p => p.groupId === groupId);
   }
 
-  async function refreshGroupPreds() {
+  const refreshGroupPreds = useCallback(async () => {
     if (!user) return;
     const gp = await getUserGroupPredictions(user.id);
     setGroupPreds(gp);
-  }
+  }, [user]);
 
-  function toggleBracketTeam(stage: string, team: string) {
-    setBracketSelections(prev => {
-      const current = prev[stage] ?? [];
-      const updated = current.includes(team) ? current.filter(t => t !== team) : [...current, team];
-      return { ...prev, [stage]: updated };
-    });
-    setBracketSaved(prev => ({ ...prev, [stage]: false }));
-  }
+  async function handleBracketPick(matchId: string, winner: string) {
+    if (!user || !winner) return;
 
-  async function saveBracketStage(stage: string) {
-    if (!user) return;
-    setBracketSaving(prev => ({ ...prev, [stage]: true }));
-    try {
-      await saveBracketPredictions(user.id, stage, bracketSelections[stage]);
-      setBracketSaved(prev => ({ ...prev, [stage]: true }));
-    } catch { /* ignore */ }
-    setBracketSaving(prev => ({ ...prev, [stage]: false }));
-  }
+    // Clear any downstream picks that depended on the old winner
+    const oldWinner = bracketPicks[matchId];
+    if (oldWinner && oldWinner !== winner) {
+      const newPicks = { ...bracketPicks, [matchId]: winner };
+      // Find matches that depend on this match and clear them if the team changed
+      const toClear: string[] = [];
+      function clearDownstream(mId: string) {
+        for (const m of allBracketMatches) {
+          if (m.homeFrom === mId || m.awayFrom === mId) {
+            if (newPicks[m.id] === oldWinner) {
+              toClear.push(m.id);
+              delete newPicks[m.id];
+              clearDownstream(m.id);
+            }
+          }
+        }
+      }
+      clearDownstream(matchId);
+      setBracketPicks(newPicks);
 
-  // All team names for bracket picking
-  const allTeamNames = groups.flatMap(g => g.teams.map(t => t.name));
+      // Save the new pick and clear downstream in DB
+      await saveBracketPick(user.id, matchId, winner);
+      for (const id of toClear) {
+        await saveBracketPick(user.id, id, "");
+      }
+    } else {
+      setBracketPicks(prev => ({ ...prev, [matchId]: winner }));
+      await saveBracketPick(user.id, matchId, winner);
+    }
+  }
 
   if (loading || loadingData) {
     return (
@@ -467,7 +476,6 @@ export default function TippaPage() {
             <h2 className="text-xl font-bold text-white mb-1">Tippa gruppspelet</h2>
             <p className="text-gray-400 text-sm">Vem vinner varje grupp och vem blir tvåa? <span className="text-[#f5c518] font-bold">3p</span> för rätt gruppsegrare · <span className="text-white font-bold">2p</span> för rätt tvåa</p>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {groups.map(group => (
               <GroupPredCard key={group.id} group={group} existing={getGroupPred(group.id)} onSaved={refreshGroupPreds} />
@@ -480,26 +488,47 @@ export default function TippaPage() {
       {tab === "slutspel" && (
         <>
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-white mb-1">Tippa slutspelet</h2>
-            <p className="text-gray-400 text-sm">Vilka lag tar sig till varje steg? Poängen ökar ju längre in i turneringen.</p>
+            <h2 className="text-xl font-bold text-white mb-1">Tippa slutspelsträdet</h2>
+            <p className="text-gray-400 text-sm">Välj vinnare i varje match. Vinnarna flyter vidare till nästa omgång automatiskt.</p>
           </div>
 
-          <div className="space-y-6">
-            {BRACKET_STAGES.map(stage => (
-              <BracketStagePicker
-                key={stage.key}
-                stage={stage.key}
-                label={stage.label}
-                count={stage.count}
-                pointsLabel={stage.points}
-                availableTeams={allTeamNames}
-                selected={bracketSelections[stage.key] ?? []}
-                onToggle={(team) => toggleBracketTeam(stage.key, team)}
-                onSave={() => saveBracketStage(stage.key)}
-                saved={bracketSaved[stage.key] ?? false}
-                saving={bracketSaving[stage.key] ?? false}
-              />
-            ))}
+          {/* Champion display */}
+          {bracketPicks["m103"] && (
+            <div className="bg-gradient-to-r from-[#f5c518]/20 to-[#f5c518]/5 border border-[#f5c518]/40 rounded-2xl p-6 mb-8 text-center">
+              <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">Din VM-vinnare</p>
+              <p className="text-4xl mb-1">{getFlag(bracketPicks["m103"])}</p>
+              <p className="text-white font-black text-2xl">{bracketPicks["m103"]}</p>
+              <p className="text-[#f5c518] text-sm font-bold mt-1">🏆 10p om rätt</p>
+            </div>
+          )}
+
+          <div className="space-y-8">
+            {bracketRounds.map(round => {
+              const pickedCount = round.matches.filter(m => bracketPicks[m.id]).length;
+              return (
+                <div key={round.key}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h3 className="text-white font-black text-lg">{round.label}</h3>
+                      <p className="text-gray-500 text-xs">{round.points} per rätt</p>
+                    </div>
+                    <span className={`text-sm font-bold ${pickedCount === round.matches.length ? "text-green-400" : "text-gray-500"}`}>
+                      {pickedCount}/{round.matches.length}
+                    </span>
+                  </div>
+                  <div className={`grid gap-3 ${round.matches.length >= 8 ? "grid-cols-1 sm:grid-cols-2" : round.matches.length >= 4 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 max-w-lg mx-auto"}`}>
+                    {round.matches.map(m => (
+                      <BracketMatchCard
+                        key={m.id}
+                        matchDef={m}
+                        picks={bracketPicks}
+                        onPick={handleBracketPick}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </>
       )}

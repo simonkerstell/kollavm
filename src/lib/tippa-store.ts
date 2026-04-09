@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Prediction, League, LeagueMember, Comment, GroupPrediction, BracketPrediction } from "./tippa-types";
+import { Prediction, League, LeagueMember, Comment, GroupPrediction } from "./tippa-types";
 
 export const GLOBAL_LEAGUE_ID = "00000000-0000-0000-0000-000000000001";
 
@@ -221,32 +221,30 @@ export async function getUserGroupPredictions(userId: string): Promise<GroupPred
 
 // --- Bracket Predictions ---
 
-export async function saveBracketPredictions(userId: string, stage: string, teams: string[]) {
-  // Delete existing predictions for this stage, then insert new ones
+export async function saveBracketPick(userId: string, matchId: string, winner: string) {
+  // Delete existing pick for this match, then insert new one
   await supabase
     .from("bracket_predictions")
     .delete()
     .eq("user_id", userId)
-    .eq("stage", stage);
+    .eq("stage", matchId);
 
-  if (teams.length > 0) {
-    const rows = teams.map((t) => ({ user_id: userId, stage, team_name: t }));
-    const { error } = await supabase.from("bracket_predictions").insert(rows);
-    if (error) throw new Error(error.message);
-  }
+  const { error } = await supabase
+    .from("bracket_predictions")
+    .insert({ user_id: userId, stage: matchId, team_name: winner });
+  if (error) throw new Error(error.message);
 }
 
-export async function getUserBracketPredictions(userId: string): Promise<BracketPrediction[]> {
+export async function getUserBracketPredictions(userId: string): Promise<Record<string, string>> {
   const { data } = await supabase
     .from("bracket_predictions")
     .select("*")
     .eq("user_id", userId);
-  return (data ?? []).map((d) => ({
-    userId: d.user_id,
-    stage: d.stage,
-    teamName: d.team_name,
-    points: d.points ?? undefined,
-  }));
+  const picks: Record<string, string> = {};
+  for (const d of data ?? []) {
+    picks[d.stage] = d.team_name;
+  }
+  return picks;
 }
 
 // --- Comments (localStorage for now) ---
