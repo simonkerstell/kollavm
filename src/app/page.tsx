@@ -1,6 +1,20 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import Countdown from "@/components/Countdown";
 import { Calendar, Home, MapPin, BookOpen, Trophy } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "KollaVM – Din guide till fotbolls-VM 2026",
+  description: "Håll koll på alla VM-matcher 2026, tippa resultat, hitta restaurangtips och produkter för den perfekta VM-känslan hemma eller på stan.",
+  openGraph: {
+    title: "KollaVM – Din guide till fotbolls-VM 2026",
+    description: "Håll koll på alla VM-matcher 2026, tippa resultat, hitta restaurangtips och produkter för den perfekta VM-känslan hemma eller på stan.",
+    url: "https://kollavm.se",
+    siteName: "KollaVM",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "KollaVM – Fotbolls-VM 2026" }],
+  },
+};
 
 const quickLinks = [
   { href: "/matcher", icon: Calendar, label: "Matchschema", desc: "Alla VM-matcher & live-resultat" },

@@ -1,6 +1,20 @@
+import { Metadata } from "next";
 import { articles } from "@/data/mock-data";
 import Link from "next/link";
 import { Calendar, Tag } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "VM-guide & tips – KollaVM",
+  description: "Läs guider, tips och produktrecensioner inför fotbolls-VM 2026. Allt du behöver veta för den perfekta VM-upplevelsen.",
+  openGraph: {
+    title: "VM-guide & tips – KollaVM",
+    description: "Läs guider, tips och produktrecensioner inför fotbolls-VM 2026.",
+    url: "https://kollavm.se/artiklar",
+    siteName: "KollaVM",
+    type: "website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "KollaVM – VM-guide" }],
+  },
+};
 
 const categoryColors: Record<string, string> = {
   "Hemma-tips": "bg-blue-500/20 text-blue-300",

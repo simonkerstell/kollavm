@@ -1,7 +1,27 @@
+import { Metadata } from "next";
 import { articles, products } from "@/data/mock-data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Tag, Share2, Globe, Link as LinkIcon, ExternalLink } from "lucide-react";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const article = articles.find((a) => a.slug === slug);
+  if (!article) return { title: "Artikel ej funnen – KollaVM" };
+  return {
+    title: `${article.title} – KollaVM`,
+    description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      url: `https://kollavm.se/artiklar/${article.slug}`,
+      siteName: "KollaVM",
+      type: "article",
+      publishedTime: article.date,
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: article.title }],
+    },
+  };
+}
 
 const internalLinks: { pattern: RegExp; href: string }[] = [
   { pattern: /utemöbler och paviljonger|utemöbler för sittplatser|bekväma utemöbler|utemöbler/gi, href: "/artiklar/basta-utemobler-vm-2026" },

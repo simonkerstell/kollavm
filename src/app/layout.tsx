@@ -10,8 +10,20 @@ import CookieBanner from "@/components/CookieBanner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KollaVM – Håll koll på varje match",
-  description: "Den självklara sajten för att följa fotbolls-VM 2026. Matchschema, live-resultat, restaurangtips och produkter för VM-känsla hemma.",
+  metadataBase: new URL("https://kollavm.se"),
+  title: {
+    default: "KollaVM – Håll koll på varje match i VM 2026",
+    template: "%s – KollaVM",
+  },
+  description: "Den självklara sajten för att följa fotbolls-VM 2026. Matchschema, tippa, restaurangtips och produkter för VM-känsla hemma.",
+  openGraph: {
+    siteName: "KollaVM",
+    type: "website",
+    locale: "sv_SE",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Användarvillkor & integritetspolicy – KollaVM",
+  description: "Läs KollaVMs användarvillkor och integritetspolicy för fotbolls-VM 2026-sajten.",
+};
+
 export default function VillkorPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
