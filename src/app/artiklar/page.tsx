@@ -14,7 +14,7 @@ export default function ArtikklarPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-10">
         <h1 className="text-4xl font-black text-white mb-2">
-          Artiklar <span className="text-[#f5c518]">& tips</span>
+          VM-guide <span className="text-[#f5c518]">& tips</span>
         </h1>
         <p className="text-gray-400">Guider, produkttips och allt du behöver veta inför VM 2026.</p>
       </div>

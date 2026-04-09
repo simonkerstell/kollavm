@@ -18,7 +18,7 @@ export default function Navbar() {
     { href: "/tippa", label: "Tippa" },
     { href: "/hemma", label: "Kolla VM hemma" },
     { href: "/restauranger", label: "Restauranger" },
-    { href: "/artiklar", label: "Artiklar" },
+    { href: "/artiklar", label: "VM-guide" },
   ];
 
   return (
