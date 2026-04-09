@@ -5,7 +5,7 @@ import AuthModal from "@/components/AuthModal";
 import { groups } from "@/data/groups";
 import { savePrediction, getUserPredictions } from "@/lib/tippa-store";
 import { Prediction } from "@/lib/tippa-types";
-import { ChevronLeft, Trophy, Check, Users, Share2, Clock, Pencil } from "lucide-react";
+import { ChevronLeft, Trophy, Check, Users, Clock, Pencil, Copy } from "lucide-react";
 import Link from "next/link";
 
 function MatchTipCard({ groupId, matchIndex, match, existingPred }: { groupId: string; matchIndex: number; match: typeof groups[0]["matches"][0]; existingPred?: Prediction }) {
@@ -85,6 +85,13 @@ export default function TippaPage() {
   const [selectedGroup, setSelectedGroup] = useState<typeof groups[0] | null>(null);
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [loadingPreds, setLoadingPreds] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  function copyInviteLink() {
+    navigator.clipboard.writeText("https://kollavm.se/tippa");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  }
 
   useEffect(() => {
     if (!user) return;
@@ -169,14 +176,27 @@ export default function TippaPage() {
           </div>
 
           {/* Bjud in vänner CTA */}
-          <div className="bg-[#f5c518]/10 border border-[#f5c518]/30 rounded-xl p-4 mb-8 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Share2 size={20} className="text-[#f5c518] shrink-0" />
-              <p className="text-sm text-gray-200"><span className="font-bold text-white">Bjud in en vän!</span> Skapa en liga, dela koden och tävla om vem som tippar bäst.</p>
+          <div className="bg-gradient-to-r from-[#f5c518]/15 to-[#f5c518]/5 border border-[#f5c518]/40 rounded-2xl p-6 mb-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#f5c518]/20 flex items-center justify-center shrink-0">
+                <Users size={24} className="text-[#f5c518]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-white font-black text-lg mb-1">Bjud in dina vänner och tävla!</h3>
+                <p className="text-gray-300 text-sm mb-4">Skicka länken till en kompis så kan de skapa konto och börja tippa. Skapa sedan en liga och tävla om vem som tippar bäst under VM 2026.</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={copyInviteLink}
+                    className={`inline-flex items-center gap-2 font-bold px-5 py-2.5 rounded-full text-sm transition-all ${copied ? "bg-green-500 text-white" : "bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628]"}`}
+                  >
+                    {copied ? <><Check size={16} /> Länk kopierad!</> : <><Copy size={16} /> Kopiera inbjudningslänk</>}
+                  </button>
+                  <Link href="/tippa/ligor" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-full text-sm transition-colors">
+                    <Trophy size={14} /> Skapa liga
+                  </Link>
+                </div>
+              </div>
             </div>
-            <Link href="/tippa/ligor" className="shrink-0 bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-bold px-5 py-2 rounded-full text-sm transition-colors">
-              Skapa liga
-            </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
