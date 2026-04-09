@@ -16,6 +16,7 @@ export interface Article {
   excerpt: string;
   date: string;
   category: "Hemma-tips" | "VM-guide" | "Produkttips" | "Affiliate";
+  categoryKey?: string;
   content: string;
   heroImage: string;
 }
@@ -144,128 +145,306 @@ export const restaurants: Restaurant[] = [
 export const articles: Article[] = [
   {
     id: "1",
-    slug: "perfekta-vm-hornan-hemma",
-    title: "Så skapar du den perfekta VM-hörnan hemma",
-    excerpt: "Förvandla ditt vardagsrum till en riktig VM-arena med dessa enkla tips och smarta produktval.",
-    date: "2026-03-15",
-    category: "Hemma-tips",
-    heroImage: "https://images.unsplash.com/photo-1593359677879-a4bb92f4834a?w=1200&q=80",
+    slug: "basta-utemobler-vm-2026",
+    title: "Bästa utemöblerna för VM 2026 – loungegrupper & paviljonger",
+    excerpt: "VM 2026 spelas mitt i sommaren. Här är de bästa utemöblerna och paviljongerna för att se fotbolls-VM utomhus med vänner och familj.",
+    date: "2026-04-01",
+    category: "Produkttips",
+    categoryKey: "utemobler",
+    heroImage: "",
     content: `
-# Så skapar du den perfekta VM-hörnan hemma
+## Varför utemöbler är ett måste inför fotbolls-VM 2026
 
-VM 2026 är äntligen här och det är dags att tänka igenom hur du skapar den ultimata tittar-upplevelsen hemma. Med rätt utrustning och lite planering kan ditt vardagsrum förvandlas till en riktig VM-arena.
+Fotbolls-VM 2026 spelas mellan 11 juni och 19 juli – mitt i den svenska sommaren. Det betyder att du kan se matcherna utomhus på uteplatsen, balkongen eller i trädgården. Men för att verkligen njuta av VM-kvällarna behöver du bekväma sittplatser och ett bra väderskydd.
 
-## Välj rätt TV-placering
+Oavsett om du planerar att se VM hemma själv eller bjuda hem vänner för att kolla matcherna tillsammans, gör rätt utemöbler hela skillnaden. Här går vi igenom de bästa alternativen.
 
-Det första steget är att se till att din TV sitter på rätt plats och höjd. Ett TV-ställ på hjul är perfekt eftersom du kan flytta TV:n beroende på hur många ni är och hur ni vill sitta.
+## Loungegrupper – bekvämt för långa matchkvällar
 
-**Tips:** Sikta på att skärmens mitt ska vara i ögonhöjd när du sitter ner – ungefär 100–110 cm från golvet.
+En loungegrupp är det bästa valet om du vill sitta bekvämt under hela matchen utan att behöva flytta på dig. Med en soffa och stolar ute kan ni vara flera som kollar VM tillsammans utan att trängas.
 
-## Skapa rätt belysning
+### vidaXL Loungegrupp i konstrotting med dynor
 
-Belysningen spelar stor roll för tittarupplevelsen. Undvik direkt ljus mot skärmen och använd gärna bakgrundsbelysning bakom TV:n för att minska ögontröttheten vid långa matchkvällar.
+Denna kompletta loungegrupp i konstrotting levereras med bekväma dynor och tål svenskt sommarväder. Konstrotting är praktiskt eftersom det inte behöver underhållas och torkar snabbt efter regn. Perfekt om du ska ha VM-fest på uteplatsen.
 
-## Organisera sittplatser
+### CASA PRO Balkongmöbler – modulärt soffelement
 
-Se till att alla kan se skärmen bra. Flytta möbler, hämta extra stolar eller lägg ut sittkuddar på golvet. En loungegrupp utomhus fungerar utmärkt för sommarkvällarnas matcher.
+Bor du i lägenhet och har begränsat med utrymme? Det modulära soffelementet från CASA PRO passar perfekt på balkongen. Du kan bygga ut efter behov och kombinera flera element om du har fler gäster.
 
-## Dryck och mat
+### Gecheer Trädgårdsoffa sittuppsättning
 
-Investera i en bra kylbox eller öltapp för att slippa gå in och ut ur köket under pågående match. En bardisk ute på uteplatsen är det ultimata tillskottet.
+En komplett sittuppsättning med soffa och stolar som passar bra i trädgården. Stabil konstruktion och tillräckligt med plats för att samla gänget framför utomhus-TV:n under VM.
 
-## Ljud
+## Paviljonger – se VM oavsett väder
 
-En bra utomhushögtalare eller soundbar gör stor skillnad. Du vill höra varje jubel och kommentatorns röst kristallklart.
+Sommaren 2026 kan bjuda på både sol och regn. En paviljong ger dig skugga på soliga dagar och skydd om det börjar regna mitt under en spännande match. Det är den bästa investeringen du kan göra om du planerar att titta på fotbolls-VM utomhus.
 
-Med dessa tips på plats är du redo att ta emot gäster och njuta av VM 2026 till fullo!
+### VOUNOT Trädgårdspaviljong – hopfällbart med sandsäckar
+
+Enkel att sätta upp och ta ner, levereras med sandsäckar för säker förankring. Perfekt om du vill ha ett tillfälligt väderskydd under VM-sommaren utan att det behöver stå uppe permanent.
+
+### Trädgårdspaviljong Deluxe med polykarbonattak
+
+Om du vill ha en mer permanent lösning är denna paviljong med polykarbonattak utmärkt. Avtagbara sidor ger flexibilitet – öppet på fina dagar, skyddat när det blåser.
+
+### COSTWAY Trädgårdspaviljong – vinterbeständig
+
+En kraftig paviljong som tål alla väder. Köper du denna inför VM har du nytta av den året runt. Levereras med sandsäckar.
+
+### Paviljong i aluminium & polykarbonat – champagnefärgad
+
+Det mest exklusiva alternativet med aluminiumram och polykarbonattak. Elegant design som dessutom är extremt robust. Passar dig som vill ha en paviljong som håller i många år.
+
+## Tips: Kombinera utemöbler med rätt tillbehör
+
+För den ultimata VM-upplevelsen utomhus behöver du mer än bara sittplatser. Kolla in våra guider om de bästa dryckeskylarna och öltapparna för att hålla dryckerna iskalla, och missa inte vår artikel om TV-stativ och projektorer så att du har en bra bild utomhus. Vill du skapa riktigt VM-stämning? Läs vår guide om dekorationer och supporterprylar.
+
+Har du inte plats hemma? Kolla in våra restaurangtips för att hitta bästa stället att se matchen på.
     `,
   },
   {
     id: "2",
-    slug: "basta-oltapparna-2026",
-    title: "Bästa öltapparna 2026 – vår guide",
-    excerpt: "Vi har testat och jämfört de populäraste öltapparna på marknaden. Här är våra toppval inför VM.",
-    date: "2026-04-01",
+    slug: "basta-dryckeskylare-oltappar-vm-2026",
+    title: "Bästa dryckeskylarna & öltapparna inför VM 2026",
+    excerpt: "Håll dryckerna iskalla under hela VM-matchen. Vi har samlat de bästa öltapparna, dryckeskylarna, ismaskinerna och ölglasen för VM 2026.",
+    date: "2026-04-03",
     category: "Produkttips",
-    heroImage: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80",
+    categoryKey: "dryck",
+    heroImage: "",
     content: `
-# Bästa öltapparna 2026 – vår guide
+## Kalla drycker under hela matchen – så fixar du det
 
-En bra öltapp hemma är det perfekta sättet att ta VM-känslan till nästa nivå. Vi har testat de mest populära modellerna på marknaden och här delar vi med oss av våra favoriter.
+Det finns få saker som förstör en VM-kväll lika effektivt som ljummen öl. När fotbolls-VM 2026 drar igång i juni vill du vara förberedd med rätt utrustning för att hålla dryckerna iskalla – oavsett om du kollar matchen inomhus eller utomhus.
 
-## Vad ska man tänka på?
+Här har vi samlat de bästa öltapparna, dryckeskylarna, ismaskinerna och ölglasen så att du kan fokusera på det viktiga: matchen.
 
-Innan du köper en öltapp bör du tänka på:
+## Öldispenser och öltappar – tappa öl som ett proffs
 
-- **Kapacitet** – Hur många liter ryms i tanken?
-- **Kylning** – Håller den ölet kallt länge nog?
-- **Kompatibilitet** – Vilka fat/burkar passar?
-- **Enkel att rengöra** – Viktigt för hygien och smak
+En öltapp hemma tar VM-känslan till en helt ny nivå. Istället för att plocka burkar ur kylen kan du tappa upp en perfekt öl med skum och allt – precis som på puben.
 
-## Våra toppval
+### Mad Monkey Öldispenser – svart
 
-### 1. BeerTender Home (Heineken)
-Den klassiska hemöltappen. Enkel att använda, passar 5-liters fat och håller ölet vid perfekt 2°C.
+En snygg och prisvärd öldispenser som fungerar bra till hemmabruk. Enkel att använda och ser snygg ut på bordet eller bardisken.
 
-**Betyg: 4.5/5**
+### Öldispenser i tornutförande, 3 liter
 
-### 2. DraughtMaster (Carlsberg)
-Premium-alternativet med imponerande design. Fungerar med Carlsbergs egna PerfectDraft-fat.
+Klassisk tornmodell med 3 liters kapacitet. Perfekt som mittpunkt på bordet under VM-kvällen – fyll på och låt gästerna tappa själva.
 
-**Betyg: 4/5**
+### Dryckesdispenser i rostfritt stål – dubbla kranar
 
-### 3. Krups The Sub
-Kompakt och snygg design. Passar utmärkt i mindre kök eller på balkong. Använder Heinekens Sub Torps.
+Dubbla kranar i rostfritt stål gör att du kan servera två sorters öl samtidigt. Ett utmärkt val om ni är många som tittar på VM tillsammans.
 
-**Betyg: 4/5**
+### Krups VB700800 BeerTender Öltappmaskin
 
-## Sammanfattning
+Det mest avancerade alternativet. Krups BeerTender håller ölet under rätt tryck och temperatur automatiskt. Passar Heineken-fat och ger en pubkänsla varje gång du tappar.
 
-För de flesta hemma-firanden rekommenderar vi BeerTender som bästa kombination av pris och prestanda. Vill du imponera på gästerna är DraughtMaster det självklara valet.
+## Dryckeskylar och minikylskåp – håll allt kallt
 
-*Som affiliate-partner kan vi tjäna provision på köp via våra länkar.*
+Om du kollar VM utomhus eller vill ha en extra kylmöjlighet nära soffan är en dryckeskyl ovärderlig.
+
+### Enventor Minikylskåp med kyl- och värmefunktion
+
+Kompakt och bärbar – perfekt att ha på balkongen eller bredvid soffan under matchkvällen. Både kyler och värmer.
+
+### EUHOMY Dryckeskyl med rostfria hyllor
+
+En stilren dryckeskyl med plats för flaskor och burkar. Tyst gång gör att du inte missar kommentatorns analys.
+
+### Coca-Cola Retro Flaskkylskåp
+
+Ikonisk design som blir en samtalsämne i sig. Funktionell och festlig – perfekt för VM-hörnan hemma.
+
+### XXL Uppblåsbar Dryckeskylare – dekorativ ishink
+
+Budget-alternativet som kombinerar kylning med dekoration. Fyll med is och dryck – enkelt och effektivt under en utomhus-match.
+
+### Dryckeskylare med iskubshållare
+
+Praktisk bordsmodell som håller ditt glas kallt under hela matchen med hjälp av iskuber.
+
+## Ismaskiner – aldrig slut på is
+
+Under varma VM-kvällar i juni och juli går isen åt snabbt. En ismaskin hemma ser till att du aldrig behöver springa till affären mitt under matchen.
+
+### EUHOMY Isbitsmaskin – självrengorande
+
+Snabb och enkel med självrengorande funktion. Producerar isbitar i kubform och har bekvämt handtag för enkel förflyttning.
+
+### Cecotec Ismaskin med valbara isbitsstorlekar
+
+Hög kapacitet och möjlighet att välja storlek på isbitarna via kontrollpanelen. Bra om ni är ett stort gäng under VM.
+
+## Ölglas – servera med stil
+
+Rätt ölglas gör faktiskt skillnad för smakupplevelsen. Och det ser betydligt trevligare ut än att dricka ur burken.
+
+### KROSNO Lager Ölglas – set om 6, 400 ml
+
+Eleganta glas i blyfritt kristall som passar perfekt för lager och pilsner. 6-pack så att alla gästerna får varsitt.
+
+### KROSNO Craft Beer-glas – set om 6, 500 ml
+
+Större 500 ml-glas för dig som föredrar craft beer eller IPA. Tål maskindisk och lyfter ölupplevelsen.
+
+## Skapa den kompletta VM-upplevelsen
+
+Med rätt dryckeshantering på plats behöver du bara komplettera med bekväma utemöbler för sittplatser, en bra TV eller projektor för bilden, och lite dekorationer och supporterprylar för stämningen. Kolla även in vårt matchschema så du inte missar någon match.
+
+Föredrar du att se matchen på pub? Kolla våra restaurangtips för de bästa VM-krogarna i Sverige.
     `,
   },
   {
     id: "3",
-    slug: "titta-pa-vm-utomhus",
-    title: "Titta på VM utomhus – 5 saker du behöver",
-    excerpt: "VM spelas under sommaren – passa på att ordna en utomhusvisning! Här är allt du behöver för en lyckad kväll.",
-    date: "2026-04-10",
-    category: "Hemma-tips",
-    heroImage: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=1200&q=80",
+    slug: "basta-tv-projektor-vm-2026",
+    title: "Bästa TV och TV-stativ för att se VM 2026 hemma",
+    excerpt: "Rätt TV och placering gör hela skillnaden för VM-upplevelsen. Här är de bästa TV-apparaterna och TV-stativen inför fotbolls-VM 2026.",
+    date: "2026-04-05",
+    category: "Produkttips",
+    categoryKey: "elektronik",
+    heroImage: "",
     content: `
-# Titta på VM utomhus – 5 saker du behöver
+## Se fotbolls-VM 2026 med bästa möjliga bild
 
-VM 2026 äger rum under sommaren vilket gör det perfekt att ordna utomhusvisningar. Med rätt utrustning kan du skapa en fantastisk upplevelse i trädgården eller på uteplatsen.
+Bilden är kärnan i VM-upplevelsen. Oavsett om du kollar matchen i vardagsrummet eller utomhus på uteplatsen vill du ha en skarp, stor bild som gör att du ser varje detalj på planen. Här går vi igenom de bästa TV-apparaterna och TV-stativen inför VM 2026.
 
-## 1. Portabel projektor eller utomhus-TV
+## TV-apparater – välj rätt storlek och kvalitet
 
-Det finns nu bra portabla projektorer som klarar dagsljus och kan strömma direkt via WiFi. Alternativt kan du välja en vädertålig utomhus-TV.
+En bra TV gör enorm skillnad, särskilt för sport. Snabb bilduppdatering, hög upplösning och bra färger gör att du ser bollen tydligt även i snabba situationer.
 
-**Tips:** Placera skärmen i skugga för bästa bild.
+### Samsung QLED TV med AI-processor
 
-## 2. Loungegrupp eller sittmöbler
+Samsung QLED med AI-bildprocessor anpassar bilden automatiskt beroende på vad du tittar på. Under fotbollsmatcher innebär det skarpare gräsmatta, tydligare spelare och bättre kontrast. Integrerat Q-Symphony-ljud ger dessutom bättre ljud utan extra högtalare.
 
-Bekväma sittplatser är A och O. En loungegrupp med tillräckligt många platser gör att alla kan sitta bekvämt och se matchen utan att klia sig i nacken.
+### Samsung QN85D 55" 4K Smart TV
 
-## 3. Kylbox eller öltapp
+55 tum i 4K-upplösning med Neo Quantum-processor ger kristallklar bild. Perfekt storlek för de flesta vardagsrum och stor nog för att bjuda hem vänner och se VM tillsammans.
 
-Håll dryckerna kalla utan att behöva springa in hela tiden. En stor kylbox med hjul eller en portabel öltapp är perfekt för utomhusbruk.
+## TV-stativ – flexibilitet är nyckeln under VM
 
-## 4. Utomhushögtalare
+Under VM vill du kanske flytta TV:n ut på altanen en solig kväll, eller ställa den i ett annat rum när det är många gäster. Ett mobilt TV-stativ på hjul löser detta smidigt.
 
-Bra ljud utomhus kräver en kraftfull högtalare. Välj en vattentålig modell som tål sommardaggen.
+### ONKRON Mobilt TV-stativ på hjul
 
-## 5. Belysning och dekorationer
+Det mest populära valet – rulla TV:n vart du vill. Stabilt, enkelt att montera och passar de flesta TV-storlekar. Perfekt för att flytta ut TV:n på uteplatsen under VM-sommarens kvällsmatcher.
 
-Skapa stämning med solljuslyktor, VM-flaggor och färgglada dekorationer. Det bidrar till VM-känslan och skapar en festlig atmosfär.
+### AOKCOS TV-stativ – roterbart och lutningsbart
 
-## Bonus: Ha en plan B
+Kompakt bordsstativ som du kan rotera och luta för optimal tittarvinkel. Bra alternativ om du inte vill ha ett golvstativ men ändå vill kunna justera vinkeln beroende på var du sitter.
 
-Sverige är Sverige – ha alltid ett regnskydd redo om vädret sviker. Ett enkelt partytält löser mycket!
+### ONKRON Mobilt TV-stativ VESA 200x200–1000x600
 
-Med dessa fem saker på plats är du fullt rustad för att arrangera årets VM-fest!
+Stabilt golvstativ med brett VESA-stöd som passar de flesta TV-modeller. Låsbara hjul gör att stativet står stadigt när du väl hittat rätt plats.
+
+### BONTEC Höjdjusterbart TV-stativ, 23–60 tum
+
+Budget-alternativet med höjdjustering. Passar TV-skärmar från 23 till 60 tum och är enkelt att montera. Bra val om du vill ha ett stativ utan att investera för mycket.
+
+## Tips för bästa bildupplevelse under VM
+
+- Placera TV:n så att skärmens mitt är i ögonhöjd när du sitter – ungefär 100–110 cm från golvet
+- Undvik direkt solljus på skärmen, särskilt utomhus – använd en paviljong som skydd
+- Välj sportläge på TV:n för snabbare bilduppdatering och bättre kontrast
+- Komplettera med en soundbar för kristallklart matchljud
+
+## Komplettera VM-upplevelsen
+
+Med rätt bild på plats behöver du bara fixa resten. Kolla in vår guide om utemöbler och paviljonger för bekväma sittplatser, dryckeskylar och öltappar för kalla drycker, och dekorationer och supporterprylar för den rätta VM-stämningen.
+
+Missa inte vårt matchschema för alla tider och resultat. Och om du vill göra VM extra spännande – tippa matcherna och tävla mot dina vänner!
+    `,
+  },
+  {
+    id: "4",
+    slug: "basta-soundbar-ljud-vm-2026",
+    title: "Bästa soundbaren för fotbolls-VM 2026 – förbättra matchljudet",
+    excerpt: "Bra ljud gör VM-upplevelsen komplett. Här är vår rekommendation för den bästa soundbaren att se fotbolls-VM 2026 med hemma.",
+    date: "2026-04-07",
+    category: "Produkttips",
+    categoryKey: "ljud",
+    heroImage: "",
+    content: `
+## Varför en soundbar gör VM-upplevelsen så mycket bättre
+
+Bilden får ofta mest uppmärksamhet, men ljudet är minst lika viktigt när du kollar fotbolls-VM. Att höra publikens jubel, kommentatorernas analyser och domslut kristallklart gör att du känner dig närmare matchen. De flesta TV-apparater har tyvärr ganska tunt inbyggt ljud – en soundbar löser det direkt.
+
+## Vår rekommendation
+
+### Philips TAB5109 Soundbar 2.0
+
+En smal och stilren soundbar från Philips med kraftfullt 2.0-ljud. Enkel anslutning via HDMI eller optisk kabel gör att du är igång på minuter. Ljudet lyfter både dialog och surroundkänsla markant jämfört med TV:ns inbyggda högtalare.
+
+Soundbaren passar perfekt under eller framför TV:n utan att ta för mycket plats. Vill du flytta ut TV:n på uteplatsen med ett mobilt TV-stativ kan soundbaren enkelt följa med.
+
+## Tips för bästa ljud under VM
+
+- Placera soundbaren framför dig, riktad mot sittplatsen – inte åt sidan
+- Om du kollar VM utomhus, placera soundbaren nära och höj volymen – ljudet försvinner snabbare utomhus
+- Välj sportläge om din soundbar har det – det förstärker kommentatorsröster och publikljud
+- Stäng av fönster om du kollar inomhus för att slippa eko och störande ljud
+
+## Kombinera med rätt bild
+
+En soundbar ger mest effekt tillsammans med en bra TV. Kolla vår guide om TV och TV-stativ för att hitta rätt skärm. Komplettera med bekväma utemöbler om du kollar ute, kalla drycker från våra bästa dryckeskylar och öltappar, och lite VM-dekorationer för den perfekta stämningen.
+
+Se alla matcher i vårt matchschema och gör VM ännu roligare genom att tippa resultaten mot dina vänner.
+    `,
+  },
+  {
+    id: "5",
+    slug: "basta-vm-dekorationer-supporterprylar-2026",
+    title: "VM-dekorationer & supporterprylar 2026 – skapa matchstämning",
+    excerpt: "Skapa den perfekta VM-stämningen hemma med ljusslingor, Sverige-tröjor, kepsar och belysning. Här är de bästa supporterprylarna inför fotbolls-VM 2026.",
+    date: "2026-04-09",
+    category: "Produkttips",
+    categoryKey: "dekorationer",
+    heroImage: "",
+    content: `
+## Skapa äkta VM-känsla hemma med rätt dekorationer
+
+Det behövs inte mycket för att förvandla vardagsrummet eller uteplatsen till en riktig VM-arena. Med rätt belysning, flaggor och supporterprylar skapar du en stämning som gör varje match till en upplevelse – oavsett om Sverige spelar eller inte.
+
+Här har vi samlat de bästa dekorationerna och supporterprylarna inför fotbolls-VM 2026.
+
+## Utomhusbelysning – stämning för kvällsmatcher
+
+VM-matcherna i juni och juli spelas ofta på kvällen svensk tid. Rätt belysning utomhus skapar en mysig och festlig atmosfär för kvällsmatcherna.
+
+### G40 Utomhusljusslinga – vattentät och utbyggbar
+
+En varm utomhusljusslinga med G40-glödlampor som tål väder och vind. Häng över uteplatsen eller runt paviljongen för en härlig känsla under kvällsmatcherna. Den är utbyggbar så du kan koppla ihop flera slingor.
+
+### Trädgårdsbelysningssats – varmvitt och vattentätt
+
+En komplett belysningssats med eleganta armaturer i varmvitt ljus. IP-klassad och vattentålig, så den tål svensk sommar utan problem. Placera längs gången eller runt sittplatsen.
+
+## Supporterkläder – visa ditt stöd för Sverige
+
+VM utan supportertröja? Det funkar inte. Klä dig rätt och visa stöd för det svenska landslaget.
+
+### Sverige Fotbollströja – supportertröja
+
+En klassisk supportertröja i Sverige-design tillverkad i andningsbart polyestermaterial. Perfekt att ha på sig under matcherna – både hemma i soffan och på restaurangen.
+
+### OM3 Sverige Fotbollsfanshirt
+
+En snygg Sverige-fanshirt i fotbollsdesign. Lite mer casual stil som funkar både under matchen och efter.
+
+### Broderad Sverige-keps
+
+En broderad keps med Sverige-emblem som sitter bra och skyddar mot solen under utomhusmatcherna. Finns som klassisk baseballkeps och truckerkeps.
+
+## Tips för bästa VM-stämningen hemma
+
+- Häng upp flaggor från alla deltagande länder för en internationell känsla
+- Använd ljusslingor runt TV-hörnan eller uteplatsen för stämningsbelysning
+- Ställ fram snacks och dryck i VM-tema – flaggpinnar i maten gör mycket
+- Spela VM-hymnen eller klassiska fotbollslåtar innan matchen startar
+
+## Komplettera med rätt utrustning
+
+Dekorationerna sätter stämningen, men för den kompletta VM-upplevelsen behöver du också bekväma utemöbler, en bra TV med rätt stativ, en soundbar för matchljudet, och kalla drycker med våra dryckeskylar och öltappar.
+
+Missa inte heller att kolla in vårt matchschema för alla VM-matcher, och tippa resultaten mot dina vänner för att göra varje match lite extra spännande.
     `,
   },
 ];

@@ -3,6 +3,55 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Tag, Share2, Globe, Link as LinkIcon, ExternalLink } from "lucide-react";
 
+const internalLinks: { pattern: RegExp; href: string }[] = [
+  { pattern: /utemöbler och paviljonger|utemöbler för sittplatser|bekväma utemöbler|utemöbler/gi, href: "/artiklar/basta-utemobler-vm-2026" },
+  { pattern: /dryckeskylar(?:na)? och öltappar(?:na)?|dryckeskylar(?:na)?|kalla drycker/gi, href: "/artiklar/basta-dryckeskylare-oltappar-vm-2026" },
+  { pattern: /TV och TV-stativ|TV-stativ och projektorer|TV med rätt stativ|bra TV/gi, href: "/artiklar/basta-tv-projektor-vm-2026" },
+  { pattern: /soundbar för (?:kristallklart )?matchljudet|soundbar/gi, href: "/artiklar/basta-soundbar-ljud-vm-2026" },
+  { pattern: /dekorationer och supporterprylar|VM-dekorationer|dekorationer/gi, href: "/artiklar/basta-vm-dekorationer-supporterprylar-2026" },
+  { pattern: /matchschema(?:t)?/gi, href: "/matcher" },
+  { pattern: /restaurangtips/gi, href: "/restauranger" },
+  { pattern: /tippa (?:matcherna|resultaten)/gi, href: "/tippa" },
+];
+
+function renderTextWithLinks(text: string): React.ReactNode {
+  const parts: React.ReactNode[] = [];
+  let remaining = text;
+  let key = 0;
+
+  while (remaining.length > 0) {
+    let earliest: { index: number; length: number; href: string } | null = null;
+
+    for (const link of internalLinks) {
+      link.pattern.lastIndex = 0;
+      const match = link.pattern.exec(remaining);
+      if (match && (!earliest || match.index < earliest.index)) {
+        earliest = { index: match.index, length: match[0].length, href: link.href };
+      }
+    }
+
+    if (!earliest) {
+      parts.push(remaining);
+      break;
+    }
+
+    if (earliest.index > 0) {
+      parts.push(remaining.slice(0, earliest.index));
+    }
+
+    const matchedText = remaining.slice(earliest.index, earliest.index + earliest.length);
+    parts.push(
+      <Link key={key++} href={earliest.href} className="text-[#f5c518] hover:underline font-medium">
+        {matchedText}
+      </Link>
+    );
+
+    remaining = remaining.slice(earliest.index + earliest.length);
+  }
+
+  return parts;
+}
+
 const categoryColors: Record<string, string> = {
   "Hemma-tips": "bg-blue-500/20 text-blue-300",
   "VM-guide": "bg-green-500/20 text-green-300",
@@ -19,8 +68,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const article = articles.find((a) => a.slug === slug);
   if (!article) notFound();
 
-  const related = articles.filter((a) => a.id !== article.id).slice(0, 2);
-  const featuredProducts = products.slice(0, 3);
+  const related = articles.filter((a) => a.id !== article.id);
+  const featuredProducts = article.categoryKey
+    ? products.filter((p) => p.categoryKey === article.categoryKey)
+    : products.slice(0, 3);
 
   const paragraphs = article.content
     .trim()
@@ -53,8 +104,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               if (para.startsWith("## ")) return <h2 key={i} className="text-2xl font-bold text-white mt-8 mb-3">{para.slice(3)}</h2>;
               if (para.startsWith("### ")) return <h3 key={i} className="text-xl font-bold text-[#f5c518] mt-6 mb-2">{para.slice(4)}</h3>;
               if (para.startsWith("**") && para.endsWith("**")) return <p key={i} className="font-bold text-white my-2">{para.slice(2, -2)}</p>;
-              if (para.startsWith("- ")) return <li key={i} className="text-gray-300 ml-4 list-disc my-1">{para.slice(2)}</li>;
-              return <p key={i} className="text-gray-300 leading-relaxed my-3">{para}</p>;
+              if (para.startsWith("- ")) return <li key={i} className="text-gray-300 ml-4 list-disc my-1">{renderTextWithLinks(para.slice(2))}</li>;
+              return <p key={i} className="text-gray-300 leading-relaxed my-3">{renderTextWithLinks(para)}</p>;
             })}
           </div>
 
