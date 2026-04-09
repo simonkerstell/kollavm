@@ -17,10 +17,18 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
     setLoading(true);
 
     if (mode === "register") {
+      // Check if username is taken
+      const { data: taken } = await supabase.rpc("is_username_taken", { username: name.trim() });
+      if (taken) {
+        setError("Användarnamnet är redan taget, välj ett annat.");
+        setLoading(false);
+        return;
+      }
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name } },
+        options: { data: { name: name.trim() } },
       });
       if (error) {
         setError(error.message);
