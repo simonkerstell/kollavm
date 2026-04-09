@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Share2, Globe, Camera } from "lucide-react";
+import { Share2, Globe, Camera, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -24,8 +24,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-white mb-3">Följ oss</h3>
-            <div className="flex gap-4">
+            <h3 className="font-semibold text-white mb-3">Kontakt</h3>
+            <a href="mailto:kollavm@gmail.com" className="flex items-center gap-2 text-gray-400 hover:text-[#f5c518] transition-colors text-sm">
+              <Mail size={16} /> kollavm@gmail.com
+            </a>
+            <div className="flex gap-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Share2 size={20} /></a>
               <a href="#" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Globe size={20} /></a>
               <a href="#" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Camera size={20} /></a>
