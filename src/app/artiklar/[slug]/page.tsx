@@ -12,6 +12,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${article.title} – KollaVM`,
     description: article.excerpt,
+    alternates: {
+      canonical: `https://kollavm.se/artiklar/${article.slug}`,
+    },
     openGraph: {
       title: article.title,
       description: article.excerpt,
@@ -103,8 +106,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     .split("\n")
     .filter((line) => line.trim() !== "");
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    datePublished: article.date,
+    dateModified: article.date,
+    author: { "@type": "Organization", name: "KollaVM", url: "https://kollavm.se" },
+    publisher: { "@type": "Organization", name: "KollaVM", url: "https://kollavm.se" },
+    mainEntityOfPage: `https://kollavm.se/artiklar/${article.slug}`,
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <Breadcrumbs crumbs={[{ label: "VM-guide", href: "/vm-guide" }, { label: "Artiklar", href: "/artiklar" }, { label: article.title }]} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Main */}

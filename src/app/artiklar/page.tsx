@@ -7,6 +7,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 export const metadata: Metadata = {
   title: "VM-guide & tips – KollaVM",
   description: "Läs guider, tips och produktrecensioner inför fotbolls-VM 2026. Allt du behöver veta för den perfekta VM-upplevelsen.",
+  alternates: { canonical: "https://kollavm.se/artiklar" },
   openGraph: {
     title: "VM-guide & tips – KollaVM",
     description: "Läs guider, tips och produktrecensioner inför fotbolls-VM 2026.",

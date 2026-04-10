@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://kollavm.se/hemma" },
   title: "Kolla VM hemma – produkter för VM-känslan – KollaVM",
   description: "Hitta utemöbler, dryckeskylar, TV-stativ, ljud och dekorationer för att skapa den perfekta VM-upplevelsen hemma under fotbolls-VM 2026.",
   openGraph: {

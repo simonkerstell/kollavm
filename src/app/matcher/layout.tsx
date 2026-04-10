@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://kollavm.se/matcher" },
   title: "Matchschema VM 2026 – alla matcher & tider – KollaVM",
   description: "Komplett matchschema för fotbolls-VM 2026 med datum, avsparkstider i svensk tid, TV-kanaler och arenor. Alla 104 matcher.",
   openGraph: {

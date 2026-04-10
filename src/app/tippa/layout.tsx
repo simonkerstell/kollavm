@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://kollavm.se/tippa" },
   title: "Tippa VM 2026 – tävla mot vänner – KollaVM",
   description: "Tippa matchresultat, gruppspel och slutspel i fotbolls-VM 2026. Skapa ligor och tävla mot dina vänner om vem som tippar bäst.",
   openGraph: {

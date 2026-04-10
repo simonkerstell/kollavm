@@ -6,6 +6,7 @@ import { Calendar, MapPin, BookOpen, Trophy } from "lucide-react";
 export const metadata: Metadata = {
   title: "KollaVM – Din guide till fotbolls-VM 2026",
   description: "Håll koll på alla VM-matcher 2026, tippa resultat, hitta restaurangtips och produkter för den perfekta VM-känslan hemma eller på stan.",
+  alternates: { canonical: "https://kollavm.se" },
   openGraph: {
     title: "KollaVM – Din guide till fotbolls-VM 2026",
     description: "Håll koll på alla VM-matcher 2026, tippa resultat, hitta restaurangtips och produkter för den perfekta VM-känslan hemma eller på stan.",

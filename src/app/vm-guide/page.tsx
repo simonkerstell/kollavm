@@ -4,6 +4,7 @@ import { BookOpen, Home, HelpCircle, Brain } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://kollavm.se/vm-guide" },
   title: "VM-guide 2026 – Allt du behöver veta",
   description: "Din kompletta guide till fotbolls-VM 2026. Artiklar, produkttips, restaurangtips, FAQ och allt för den perfekta VM-upplevelsen.",
   openGraph: {

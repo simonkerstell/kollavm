@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://kollavm.se/quiz" },
   title: "VM-quiz – Testa dina kunskaper om fotbolls-VM",
   description: "Hur mycket kan du om fotbolls-VM? Testa med 10 slumpmässiga frågor om VM-historia, VM 2026 och svensk fotboll. Få 10/10 och lås upp utmärkelsen VM-experten!",
   openGraph: {

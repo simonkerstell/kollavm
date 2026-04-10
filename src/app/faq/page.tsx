@@ -3,6 +3,7 @@ import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "https://kollavm.se/faq" },
   title: "Vanliga frågor om fotbolls-VM 2026 – FAQ",
   description: "Svar på vanliga frågor om fotbolls-VM 2026. När börjar VM? Var spelas det? Vilken kanal sänder? Hur fungerar tippningen? Allt du behöver veta.",
   openGraph: {
