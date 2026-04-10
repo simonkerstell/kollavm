@@ -396,8 +396,10 @@ export default function TippaPage() {
   const totalPossible = 72 + 12 + 31 + 2; // 117
   const progressPct = Math.round((totalTipped / totalPossible) * 100);
 
-  // Show onboarding if user has no tips at all
-  const isNewUser = totalTipped === 0;
+  // Show onboarding if user has no tips and VM is close (within 2 days of start)
+  const vmStart = new Date("2026-06-11");
+  const daysUntilVm = Math.ceil((vmStart.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  const isNewUser = totalTipped === 0 && daysUntilVm <= 2;
 
   if (isNewUser) {
     return (
