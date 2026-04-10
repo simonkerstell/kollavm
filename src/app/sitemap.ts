@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/restauranger`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${base}/artiklar`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/tippa`, priority: 0.7, changeFrequency: "daily" as const },
+    { url: `${base}/tippa-vm`, priority: 0.9, changeFrequency: "weekly" as const },
     { url: `${base}/vm-guide`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/drommelva`, priority: 0.7, changeFrequency: "monthly" as const },
     { url: `${base}/quiz`, priority: 0.7, changeFrequency: "monthly" as const },
