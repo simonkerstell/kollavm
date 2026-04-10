@@ -3,8 +3,8 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
-export default function AuthModal({ onClose }: { onClose: () => void }) {
-  const [mode, setMode] = useState<"login" | "register">("register");
+export default function AuthModal({ onClose, initialMode = "login" }: { onClose: () => void; initialMode?: "login" | "register" }) {
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

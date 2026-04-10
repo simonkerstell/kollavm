@@ -383,7 +383,7 @@ export default function TippaPage() {
         <button onClick={() => setShowAuth(true)} className="bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black px-8 py-3 rounded-full text-lg transition-colors">
           Skapa konto &amp; börja tippa
         </button>
-        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} initialMode="register" />}
       </div>
     );
   }

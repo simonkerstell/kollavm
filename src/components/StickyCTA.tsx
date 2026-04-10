@@ -47,7 +47,7 @@ export default function StickyCTA() {
           </div>
         </div>
       </div>
-      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} initialMode="register" />}
     </>
   );
 }

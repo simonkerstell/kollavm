@@ -113,7 +113,7 @@ export default function DrommelvaPage() {
             </div>
           </div>
         </div>
-        {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+        {showAuth && <AuthModal onClose={() => setShowAuth(false)} initialMode="register" />}
       </div>
     );
   }
