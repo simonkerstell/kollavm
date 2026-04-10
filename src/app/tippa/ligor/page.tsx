@@ -117,9 +117,44 @@ export default function LigorPage() {
         ) : (
           <div className="space-y-2">
             {members.length === 0 && <p className="text-gray-500 text-sm">Inga poäng ännu – matcherna har inte spelats.</p>}
+
+            {/* Podium for top 3 */}
+            {members.length >= 3 && (
+              <div className="flex items-end justify-center gap-3 mb-6 pt-4">
+                {/* Silver - 2nd place */}
+                <div className="flex flex-col items-center w-24">
+                  <Avatar config={avatars[members[1].userId]} size={48} />
+                  <p className="text-white font-semibold text-xs mt-1 truncate w-full text-center">{members[1].name}</p>
+                  <div className="w-full bg-gray-400/20 rounded-t-lg mt-2 h-16 flex flex-col items-center justify-center">
+                    <span className="text-2xl">🥈</span>
+                    <span className="text-gray-300 font-black text-sm">{members[1].totalPoints}p</span>
+                  </div>
+                </div>
+                {/* Gold - 1st place */}
+                <div className="flex flex-col items-center w-28">
+                  <Avatar config={avatars[members[0].userId]} size={56} />
+                  <p className="text-white font-bold text-sm mt-1 truncate w-full text-center">{members[0].name}</p>
+                  <div className="w-full bg-[#f5c518]/20 rounded-t-lg mt-2 h-24 flex flex-col items-center justify-center border border-[#f5c518]/30">
+                    <span className="text-3xl">🥇</span>
+                    <span className="text-[#f5c518] font-black text-lg">{members[0].totalPoints}p</span>
+                  </div>
+                </div>
+                {/* Bronze - 3rd place */}
+                <div className="flex flex-col items-center w-24">
+                  <Avatar config={avatars[members[2].userId]} size={48} />
+                  <p className="text-white font-semibold text-xs mt-1 truncate w-full text-center">{members[2].name}</p>
+                  <div className="w-full bg-amber-700/20 rounded-t-lg mt-2 h-12 flex flex-col items-center justify-center">
+                    <span className="text-2xl">🥉</span>
+                    <span className="text-amber-400 font-black text-sm">{members[2].totalPoints}p</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Full list */}
             {members.map((m, i) => (
               <div key={m.userId} className={`flex items-center gap-3 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
+                <span className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : i === 1 ? "bg-gray-400 text-[#0a1628]" : i === 2 ? "bg-amber-600 text-white" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
                 <Avatar config={avatars[m.userId]} size={32} />
                 <span className="flex-1 font-semibold text-white">{m.name}{m.userId === user.id && <span className="text-xs text-[#f5c518] ml-2">(du)</span>}</span>
                 <span className="font-black text-[#f5c518] text-lg">{m.totalPoints}p</span>
