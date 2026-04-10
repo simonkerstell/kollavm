@@ -12,7 +12,9 @@ export default function RestaurangerPage() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
-  const cities = ["Alla", ...Array.from(new Set(restaurants.map((r) => r.city)))];
+  const allCities = ["Stockholm", "Göteborg", "Malmö", "Uppsala", "Linköping", "Örebro", "Västerås", "Helsingborg", "Norrköping", "Jönköping", "Umeå", "Lund", "Karlstad", "Sundsvall", "Växjö"];
+  const citiesWithRestaurants = Array.from(new Set(restaurants.map((r) => r.city)));
+  const cities = ["Alla", ...Array.from(new Set([...citiesWithRestaurants, ...allCities]))];
   const filtered = cityFilter === "Alla" ? restaurants : restaurants.filter((r) => r.city === cityFilter);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -60,6 +62,13 @@ export default function RestaurangerPage() {
       </div>
 
       {/* Restaurant grid */}
+      {filtered.length === 0 && cityFilter !== "Alla" && (
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center mb-16">
+          <p className="text-3xl mb-3">🏟️</p>
+          <h3 className="text-white font-bold text-lg mb-2">Inga restaurangtips i {cityFilter} ännu</h3>
+          <p className="text-gray-400 text-sm mb-4">Vet du om ett bra ställe att se VM på i {cityFilter}? Tipsa oss nedan!</p>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
         {filtered.map((r) => (
           <div key={r.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-[#f5c518]/30 transition-all">
