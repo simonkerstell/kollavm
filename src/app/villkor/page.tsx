@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Användarvillkor & integritetspolicy – KollaVM",
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 export default function VillkorPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Breadcrumbs crumbs={[{ label: "Användarvillkor" }]} />
       <h1 className="text-4xl font-black text-white mb-2">
         Användarvillkor <span className="text-[#f5c518]">& integritetspolicy</span>
       </h1>

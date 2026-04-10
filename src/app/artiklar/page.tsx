@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { articles } from "@/data/mock-data";
 import Link from "next/link";
 import { Calendar, Tag } from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "VM-guide & tips – KollaVM",
@@ -26,6 +27,7 @@ const categoryColors: Record<string, string> = {
 export default function ArtikklarPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Breadcrumbs crumbs={[{ label: "VM-guide", href: "/vm-guide" }, { label: "Artiklar & tips" }]} />
       <div className="mb-10">
         <h1 className="text-4xl font-black text-white mb-2">
           VM-guide <span className="text-[#f5c518]">& tips</span>

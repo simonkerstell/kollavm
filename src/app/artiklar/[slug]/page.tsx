@@ -3,6 +3,7 @@ import { articles, products } from "@/data/mock-data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Calendar, Tag, Share2, Globe, Link as LinkIcon, ExternalLink } from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -104,6 +105,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Breadcrumbs crumbs={[{ label: "VM-guide", href: "/vm-guide" }, { label: "Artiklar", href: "/artiklar" }, { label: article.title }]} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Main */}
         <article className="lg:col-span-2">

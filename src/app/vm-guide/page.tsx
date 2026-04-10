@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { BookOpen, Home, HelpCircle, Brain } from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "VM-guide 2026 – Allt du behöver veta",
@@ -42,6 +43,7 @@ const sections = [
 export default function VmGuidePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <Breadcrumbs crumbs={[{ label: "VM-guide" }]} />
       <div className="mb-10">
         <h1 className="text-4xl font-black text-white mb-2">
           VM-guide <span className="text-[#f5c518]">2026</span>

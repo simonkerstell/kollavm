@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Vanliga frågor om fotbolls-VM 2026 – FAQ",
@@ -182,6 +183,7 @@ export default function FaqPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <Breadcrumbs crumbs={[{ label: "VM-guide", href: "/vm-guide" }, { label: "Vanliga frågor" }]} />
       <div className="mb-10">
         <h1 className="text-4xl font-black text-white mb-2">
           Vanliga frågor <span className="text-[#f5c518]">om VM 2026</span>
