@@ -563,36 +563,36 @@ Oavsett om du kollar matcherna tidigt eller sent – fixa en bra setup hemma med
 
 Sverige är tillbaka i fotbolls-VM och spelar i grupp F tillsammans med Nederländerna, Japan och Tunisien. Här är alla Sveriges gruppspelsmatcher med datum, tider och kanaler.
 
-## Match 1: Nederländerna – Sverige
+## Match 1: Sverige – Tunisien
 
-- **Datum:** 14 juni 2026
-- **Avspark:** 21:00 svensk tid
-- **Arena:** Lincoln Financial Field, Philadelphia
-- **Kanal:** TV4
-
-Sveriges första match i VM 2026 blir en tuff utmaning direkt – borta mot Nederländerna. En klassisk fotbollsmatch mellan två europeiska tungviktare. Matchen spelas i Philadelphia på USA:s östkust.
-
-## Match 2: Sverige – Tunisien
-
-- **Datum:** 19 juni 2026
-- **Avspark:** 00:00 svensk tid (natten mot den 19:e)
-- **Arena:** Levi's Stadium, San Francisco
+- **Datum:** 15 juni 2026
+- **Avspark:** 04:00 svensk tid
+- **Arena:** Estadio Akron, Guadalajara (Mexiko)
 - **Kanal:** SVT
 
-Sveriges andra match spelas sent svensk tid eftersom den spelas i San Francisco på västkusten. Tunisien är ett lag Sverige bör slå om de vill avancera från gruppen.
+Sveriges första match i VM 2026 spelas tidigt på morgonen svensk tid eftersom den äger rum i Mexiko. Tunisien är ett lag Sverige bör slå om de vill avancera från gruppen.
 
-## Match 3: Sverige – Japan
+## Match 2: Nederländerna – Sverige
 
-- **Datum:** 22 juni 2026
-- **Avspark:** 22:00 svensk tid
+- **Datum:** 20 juni 2026
+- **Avspark:** 19:00 svensk tid
+- **Arena:** AT&T Stadium, Dallas
+- **Kanal:** TV4
+
+Den stora matchen mot Nederländerna spelas på en bekväm tid svensk tid. En klassisk fotbollsmatch mellan två europeiska tungviktare i Dallas, Texas.
+
+## Match 3: Japan – Sverige
+
+- **Datum:** 26 juni 2026
+- **Avspark:** 01:00 svensk tid
 - **Arena:** Gillette Stadium, Boston
 - **Kanal:** SVT
 
-Sista gruppspelsmatchen mot Japan kan mycket väl bli avgörande för om Sverige går vidare eller inte. Japan har blivit ett riktigt starkt lag de senaste åren och det här blir en nyckelmatch.
+Sista gruppspelsmatchen mot Japan kan mycket väl bli avgörande för om Sverige går vidare eller inte. Japan har blivit ett riktigt starkt lag de senaste åren och det här blir en nyckelmatch. Matchen spelas sent på kvällen/natten svensk tid.
 
 ## Hur ser jag Sveriges matcher?
 
-Alla Sveriges matcher visas gratis på svensk fri-TV. Match 1 sänds på TV4, match 2 och 3 på SVT. Du kan också streama via TV4 Play och SVT Play. Läs mer i vår guide om vilka kanaler som sänder VM 2026.
+Alla Sveriges matcher visas gratis på svensk fri-TV. Match 1 och 3 sänds på SVT, match 2 på TV4. Du kan också streama via TV4 Play och SVT Play. Läs mer i vår guide om vilka kanaler som sänder VM 2026.
 
 ## Tips inför Sveriges matcher
 
@@ -645,12 +645,12 @@ I det nya formatet med 48 lag går de två bästa i varje grupp vidare direkt, p
 
 ## Matchschema för grupp F
 
-- 14 juni: Nederländerna – Sverige (TV4, 21:00)
-- 15 juni: Japan – Tunisien (SVT, 00:00)
-- 18 juni: Nederländerna – Japan (TV4, 21:00)
-- 19 juni: Sverige – Tunisien (SVT, 00:00)
-- 22 juni: Nederländerna – Tunisien (TV4, 22:00)
-- 22 juni: Sverige – Japan (SVT, 22:00)
+- 14 juni: Nederländerna – Japan (TV4, 22:00)
+- 15 juni: Sverige – Tunisien (SVT, 04:00)
+- 20 juni: Nederländerna – Sverige (TV4, 19:00)
+- 21 juni: Tunisien – Japan (SVT, 06:00)
+- 26 juni: Japan – Sverige (SVT, 01:00)
+- 26 juni: Tunisien – Nederländerna (SVT, 01:00)
 
 Se alla matcher i vårt matchschema och tippa resultaten mot dina vänner. Läs även vår guide om när Sveriges matcher spelas för mer detaljer om varje match.
 
