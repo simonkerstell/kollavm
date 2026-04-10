@@ -54,7 +54,7 @@ const faqs = [
       },
       {
         q: "När spelar Sverige i VM 2026?",
-        a: "Sveriges gruppspelsmatcher:\n• 14 juni: Nederländerna – Sverige (21:00, TV4)\n• 19 juni: Sverige – Tunisien (00:00, SVT)\n• 22 juni: Sverige – Japan (22:00, SVT)",
+        a: "Sveriges gruppspelsmatcher:\n• 15 juni: Sverige – Tunisien (04:00, SVT)\n• 20 juni: Nederländerna – Sverige (19:00, TV4)\n• 26 juni: Japan – Sverige (01:00, SVT)",
       },
       {
         q: "Vilken grupp är Sverige i?",
@@ -66,7 +66,7 @@ const faqs = [
       },
       {
         q: "Vilken kanal visar Sveriges matcher?",
-        a: "Första matchen mot Nederländerna sänds på TV4. Match 2 mot Tunisien och match 3 mot Japan sänds på SVT. Alla matcher kan streamas gratis via TV4 Play och SVT Play.",
+        a: "Match 1 mot Tunisien och match 3 mot Japan sänds på SVT. Match 2 mot Nederländerna sänds på TV4. Alla matcher kan streamas gratis via SVT Play och TV4 Play.",
       },
     ],
   },
@@ -88,6 +88,30 @@ const faqs = [
       {
         q: "Behöver jag betala för att se VM?",
         a: "Nej, alla matcher sänds gratis på SVT och TV4. Du kan se dem via vanlig TV-antenn, kabel-TV, IPTV eller gratis streaming via SVT Play och TV4 Play.",
+      },
+      {
+        q: "Hur ser jag VM live på mobilen?",
+        a: "Ladda ner SVT Play eller TV4 Play (gratis) på din iPhone eller Android. Logga in och välj den pågående matchen. Fungerar också på surfplatta. Tänk på att ha en stabil internetuppkoppling – WiFi rekommenderas för bästa kvalitet.",
+      },
+      {
+        q: "Kan jag se VM utomlands?",
+        a: "SVT Play och TV4 Play är geoblockade utanför Sverige. Om du är utomlands kan du använda en VPN-tjänst kopplad till Sverige för att se matcherna. Alternativt kan du kolla lokala kanaler i landet du befinner dig i – FIFA säljer rättigheter till TV-bolag i de flesta länder.",
+      },
+      {
+        q: "Hur ser jag VM på Chromecast eller Apple TV?",
+        a: "Både SVT Play och TV4 Play har appar för Apple TV, Android TV och Samsung Smart TV. Du kan också casta från mobilen via Chromecast eller AirPlay. Öppna appen, starta matchen och tryck på cast-ikonen.",
+      },
+      {
+        q: "Kan jag se VM på datorn?",
+        a: "Ja, gå till svtplay.se eller tv4play.se i din webbläsare. Matcherna streamas gratis och kräver ingen inloggning på SVT Play. På TV4 Play behöver du skapa ett gratiskonto.",
+      },
+      {
+        q: "Finns det fördröjning på streamen jämfört med TV?",
+        a: "Ja, streaming har vanligtvis 15–45 sekunders fördröjning jämfört med live-TV via antenn. Om du vill undvika spoilers, stäng av mobil-notifikationer från sportappar under matcherna.",
+      },
+      {
+        q: "Hur ser jag VM på bästa sätt hemma?",
+        a: "För bästa upplevelse: en stor TV (55 tum+) med sportläge aktiverat, en soundbar för bra ljud, och en bekväm sittplats. Vill du kolla utomhus? Flytta TV:n med ett mobilt TV-stativ och komplettera med en paviljong som väderskydd. Kolla våra produkttips under Kolla VM hemma.",
       },
     ],
   },
