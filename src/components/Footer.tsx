@@ -44,6 +44,7 @@ export default function Footer() {
         <div className="mt-10 pt-6 border-t border-[#f5c518]/10 text-xs text-gray-500">
           <p className="mb-1">© 2026 KollaVM. Alla rättigheter förbehållna.</p>
           <p className="mb-2">Som affiliate-partner kan vi tjäna provision på köp via våra länkar. Detta påverkar inte vår redaktionella bedömning.</p>
+          <p className="mb-2">Oddsjämförelser tillhandahålls i samarbete med licensierade spelbolag. <span className="text-red-500 font-bold">18+</span> Spela ansvarsfullt. <a href="https://www.stodlinjen.se" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#f5c518]">Stödlinjen.se</a> · <a href="https://www.spelinspektionen.se" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#f5c518]">Spelinspektionen</a></p>
           <Link href="/villkor" className="text-gray-500 hover:text-[#f5c518] transition-colors">Användarvillkor & integritetspolicy</Link>
         </div>
       </div>

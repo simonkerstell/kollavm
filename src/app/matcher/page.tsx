@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { groups, Group } from "@/data/groups";
 import { Calendar, MapPin, ChevronLeft } from "lucide-react";
 import MatchComments from "@/components/MatchComments";
+import OddsDisplay from "@/components/OddsDisplay";
 
 const allTeams = groups.flatMap(g => g.teams);
 function getFlag(name: string) {
@@ -67,6 +68,7 @@ function MatchRow({ match, matchId, showGroup }: { match: Group["matches"][0]; m
           <span className={`font-bold text-sm sm:text-base ${match.away === "Sverige" ? "text-[#f5c518]" : "text-white"}`}>{match.away}</span>
         </div>
       </div>
+      <OddsDisplay odds={null} />
       <MatchComments matchId={matchId} />
     </div>
   );
