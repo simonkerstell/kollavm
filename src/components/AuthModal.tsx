@@ -10,6 +10,7 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emailConsent, setEmailConsent] = useState(true);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,7 +29,7 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name: name.trim() } },
+        options: { data: { name: name.trim(), email_reminders: emailConsent } },
       });
       if (error) {
         setError(error.message);
@@ -67,6 +68,19 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
             <label className="block text-sm text-gray-400 mb-1">Lösenord</label>
             <input required type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-[#f5c518]/50" placeholder="••••••••" />
           </div>
+          {mode === "register" && (
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={emailConsent}
+                onChange={e => setEmailConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-[#f5c518] focus:ring-[#f5c518]/50 cursor-pointer"
+              />
+              <span className="text-xs text-gray-400 leading-relaxed">
+                Ja, skicka mig en påminnelse via e-post dagen innan VM startar så jag inte missar att tippa.
+              </span>
+            </label>
+          )}
           {error && <p className="text-red-400 text-sm">{error}</p>}
           <button type="submit" disabled={loading} className="w-full bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black py-3 rounded-full transition-colors disabled:opacity-50">
             {loading ? "Laddar..." : mode === "register" ? "Skapa konto" : "Logga in"}
