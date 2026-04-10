@@ -17,18 +17,19 @@ function getTimeLeft() {
 }
 
 export default function Countdown() {
-  const [time, setTime] = useState(getTimeLeft());
+  const [time, setTime] = useState<ReturnType<typeof getTimeLeft> | null>(null);
 
   useEffect(() => {
+    setTime(getTimeLeft());
     const interval = setInterval(() => setTime(getTimeLeft()), 1000);
     return () => clearInterval(interval);
   }, []);
 
   const units = [
-    { label: "Dagar", value: time.days },
-    { label: "Timmar", value: time.hours },
-    { label: "Minuter", value: time.minutes },
-    { label: "Sekunder", value: time.seconds },
+    { label: "Dagar", value: time?.days ?? 0 },
+    { label: "Timmar", value: time?.hours ?? 0 },
+    { label: "Minuter", value: time?.minutes ?? 0 },
+    { label: "Sekunder", value: time?.seconds ?? 0 },
   ];
 
   return (
@@ -39,7 +40,7 @@ export default function Countdown() {
           className="flex flex-col items-center bg-white/5 backdrop-blur border border-[#f5c518]/20 rounded-2xl px-6 py-4 min-w-[90px]"
         >
           <span className="text-4xl md:text-5xl font-black text-[#f5c518] tabular-nums">
-            {String(value).padStart(2, "0")}
+            {time ? String(value).padStart(2, "0") : "--"}
           </span>
           <span className="text-xs text-gray-400 mt-1 uppercase tracking-wider">{label}</span>
         </div>

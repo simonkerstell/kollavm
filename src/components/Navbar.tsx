@@ -31,10 +31,12 @@ export default function Navbar() {
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(DEFAULT_AVATAR);
   const guideRef = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuth();
-  const now = new Date();
-  const vmStart = new Date("2026-06-11");
-  const vmEnd = new Date("2026-07-19");
-  const isLive = now >= vmStart && now <= vmEnd;
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    const now = new Date();
+    setIsLive(now >= new Date("2026-06-11") && now <= new Date("2026-07-19"));
+  }, []);
 
   useEffect(() => {
     if (user) {
