@@ -86,6 +86,12 @@ export interface QuizResult {
   createdAt: string;
 }
 
+export interface SpecialPrediction {
+  userId: string;
+  type: "golden_boot" | "mvp";
+  playerName: string;
+}
+
 export type MatchOutcome = "home" | "draw" | "away";
 
 export function getOutcome(home: number, away: number): MatchOutcome {

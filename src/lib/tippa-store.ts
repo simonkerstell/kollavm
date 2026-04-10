@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { Prediction, League, LeagueMember, Comment, GroupPrediction, AvatarConfig, DEFAULT_AVATAR, QuizResult } from "./tippa-types";
+import { Prediction, League, LeagueMember, Comment, GroupPrediction, AvatarConfig, DEFAULT_AVATAR, QuizResult, SpecialPrediction } from "./tippa-types";
 
 export const GLOBAL_LEAGUE_ID = "00000000-0000-0000-0000-000000000001";
 
@@ -322,6 +322,27 @@ export async function getUserQuizResults(userId: string): Promise<QuizResult[]> 
     score: d.score,
     totalQuestions: d.total_questions,
     createdAt: d.created_at,
+  }));
+}
+
+// --- Special Predictions (MVP & Golden Boot) ---
+
+export async function saveSpecialPrediction(userId: string, type: string, playerName: string) {
+  const { error } = await supabase
+    .from("special_predictions")
+    .upsert({ user_id: userId, type, player_name: playerName }, { onConflict: "user_id,type" });
+  if (error) throw new Error(error.message);
+}
+
+export async function getUserSpecialPredictions(userId: string): Promise<SpecialPrediction[]> {
+  const { data } = await supabase
+    .from("special_predictions")
+    .select("*")
+    .eq("user_id", userId);
+  return (data ?? []).map(d => ({
+    userId: d.user_id,
+    type: d.type,
+    playerName: d.player_name,
   }));
 }
 

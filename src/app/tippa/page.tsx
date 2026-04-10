@@ -8,9 +8,11 @@ import {
   savePrediction, getUserPredictions,
   saveGroupPrediction, getUserGroupPredictions,
   saveBracketPick, getUserBracketPredictions,
+  saveSpecialPrediction, getUserSpecialPredictions,
 } from "@/lib/tippa-store";
-import { Prediction, GroupPrediction } from "@/lib/tippa-types";
-import { ChevronLeft, Trophy, Check, Users, Pencil, Copy, ChevronDown, Undo2 } from "lucide-react";
+import { Prediction, GroupPrediction, SpecialPrediction } from "@/lib/tippa-types";
+import { starPlayers } from "@/data/players";
+import { ChevronLeft, Trophy, Check, Users, Pencil, Copy, ChevronDown, Undo2, Award, Target } from "lucide-react";
 import Link from "next/link";
 
 const allTeams = groups.flatMap(g => g.teams);
@@ -18,7 +20,7 @@ function getFlag(name: string) {
   return allTeams.find(t => t.name === name)?.flag ?? "";
 }
 
-type Tab = "matcher" | "gruppspel" | "slutspel";
+type Tab = "matcher" | "gruppspel" | "slutspel" | "extras";
 
 // --- Match Tip Card ---
 
@@ -272,6 +274,7 @@ export default function TippaPage() {
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [groupPreds, setGroupPreds] = useState<GroupPrediction[]>([]);
   const [bracketPicks, setBracketPicks] = useState<Record<string, string>>({});
+  const [specialPreds, setSpecialPreds] = useState<SpecialPrediction[]>([]);
 
   const [loadingData, setLoadingData] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -290,10 +293,12 @@ export default function TippaPage() {
       getUserPredictions(user.id),
       getUserGroupPredictions(user.id),
       getUserBracketPredictions(user.id),
-    ]).then(([preds, gPreds, bPicks]) => {
+      getUserSpecialPredictions(user.id),
+    ]).then(([preds, gPreds, bPicks, sPreds]) => {
       setPredictions(preds);
       setGroupPreds(gPreds);
       setBracketPicks(bPicks);
+      setSpecialPreds(sPreds);
       setLoadingData(false);
     });
   }, [user]);
@@ -402,6 +407,7 @@ export default function TippaPage() {
           { key: "matcher" as Tab, label: "⚽ Matcher" },
           { key: "gruppspel" as Tab, label: "🏆 Gruppspel" },
           { key: "slutspel" as Tab, label: "🏅 Slutspel" },
+          { key: "extras" as Tab, label: "⭐ Extras" },
         ]).map(t => (
           <button
             key={t.key}
@@ -565,6 +571,179 @@ export default function TippaPage() {
           </div>
         </>
       )}
+
+      {/* TAB: Extras */}
+      {tab === "extras" && (
+        <ExtrasTab specialPreds={specialPreds} onSaved={(preds) => setSpecialPreds(preds)} />
+      )}
     </div>
+  );
+}
+
+// --- Extras Tab (MVP & Golden Boot) ---
+
+function ExtrasTab({ specialPreds, onSaved }: { specialPreds: SpecialPrediction[]; onSaved: (preds: SpecialPrediction[]) => void }) {
+  const { user } = useAuth();
+  const mvpPred = specialPreds.find(p => p.type === "mvp");
+  const bootPred = specialPreds.find(p => p.type === "golden_boot");
+
+  const [mvp, setMvp] = useState(mvpPred?.playerName ?? "");
+  const [boot, setBoot] = useState(bootPred?.playerName ?? "");
+  const [mvpSaved, setMvpSaved] = useState(!!mvpPred);
+  const [bootSaved, setBootSaved] = useState(!!bootPred);
+  const [saving, setSaving] = useState(false);
+
+  const [mvpSearch, setMvpSearch] = useState("");
+  const [bootSearch, setBootSearch] = useState("");
+
+  const filteredForMvp = mvpSearch
+    ? starPlayers.filter(p => p.name.toLowerCase().includes(mvpSearch.toLowerCase()) || p.country.toLowerCase().includes(mvpSearch.toLowerCase()))
+    : starPlayers;
+
+  const filteredForBoot = bootSearch
+    ? starPlayers.filter(p => p.name.toLowerCase().includes(bootSearch.toLowerCase()) || p.country.toLowerCase().includes(bootSearch.toLowerCase())).filter(p => p.position === "FW" || p.position === "MF")
+    : starPlayers.filter(p => p.position === "FW" || p.position === "MF");
+
+  async function handleSaveMvp() {
+    if (!user || !mvp) return;
+    setSaving(true);
+    try {
+      await saveSpecialPrediction(user.id, "mvp", mvp);
+      setMvpSaved(true);
+      onSaved([...specialPreds.filter(p => p.type !== "mvp"), { userId: user.id, type: "mvp", playerName: mvp }]);
+    } catch { /* ignore */ }
+    setSaving(false);
+  }
+
+  async function handleSaveBoot() {
+    if (!user || !boot) return;
+    setSaving(true);
+    try {
+      await saveSpecialPrediction(user.id, "golden_boot", boot);
+      setBootSaved(true);
+      onSaved([...specialPreds.filter(p => p.type !== "golden_boot"), { userId: user.id, type: "golden_boot", playerName: boot }]);
+    } catch { /* ignore */ }
+    setSaving(false);
+  }
+
+  function getPlayerFlag(name: string) {
+    return starPlayers.find(p => p.name === name)?.flag ?? "";
+  }
+
+  return (
+    <>
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-white mb-1">Specialtips</h2>
+        <p className="text-gray-400 text-sm">Tippa vem som vinner Guldskon och VM:s bästa spelare.</p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* Golden Boot */}
+        <div className={`bg-white/5 border rounded-2xl p-6 transition-all ${bootSaved ? "border-green-500/30" : "border-white/10"}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-full bg-[#f5c518]/20 flex items-center justify-center">
+              <Target size={24} className="text-[#f5c518]" />
+            </div>
+            <div>
+              <h3 className="text-white font-black text-lg">Guldskon</h3>
+              <p className="text-gray-400 text-xs">VM:s skyttekung – flest mål</p>
+            </div>
+            {bootSaved && <span className="ml-auto flex items-center gap-1 text-xs text-green-400 font-semibold"><Check size={12} /> Sparat</span>}
+          </div>
+
+          {bootSaved && boot ? (
+            <div className="bg-[#f5c518]/10 rounded-xl p-4 mb-4 text-center">
+              <p className="text-3xl mb-1">{getPlayerFlag(boot)}</p>
+              <p className="text-white font-black text-lg">{boot}</p>
+              <button onClick={() => setBootSaved(false)} className="mt-2 text-xs text-gray-500 hover:text-[#f5c518] transition-colors flex items-center gap-1 mx-auto">
+                <Pencil size={10} /> Ändra
+              </button>
+            </div>
+          ) : (
+            <>
+              <input
+                value={bootSearch}
+                onChange={e => setBootSearch(e.target.value)}
+                placeholder="Sök spelare..."
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm mb-3 focus:outline-none focus:border-[#f5c518]/50"
+              />
+              <div className="max-h-48 overflow-y-auto space-y-1 mb-4">
+                {filteredForBoot.map(player => (
+                  <button
+                    key={player.name}
+                    onClick={() => { setBoot(player.name); setBootSearch(""); }}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all text-left ${boot === player.name ? "bg-[#f5c518] text-[#0a1628] font-bold" : "text-gray-300 hover:bg-white/10"}`}
+                  >
+                    <span>{player.flag}</span>
+                    <span>{player.name}</span>
+                    <span className="text-xs text-gray-500 ml-auto">{player.country}</span>
+                  </button>
+                ))}
+              </div>
+              <button onClick={handleSaveBoot} disabled={!boot || saving} className={`w-full py-2.5 rounded-full font-bold text-sm transition-all ${boot && !saving ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
+                {saving ? "Sparar..." : "Spara Guldskon-tips"}
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* MVP */}
+        <div className={`bg-white/5 border rounded-2xl p-6 transition-all ${mvpSaved ? "border-green-500/30" : "border-white/10"}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 rounded-full bg-[#f5c518]/20 flex items-center justify-center">
+              <Award size={24} className="text-[#f5c518]" />
+            </div>
+            <div>
+              <h3 className="text-white font-black text-lg">Guldbollen</h3>
+              <p className="text-gray-400 text-xs">VM:s bästa spelare (MVP)</p>
+            </div>
+            {mvpSaved && <span className="ml-auto flex items-center gap-1 text-xs text-green-400 font-semibold"><Check size={12} /> Sparat</span>}
+          </div>
+
+          {mvpSaved && mvp ? (
+            <div className="bg-[#f5c518]/10 rounded-xl p-4 mb-4 text-center">
+              <p className="text-3xl mb-1">{getPlayerFlag(mvp)}</p>
+              <p className="text-white font-black text-lg">{mvp}</p>
+              <button onClick={() => setMvpSaved(false)} className="mt-2 text-xs text-gray-500 hover:text-[#f5c518] transition-colors flex items-center gap-1 mx-auto">
+                <Pencil size={10} /> Ändra
+              </button>
+            </div>
+          ) : (
+            <>
+              <input
+                value={mvpSearch}
+                onChange={e => setMvpSearch(e.target.value)}
+                placeholder="Sök spelare..."
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-sm mb-3 focus:outline-none focus:border-[#f5c518]/50"
+              />
+              <div className="max-h-48 overflow-y-auto space-y-1 mb-4">
+                {filteredForMvp.map(player => (
+                  <button
+                    key={player.name}
+                    onClick={() => { setMvp(player.name); setMvpSearch(""); }}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all text-left ${mvp === player.name ? "bg-[#f5c518] text-[#0a1628] font-bold" : "text-gray-300 hover:bg-white/10"}`}
+                  >
+                    <span>{player.flag}</span>
+                    <span>{player.name}</span>
+                    <span className="text-xs text-gray-500 ml-auto">{player.country}</span>
+                  </button>
+                ))}
+              </div>
+              <button onClick={handleSaveMvp} disabled={!mvp || saving} className={`w-full py-2.5 rounded-full font-bold text-sm transition-all ${mvp && !saving ? "bg-[#f5c518] text-[#0a1628] hover:bg-[#d4a017]" : "bg-white/5 text-gray-600 cursor-not-allowed"}`}>
+                {saving ? "Sparar..." : "Spara Guldbolle-tips"}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-6 bg-white/5 border border-white/10 rounded-xl p-4">
+        <h3 className="text-white font-bold text-sm mb-2">Poäng</h3>
+        <div className="grid grid-cols-2 gap-3 text-sm text-gray-300">
+          <div className="flex items-center gap-2"><span className="bg-[#f5c518] text-[#0a1628] font-black px-2 py-0.5 rounded text-xs">10p</span> Rätt Guldskon-vinnare</div>
+          <div className="flex items-center gap-2"><span className="bg-[#f5c518] text-[#0a1628] font-black px-2 py-0.5 rounded text-xs">10p</span> Rätt Guldbolle-vinnare</div>
+        </div>
+      </div>
+    </>
   );
 }
