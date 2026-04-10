@@ -388,10 +388,94 @@ export default function TippaPage() {
     );
   }
 
+  const matchCount = predictions.length;
+  const groupCount = groupPreds.length;
+  const bracketCount = Object.keys(bracketPicks).length;
+  const extraCount = specialPreds.length;
+  const totalTipped = matchCount + groupCount + bracketCount + extraCount;
+  const totalPossible = 72 + 12 + 31 + 2; // 117
+  const progressPct = Math.round((totalTipped / totalPossible) * 100);
+
+  // Show onboarding if user has no tips at all
+  const isNewUser = totalTipped === 0;
+
+  if (isNewUser) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-10">
+          <div className="text-6xl mb-4">👋</div>
+          <h1 className="text-3xl font-black text-white mb-2">Välkommen, {user.name}!</h1>
+          <p className="text-gray-400">Kom igång med din tippning i 3 enkla steg.</p>
+        </div>
+
+        <div className="space-y-4 mb-10">
+          <button
+            onClick={() => { setTab("matcher"); setSelectedGroup(groups.find(g => g.id === "F") ?? groups[0]); }}
+            className="w-full bg-white/5 hover:bg-[#f5c518]/10 border border-white/10 hover:border-[#f5c518]/40 rounded-2xl p-6 text-left transition-all group"
+          >
+            <div className="flex items-center gap-4">
+              <span className="w-12 h-12 rounded-full bg-[#f5c518] text-[#0a1628] font-black text-xl flex items-center justify-center shrink-0">1</span>
+              <div>
+                <h3 className="text-white font-bold text-lg group-hover:text-[#f5c518] transition-colors">Tippa Sveriges matcher</h3>
+                <p className="text-gray-400 text-sm">Börja med grupp F – Sverige, Nederländerna, Japan & Tunisien</p>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setTab("gruppspel")}
+            className="w-full bg-white/5 hover:bg-[#f5c518]/10 border border-white/10 hover:border-[#f5c518]/40 rounded-2xl p-6 text-left transition-all group"
+          >
+            <div className="flex items-center gap-4">
+              <span className="w-12 h-12 rounded-full bg-white/10 text-gray-300 font-black text-xl flex items-center justify-center shrink-0">2</span>
+              <div>
+                <h3 className="text-white font-bold text-lg group-hover:text-[#f5c518] transition-colors">Tippa gruppvinnare</h3>
+                <p className="text-gray-400 text-sm">Vem vinner varje grupp? Tippa etta och tvåa i alla 12 grupper</p>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setTab("extras")}
+            className="w-full bg-white/5 hover:bg-[#f5c518]/10 border border-white/10 hover:border-[#f5c518]/40 rounded-2xl p-6 text-left transition-all group"
+          >
+            <div className="flex items-center gap-4">
+              <span className="w-12 h-12 rounded-full bg-white/10 text-gray-300 font-black text-xl flex items-center justify-center shrink-0">3</span>
+              <div>
+                <h3 className="text-white font-bold text-lg group-hover:text-[#f5c518] transition-colors">Tippa Guldskon & MVP</h3>
+                <p className="text-gray-400 text-sm">Vem blir skyttekung och bästa spelare i VM?</p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div className="bg-gradient-to-r from-[#f5c518]/15 to-[#f5c518]/5 border border-[#f5c518]/40 rounded-2xl p-6">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-full bg-[#f5c518]/20 flex items-center justify-center shrink-0">
+              <Users size={24} className="text-[#f5c518]" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-white font-black text-lg mb-1">Bjud in dina vänner!</h3>
+              <p className="text-gray-300 text-sm mb-4">Kopiera länken och skicka till en kompis. Skapa en liga och tävla!</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  onClick={copyInviteLink}
+                  className={`inline-flex items-center gap-2 font-bold px-5 py-2.5 rounded-full text-sm transition-all ${copied ? "bg-green-500 text-white" : "bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628]"}`}
+                >
+                  {copied ? <><Check size={16} /> Länk kopierad!</> : <><Copy size={16} /> Kopiera inbjudningslänk</>}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="flex items-start justify-between mb-6">
+      <div className="flex items-start justify-between mb-4">
         <div>
           <h1 className="text-4xl font-black text-white mb-1">Tippa <span className="text-[#f5c518]">VM 2026</span></h1>
           <p className="text-gray-400">Hej, {user.name}!</p>
@@ -399,6 +483,35 @@ export default function TippaPage() {
         <Link href="/tippa/ligor" className="flex items-center gap-2 bg-[#f5c518]/10 hover:bg-[#f5c518]/20 border border-[#f5c518]/30 text-[#f5c518] px-4 py-2 rounded-full text-sm font-semibold transition-colors">
           <Trophy size={14} /> Mina ligor
         </Link>
+      </div>
+
+      {/* Progress bar */}
+      <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-8">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-white font-semibold text-sm">Din tippning</span>
+          <span className="text-[#f5c518] font-bold text-sm">{totalTipped}/{totalPossible} tips ({progressPct}%)</span>
+        </div>
+        <div className="w-full bg-white/10 rounded-full h-2.5 mb-3">
+          <div className="bg-[#f5c518] h-2.5 rounded-full transition-all duration-500" style={{ width: `${progressPct}%` }} />
+        </div>
+        <div className="grid grid-cols-4 gap-2 text-xs">
+          <div className="text-center">
+            <span className={`font-bold ${matchCount === 72 ? "text-green-400" : "text-gray-400"}`}>{matchCount}/72</span>
+            <p className="text-gray-600 mt-0.5">Matcher</p>
+          </div>
+          <div className="text-center">
+            <span className={`font-bold ${groupCount === 12 ? "text-green-400" : "text-gray-400"}`}>{groupCount}/12</span>
+            <p className="text-gray-600 mt-0.5">Grupper</p>
+          </div>
+          <div className="text-center">
+            <span className={`font-bold ${bracketCount === 31 ? "text-green-400" : "text-gray-400"}`}>{bracketCount}/31</span>
+            <p className="text-gray-600 mt-0.5">Slutspel</p>
+          </div>
+          <div className="text-center">
+            <span className={`font-bold ${extraCount === 2 ? "text-green-400" : "text-gray-400"}`}>{extraCount}/2</span>
+            <p className="text-gray-600 mt-0.5">Extras</p>
+          </div>
+        </div>
       </div>
 
       {/* Tabs */}
