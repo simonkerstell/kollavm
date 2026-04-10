@@ -41,7 +41,7 @@ export default function StickyCTA() {
             >
               Skapa konto
             </button>
-            <button onClick={handleDismiss} className="text-gray-500 hover:text-white p-1 transition-colors">
+            <button onClick={handleDismiss} className="text-gray-400 hover:text-white p-1 transition-colors" aria-label="Stäng">
               <X size={16} />
             </button>
           </div>

@@ -50,7 +50,7 @@ export default function AuthModal({ onClose, initialMode = "login" }: { onClose:
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
       <div className="bg-[#0d1f3c] border border-[#f5c518]/20 rounded-2xl p-8 w-full max-w-md relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white"><X size={20} /></button>
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white" aria-label="Stäng"><X size={20} /></button>
         <h2 className="text-2xl font-black text-white mb-1">{mode === "register" ? "Skapa konto" : "Logga in"}</h2>
         <p className="text-gray-400 text-sm mb-6">{mode === "register" ? "Registrera dig för att tippa och tävla" : "Välkommen tillbaka!"}</p>
         <form onSubmit={handleSubmit} className="space-y-4">

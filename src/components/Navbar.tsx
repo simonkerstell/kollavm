@@ -128,6 +128,7 @@ export default function Navbar() {
             <button
               className="md:hidden text-gray-300 hover:text-white"
               onClick={() => setOpen(!open)}
+              aria-label={open ? "Stäng meny" : "Öppna meny"}
             >
               {open ? <X size={24} /> : <Menu size={24} />}
             </button>

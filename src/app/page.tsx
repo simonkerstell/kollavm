@@ -46,7 +46,7 @@ export default function HomePage() {
 
           <Countdown />
 
-          <p className="text-gray-500 text-sm mt-4">till avspark 11 juni 2026</p>
+          <p className="text-gray-400 text-sm mt-4">till avspark 11 juni 2026</p>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
             <Link
@@ -56,7 +56,7 @@ export default function HomePage() {
               <Trophy size={20} />
               Tippa VM 2026
             </Link>
-            <span className="text-gray-500 text-sm">Skapa konto & tävla mot dina vänner</span>
+            <span className="text-gray-400 text-sm">Skapa konto & tävla mot dina vänner</span>
           </div>
         </div>
       </section>

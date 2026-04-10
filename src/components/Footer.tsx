@@ -34,9 +34,9 @@ export default function Footer() {
               <Mail size={16} /> kollavm@gmail.com
             </a>
             <div className="flex gap-4 mt-4">
-              <a href="#" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Share2 size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Globe size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Camera size={20} /></a>
+              <a href="#" aria-label="Dela på sociala medier" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Share2 size={20} /></a>
+              <a href="#" aria-label="Besök vår webbplats" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Globe size={20} /></a>
+              <a href="#" aria-label="Följ oss på Instagram" className="text-gray-400 hover:text-[#f5c518] transition-colors"><Camera size={20} /></a>
             </div>
           </div>
         </div>

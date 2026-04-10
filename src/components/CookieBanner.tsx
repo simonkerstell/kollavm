@@ -45,7 +45,7 @@ export default function CookieBanner() {
               Vi använder cookies för att analysera trafik och förbättra din upplevelse. Inga personuppgifter säljs vidare.
             </p>
           </div>
-          <button onClick={() => setVisible(false)} className="text-gray-500 hover:text-white shrink-0">
+          <button onClick={() => setVisible(false)} className="text-gray-400 hover:text-white shrink-0" aria-label="Stäng cookie-banner">
             <X size={16} />
           </button>
         </div>
@@ -54,7 +54,7 @@ export default function CookieBanner() {
             <button onClick={accept} className="w-full bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black py-2.5 rounded-full text-sm transition-colors">
               Acceptera
             </button>
-            <p className="text-[10px] text-gray-500 text-center mt-1.5">Ökar chansen att Sverige vinner VM med 47%*</p>
+            <p className="text-[10px] text-gray-400 text-center mt-1.5">Ökar chansen att Sverige vinner VM med 47%*</p>
           </div>
           <button onClick={decline} className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 rounded-full text-sm font-semibold transition-colors">
             Nej tack
