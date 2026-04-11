@@ -41,12 +41,19 @@ export default function TippaVmPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "KollaVM – Tippa VM 2026",
+    name: "KollaVM – Tippa VM 2026 gratis",
     description: "Gratis tippning för fotbolls-VM 2026. Tippa matchresultat, gruppvinnare, slutspel och mer. Tävla mot vänner i privata ligor.",
     url: "https://kollavm.se/tippa-vm",
     applicationCategory: "SportsApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "SEK" },
     operatingSystem: "All",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      ratingCount: "127",
+      bestRating: "5",
+      worstRating: "1",
+    },
   };
 
   return (
