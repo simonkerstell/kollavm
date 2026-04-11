@@ -386,7 +386,7 @@ Soundbaren passar perfekt under eller framför TV:n utan att ta för mycket plat
 
 En soundbar ger mest effekt tillsammans med en bra TV. Kolla vår guide om TV och TV-stativ för att hitta rätt skärm. Komplettera med bekväma utemöbler om du kollar ute, kalla drycker från våra bästa dryckeskylar och öltappar, och lite VM-dekorationer för den perfekta stämningen.
 
-Se alla matcher i vårt matchschema och gör VM ännu roligare genom att tippa resultaten mot dina vänner.
+Se alla matcher i vårt matchschema och gör VM ännu roligare genom att tippa VM mot dina vänner.
     `,
   },
   {
@@ -444,7 +444,7 @@ En broderad keps med Sverige-emblem som sitter bra och skyddar mot solen under u
 
 Dekorationerna sätter stämningen, men för den kompletta VM-upplevelsen behöver du också bekväma utemöbler, en bra TV med rätt stativ, en soundbar för matchljudet, och kalla drycker med våra dryckeskylar och öltappar.
 
-Missa inte heller att kolla in vårt matchschema för alla VM-matcher, och tippa resultaten mot dina vänner för att göra varje match lite extra spännande.
+Missa inte heller att kolla in vårt matchschema för alla VM-matcher, och tippa VM mot dina vänner för att göra varje match lite extra spännande.
     `,
   },
   {
@@ -490,7 +490,7 @@ Vill du se matcherna utomhus? Kolla vår guide om bästa TV och TV-stativ så du
 
 ## Gör VM extra kul
 
-Passa på att tippa resultaten mot dina vänner medan du kollar matcherna. Skapa ett konto och tävla i vår tippliga – det gör varje match lite mer spännande!
+Passa på att tippa VM mot dina vänner medan du kollar matcherna. Skapa ett konto och tävla i vår tippliga – det gör varje match lite mer spännande!
     `,
   },
   {
@@ -547,7 +547,7 @@ Sverige spelar i grupp F och har alla sina gruppspelsmatcher i USA. Kolla vår d
 
 ## Se matcherna hemma
 
-Oavsett om du kollar matcherna tidigt eller sent – fixa en bra setup hemma med rätt utemöbler, en bra TV och kalla drycker. Och glöm inte att tippa resultaten innan matcherna börjar!
+Oavsett om du kollar matcherna tidigt eller sent – fixa en bra setup hemma med rätt utemöbler, en bra TV och kalla drycker. Och glöm inte att tippa VM innan matcherna börjar!
     `,
   },
   {
@@ -652,13 +652,91 @@ I det nya formatet med 48 lag går de två bästa i varje grupp vidare direkt, p
 - 26 juni: Japan – Sverige (SVT, 01:00)
 - 26 juni: Tunisien – Nederländerna (SVT, 01:00)
 
-Se alla matcher i vårt matchschema och tippa resultaten mot dina vänner. Läs även vår guide om när Sveriges matcher spelas för mer detaljer om varje match.
+Se alla matcher i vårt matchschema och tippa VM mot dina vänner. Läs även vår guide om när Sveriges matcher spelas för mer detaljer om varje match.
 
 ## Förbered dig för VM
 
 Se matcherna hemma med bra utemöbler på uteplatsen, en bra TV och kalla drycker. Klä dig i Sveriges färger med våra supporterprylar – kolla vår guide om VM-dekorationer och supporterprylar.
 
 Föredrar du att kolla på krog? Kolla våra restaurangtips.
+    `,
+  },
+  {
+    id: "10",
+    slug: "tippa-vm-2026-gratis-guide",
+    title: "Tippa VM 2026 gratis – komplett guide till VM-tippning",
+    excerpt: "Allt du behöver veta för att tippa VM 2026. Så fungerar tippningen, poängsystemet och ligorna på KollaVM – helt gratis.",
+    date: "2026-04-11",
+    category: "VM-guide",
+    heroImage: "",
+    content: `
+## Tippa VM 2026 – så fungerar det
+
+Fotbolls-VM 2026 närmar sig och det är dags att tippa! På KollaVM kan du tippa VM helt gratis – matchresultat, gruppvinnare, slutspelsträdet, skyttekung och bästa spelare. Tävla mot dina vänner i privata ligor och se vem som tippar bäst.
+
+## Hur tippar man VM på KollaVM?
+
+Att tippa VM på KollaVM är enkelt:
+
+- Skapa ett gratis konto
+- Tippa matchresultat för alla 72 gruppspelsmatcher
+- Tippa vem som vinner varje grupp och vem som blir tvåa
+- Fyll i hela slutspelsträdet från sextondelsfinaler till final
+- Tippa Guldskon (skyttekung) och Guldbollen (MVP)
+
+Allt sparas automatiskt och poängen räknas ihop.
+
+## Poängsystem – hur räknas poängen?
+
+### Matchresultat
+- **3 poäng** för exakt rätt resultat (t.ex. du tippar 2-1 och det blir 2-1)
+- **1 poäng** för rätt utfall (du tippar hemmavinst och det blir hemmavinst, men fel antal mål)
+- **0 poäng** för fel utfall
+
+### Gruppspel
+- **3 poäng** för rätt gruppsegrare
+- **2 poäng** för rätt grupptvåa
+
+### Slutspel
+- **2 poäng** per rätt lag i sextondelsfinalerna
+- **3 poäng** per rätt lag i åttondelsfinalerna
+- **5 poäng** per rätt lag i kvartsfinalerna
+- **7 poäng** per rätt lag i semifinalerna
+- **10 poäng** för rätt VM-vinnare
+
+### Specialtips
+- **10 poäng** för rätt Guldskon-vinnare (skyttekung)
+- **10 poäng** för rätt Guldbolle-vinnare (MVP)
+
+## Skapa en liga och bjud in vänner
+
+Det roligaste med att tippa VM är att tävla mot vänner. Så här gör du:
+
+- Gå till Tippa → Mina ligor
+- Klicka Skapa liga och välj ett namn
+- Dela inbjudningskoden med dina vänner
+- De anger koden för att gå med
+- Följ ställningen i ligatabellen
+
+Alla registrerade användare tävlar automatiskt i den globala ligan.
+
+## Tips för att tippa bra
+
+- Kolla matchschemat för att se vilka matcher som spelas
+- Läs vår analys av Sveriges VM-grupp 2026 för insikter
+- Tippa alla matcher tidigt – det är lätt att glömma
+- Ha koll på vilka kanaler som sänder VM 2026
+- Följ VM-nyheter för att veta vilka spelare som är i form
+
+## Är det gratis att tippa VM?
+
+Ja! Att tippa VM på KollaVM är helt gratis. Inga dolda avgifter, ingen betalning krävs. Skapa ett konto och börja tippa direkt.
+
+Det här är ingen pengatippning – det handlar om ära och att visa att du kan fotboll bättre än dina vänner.
+
+## Börja tippa nu
+
+Missa inte chansen att tippa VM 2026! Ju tidigare du börjar, desto fler matcher kan du tippa. Skapa ett konto på KollaVM och börja tippa VM redan idag.
     `,
   },
 ];

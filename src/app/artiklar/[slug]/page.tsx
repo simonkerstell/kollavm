@@ -37,9 +37,9 @@ const internalLinks: { pattern: RegExp; href: string }[] = [
   { pattern: /Sveriges VM-grupp 2026|Sveriges grupp F/gi, href: "/artiklar/sveriges-vm-grupp-2026" },
   { pattern: /när Sveriges matcher spelas|Sveriges matcher i VM/gi, href: "/artiklar/nar-spelar-sverige-vm-2026" },
   { pattern: /var VM 2026 spelas|var fotbolls-VM spelas/gi, href: "/artiklar/var-spelas-fotbolls-vm-2026" },
+  { pattern: /tippa VM|tippa resultaten mot dina vänner|tippa matcherna/gi, href: "/tippa-vm" },
   { pattern: /matchschema(?:t)?/gi, href: "/matcher" },
   { pattern: /restaurangtips/gi, href: "/restauranger" },
-  { pattern: /tippa (?:matcherna|resultaten)/gi, href: "/tippa" },
 ];
 
 function renderTextWithLinks(text: string): React.ReactNode {

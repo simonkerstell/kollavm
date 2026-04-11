@@ -13,10 +13,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL("https://kollavm.se"),
   title: {
-    default: "KollaVM – Håll koll på varje match i VM 2026",
+    default: "KollaVM – Tippa VM 2026 gratis & håll koll på varje match",
     template: "%s – KollaVM",
   },
-  description: "Den självklara sajten för att följa fotbolls-VM 2026. Matchschema, tippa, restaurangtips och produkter för VM-känsla hemma.",
+  description: "Tippa VM 2026 helt gratis på KollaVM. Matchschema, tippning med ligor, VM-guide, restaurangtips och allt för fotbolls-VM.",
   openGraph: {
     siteName: "KollaVM",
     type: "website",

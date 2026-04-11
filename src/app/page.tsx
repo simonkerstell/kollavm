@@ -4,12 +4,12 @@ import Countdown from "@/components/Countdown";
 import { Calendar, MapPin, BookOpen, Trophy } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "KollaVM – Din guide till fotbolls-VM 2026",
-  description: "Håll koll på alla VM-matcher 2026, tippa resultat, hitta restaurangtips och produkter för den perfekta VM-känslan hemma eller på stan.",
+  title: "KollaVM – Tippa VM 2026 gratis & håll koll på varje match",
+  description: "Tippa VM 2026 helt gratis! Tippa matchresultat, gruppvinnare och slutspel. Tävla mot vänner i privata ligor. Matchschema, restaurangtips och VM-guide.",
   alternates: { canonical: "https://kollavm.se" },
   openGraph: {
-    title: "KollaVM – Din guide till fotbolls-VM 2026",
-    description: "Håll koll på alla VM-matcher 2026, tippa resultat, hitta restaurangtips och produkter för den perfekta VM-känslan hemma eller på stan.",
+    title: "KollaVM – Tippa VM 2026 gratis",
+    description: "Tippa VM 2026 helt gratis! Matchresultat, gruppvinnare, slutspel. Tävla mot vänner i ligor.",
     url: "https://kollavm.se",
     siteName: "KollaVM",
     type: "website",
@@ -41,7 +41,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-xl text-gray-400 mb-12 max-w-xl mx-auto">
-            Hemma eller på stan – KollaVM är din guide till fotbolls-VM 2026
+            Tippa VM, kolla matchschema och tävla mot vänner – din kompletta guide till fotbolls-VM 2026
           </p>
 
           <Countdown />
@@ -50,11 +50,11 @@ export default function HomePage() {
 
           <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
             <Link
-              href="/tippa"
+              href="/tippa-vm"
               className="inline-flex items-center gap-2 bg-[#f5c518] hover:bg-[#d4a017] text-[#0a1628] font-black px-8 py-3.5 rounded-full text-lg transition-colors"
             >
               <Trophy size={20} />
-              Tippa VM 2026
+              Tippa VM 2026 gratis
             </Link>
             <span className="text-gray-400 text-sm">Skapa konto & tävla mot dina vänner</span>
           </div>
@@ -85,14 +85,22 @@ export default function HomePage() {
       {/* CTA Banner */}
       <section className="bg-[#f5c518] py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-black text-[#0a1628] mb-3">Missa ingen match!</h2>
-          <p className="text-[#0a1628]/80 mb-6">Kolla in vårt kompletta matchschema med live-uppdateringar under hela turneringen.</p>
-          <Link
-            href="/matcher"
-            className="inline-block bg-[#0a1628] text-[#f5c518] font-bold px-8 py-3 rounded-full hover:bg-[#0d1f3c] transition-colors"
-          >
-            Se matchschema →
-          </Link>
+          <h2 className="text-3xl font-black text-[#0a1628] mb-3">Tippa VM 2026 – helt gratis!</h2>
+          <p className="text-[#0a1628]/80 mb-6">Tippa matchresultat, gruppvinnare och slutspelet. Skapa en liga och tävla mot dina vänner om vem som tippar bäst.</p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href="/tippa-vm"
+              className="inline-block bg-[#0a1628] text-[#f5c518] font-bold px-8 py-3 rounded-full hover:bg-[#0d1f3c] transition-colors"
+            >
+              Börja tippa →
+            </Link>
+            <Link
+              href="/matcher"
+              className="inline-block bg-[#0a1628]/20 text-[#0a1628] font-bold px-8 py-3 rounded-full hover:bg-[#0a1628]/30 transition-colors"
+            >
+              Se matchschema
+            </Link>
+          </div>
         </div>
       </section>
     </div>
