@@ -19,21 +19,12 @@ function formatDate(dateStr: string) {
   });
 }
 
-function formatDateShort(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("sv-SE", {
-    day: "numeric",
-    month: "short",
-  });
-}
-
 type Tab = "kronologiskt" | "grupper";
 
 // --- Match Row (used in both views) ---
 
 function MatchRow({ match, matchId, showGroup }: { match: Group["matches"][0]; matchId: string; showGroup?: string }) {
-  const channelStyle = match.channel === "SVT"
-    ? "bg-blue-600 text-white"
-    : "bg-red-600 text-white";
+  const channelStyle = "bg-white/10 text-gray-300";
 
   const isSwedenMatch = match.home === "Sverige" || match.away === "Sverige";
 
@@ -203,10 +194,7 @@ function ChronologicalView({ filter }: { filter: string }) {
         <div key={date}>
           <div className="sticky top-16 z-10 bg-[#0a1628]/95 backdrop-blur py-2 mb-3">
             <div className="flex items-center gap-3">
-              <span className="bg-[#f5c518] text-[#0a1628] font-black text-sm px-3 py-1 rounded-full">
-                {formatDateShort(date)}
-              </span>
-              <span className="text-gray-400 text-sm capitalize">{formatDate(date)}</span>
+              <span className="text-[#f5c518] text-sm font-bold capitalize">{formatDate(date)}</span>
               <span className="text-gray-600 text-xs">{byDate[date].length} matcher</span>
             </div>
           </div>
