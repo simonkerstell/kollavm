@@ -151,15 +151,43 @@ export default function LigorPage() {
               </div>
             )}
 
-            {/* Full list */}
-            {members.map((m, i) => (
-              <div key={m.userId} className={`flex items-center gap-3 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : i === 1 ? "bg-gray-400 text-[#0a1628]" : i === 2 ? "bg-amber-600 text-white" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
-                <Avatar config={avatars[m.userId]} size={32} />
-                <span className="flex-1 font-semibold text-white">{m.name}{m.userId === user.id && <span className="text-xs text-[#f5c518] ml-2">(du)</span>}</span>
-                <span className="font-black text-[#f5c518] text-lg">{m.totalPoints}p</span>
-              </div>
-            ))}
+            {/* List - show top 5 for global league, all for private */}
+            {(() => {
+              const isGlobal = selectedLeague.id === GLOBAL_LEAGUE_ID;
+              const displayMembers = isGlobal ? members.slice(0, 5) : members;
+              const userInTop = isGlobal && displayMembers.some(m => m.userId === user.id);
+              const userMember = members.find(m => m.userId === user.id);
+              const userRank = userMember ? members.indexOf(userMember) + 1 : null;
+
+              return (
+                <>
+                  {displayMembers.map((m, i) => (
+                    <div key={m.userId} className={`flex items-center gap-3 p-4 rounded-xl border ${m.userId === user.id ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10"}`}>
+                      <span className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${i === 0 ? "bg-[#f5c518] text-[#0a1628]" : i === 1 ? "bg-gray-400 text-[#0a1628]" : i === 2 ? "bg-amber-600 text-white" : "bg-white/10 text-gray-300"}`}>{i + 1}</span>
+                      <Avatar config={avatars[m.userId]} size={32} />
+                      <span className="flex-1 font-semibold text-white">{m.name}{m.userId === user.id && <span className="text-xs text-[#f5c518] ml-2">(du)</span>}</span>
+                      <span className="font-black text-[#f5c518] text-lg">{m.totalPoints}p</span>
+                    </div>
+                  ))}
+
+                  {isGlobal && !userInTop && userMember && userRank && (
+                    <>
+                      <div className="text-center text-gray-600 text-sm py-1">···</div>
+                      <div className="flex items-center gap-3 p-4 rounded-xl border bg-[#f5c518]/10 border-[#f5c518]/30">
+                        <span className="w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 bg-white/10 text-gray-300">{userRank}</span>
+                        <Avatar config={avatars[userMember.userId]} size={32} />
+                        <span className="flex-1 font-semibold text-white">{userMember.name}<span className="text-xs text-[#f5c518] ml-2">(du)</span></span>
+                        <span className="font-black text-[#f5c518] text-lg">{userMember.totalPoints}p</span>
+                      </div>
+                    </>
+                  )}
+
+                  {isGlobal && members.length > 5 && (
+                    <p className="text-center text-gray-500 text-xs mt-2">Visar topp 5 av {members.length} deltagare</p>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )}
       </div>
