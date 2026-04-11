@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     { url: base, priority: 1.0, changeFrequency: "daily" as const },
     { url: `${base}/matcher`, priority: 0.9, changeFrequency: "hourly" as const },
+    { url: `${base}/vm-matcher`, priority: 0.9, changeFrequency: "weekly" as const },
     { url: `${base}/hemma`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/restauranger`, priority: 0.7, changeFrequency: "weekly" as const },
     { url: `${base}/restauranger-vm`, priority: 0.9, changeFrequency: "weekly" as const },
