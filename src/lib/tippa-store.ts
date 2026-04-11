@@ -265,6 +265,7 @@ export async function getAvatar(userId: string): Promise<AvatarConfig> {
     hairColor: data.hair_color,
     jerseyColor: data.jersey_color,
     accessory: data.accessory,
+    beard: data.beard ?? "none",
   };
 }
 
@@ -278,6 +279,7 @@ export async function saveAvatar(userId: string, config: AvatarConfig) {
       hair_color: config.hairColor,
       jersey_color: config.jerseyColor,
       accessory: config.accessory,
+      beard: config.beard ?? "none",
       updated_at: new Date().toISOString(),
     }, { onConflict: "user_id" });
   if (error) throw new Error(error.message);
@@ -297,6 +299,7 @@ export async function getAvatarsBatch(userIds: string[]): Promise<Record<string,
       hairColor: d.hair_color,
       jerseyColor: d.jersey_color,
       accessory: d.accessory,
+      beard: d.beard ?? "none",
     };
   }
   return result;

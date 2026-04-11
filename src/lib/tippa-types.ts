@@ -57,10 +57,11 @@ export interface BracketMatch {
 
 export interface AvatarConfig {
   skinTone: string;
-  hairStyle: "short" | "curly" | "long" | "bald" | "mohawk";
+  hairStyle: "short" | "curly" | "long" | "bald" | "mohawk" | "buzz" | "afro";
   hairColor: string;
   jerseyColor: string;
-  accessory: "none" | "sunglasses" | "cap" | "headband";
+  accessory: "none" | "sunglasses" | "cap" | "headband" | "facepaint";
+  beard: "none" | "stubble" | "full" | "goatee";
 }
 
 export const DEFAULT_AVATAR: AvatarConfig = {
@@ -69,6 +70,7 @@ export const DEFAULT_AVATAR: AvatarConfig = {
   hairColor: "#3B2F2F",
   jerseyColor: "#F5C518",
   accessory: "none",
+  beard: "none",
 };
 
 export interface Badge {

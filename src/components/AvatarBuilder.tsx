@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { AvatarConfig } from "@/lib/tippa-types";
-import { SKIN_TONES, HAIR_COLORS, HAIR_STYLES, JERSEY_PRESETS, ACCESSORIES } from "@/lib/avatar-options";
+import { SKIN_TONES, HAIR_COLORS, HAIR_STYLES, JERSEY_PRESETS, ACCESSORIES, BEARDS } from "@/lib/avatar-options";
 import { saveAvatar } from "@/lib/tippa-store";
 import { useAuth } from "@/context/AuthContext";
 import Avatar from "./Avatar";
@@ -89,6 +89,18 @@ export default function AvatarBuilder({ initial, onSaved }: { initial: AvatarCon
           {ACCESSORIES.map(acc => (
             <button key={acc.id} onClick={() => update({ accessory: acc.id })} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${config.accessory === acc.id ? "bg-[#f5c518] text-[#0a1628] font-bold" : "bg-white/10 text-gray-300 hover:bg-white/20"}`}>
               {acc.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Beard */}
+      <div>
+        <label className="text-xs text-gray-400 mb-2 block font-semibold uppercase tracking-wider">Skägg</label>
+        <div className="flex flex-wrap gap-2">
+          {BEARDS.map(b => (
+            <button key={b.id} onClick={() => update({ beard: b.id })} className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${config.beard === b.id ? "bg-[#f5c518] text-[#0a1628] font-bold" : "bg-white/10 text-gray-300 hover:bg-white/20"}`}>
+              {b.label}
             </button>
           ))}
         </div>
