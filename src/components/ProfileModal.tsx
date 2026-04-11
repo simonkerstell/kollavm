@@ -12,6 +12,7 @@ export default function ProfileModal({ onClose, onAvatarChange }: { onClose: () 
   const { user } = useAuth();
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(DEFAULT_AVATAR);
   const [editing, setEditing] = useState(false);
+  const [showBadges, setShowBadges] = useState(false);
   const [totalPoints, setTotalPoints] = useState(0);
   const [tipsCount, setTipsCount] = useState(0);
   const [badges, setBadges] = useState<Badge[]>([]);
@@ -70,6 +71,29 @@ export default function ProfileModal({ onClose, onAvatarChange }: { onClose: () 
             <h2 className="text-2xl font-black text-white mb-6">Redigera avatar</h2>
             <AvatarBuilder initial={avatarConfig} onSaved={handleAvatarSaved} />
           </>
+        ) : showBadges ? (
+          <>
+            <button onClick={() => setShowBadges(false)} className="flex items-center gap-1 text-gray-400 hover:text-[#f5c518] text-sm font-medium mb-4">
+              <ChevronLeft size={14} /> Tillbaka
+            </button>
+            <h2 className="text-2xl font-black text-white mb-2">Utmärkelser</h2>
+            <p className="text-gray-400 text-sm mb-6">{earnedCount} av {badges.length} upplåsta</p>
+            <div className="space-y-3">
+              {badges.map(badge => (
+                <div
+                  key={badge.id}
+                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${badge.earned ? "bg-[#f5c518]/10 border-[#f5c518]/30" : "bg-white/5 border-white/10 opacity-50"}`}
+                >
+                  <span className="text-3xl shrink-0">{badge.emoji}</span>
+                  <div className="flex-1">
+                    <p className={`font-bold text-sm ${badge.earned ? "text-white" : "text-gray-500"}`}>{badge.name}</p>
+                    <p className={`text-xs mt-0.5 ${badge.earned ? "text-gray-400" : "text-gray-600"}`}>{badge.description}</p>
+                  </div>
+                  {badge.earned && <span className="text-green-400 text-xs font-semibold shrink-0">Upplåst</span>}
+                </div>
+              ))}
+            </div>
+          </>
         ) : (
           <>
             {loading ? (
@@ -99,40 +123,26 @@ export default function ProfileModal({ onClose, onAvatarChange }: { onClose: () 
                     <p className="text-white font-black text-xl">{tipsCount}</p>
                     <p className="text-gray-400 text-[10px] mt-0.5">Tips</p>
                   </div>
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+                  <button onClick={() => setShowBadges(true)} className="bg-white/5 border border-white/10 rounded-xl p-3 text-center hover:border-[#f5c518]/30 transition-all">
                     <p className="text-white font-black text-xl">{earnedCount}/{badges.length}</p>
-                    <p className="text-gray-400 text-[10px] mt-0.5">Utmärkelser</p>
-                  </div>
+                    <p className="text-gray-400 text-[10px] mt-0.5">Utmärkelser →</p>
+                  </button>
                 </div>
 
-                {/* Badges */}
-                <div className="mb-6">
-                  <h3 className="font-bold text-white text-sm mb-3">Utmärkelser</h3>
-                  <div className="grid grid-cols-5 gap-2">
-                    {badges.map(badge => (
-                      <div
-                        key={badge.id}
-                        className={`relative group flex flex-col items-center p-2 rounded-xl transition-all ${badge.earned ? "bg-[#f5c518]/10 border border-[#f5c518]/30" : "bg-white/5 border border-white/10 opacity-40"}`}
-                      >
-                        <span className="text-2xl">{badge.emoji}</span>
-                        <span className={`text-[9px] font-semibold mt-1 text-center leading-tight ${badge.earned ? "text-white" : "text-gray-500"}`}>{badge.name}</span>
-                        {/* Tooltip */}
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10">
-                          <div className="bg-[#0a1628] border border-white/20 rounded-lg px-3 py-2 text-xs text-gray-300 whitespace-nowrap shadow-xl">
-                            {badge.description}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => setShowBadges(true)}
+                    className="w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#f5c518]/30 text-white font-bold py-3 rounded-full text-sm transition-all flex items-center justify-center gap-2"
+                  >
+                    🏅 Visa utmärkelser ({earnedCount}/{badges.length})
+                  </button>
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-full text-sm transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Pencil size={16} /> Redigera avatar
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => setEditing(true)}
-                  className="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-full text-sm transition-colors flex items-center justify-center gap-2"
-                >
-                  <Pencil size={16} /> Redigera avatar
-                </button>
               </>
             )}
           </>
