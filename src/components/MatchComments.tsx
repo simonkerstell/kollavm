@@ -27,6 +27,11 @@ export default function MatchComments({ matchId }: { matchId: string }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Always fetch to show count
+    getComments(matchId).then(c => setComments(c));
+  }, [matchId]);
+
+  useEffect(() => {
     if (open) {
       setLoading(true);
       getComments(matchId).then(c => {
@@ -73,10 +78,10 @@ export default function MatchComments({ matchId }: { matchId: string }) {
     <div className="mt-3">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#f5c518] transition-colors"
+        className="flex items-center gap-2 text-sm text-gray-300 hover:text-[#f5c518] transition-colors mt-1 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-white/10"
       >
-        <MessageCircle size={13} />
-        <span>{comments.length > 0 ? `${comments.length} kommentarer` : "Kommentera"}</span>
+        <MessageCircle size={14} />
+        <span>{comments.length > 0 ? `Diskutera matchen (${comments.length})` : "Diskutera matchen"}</span>
       </button>
 
       {open && (
