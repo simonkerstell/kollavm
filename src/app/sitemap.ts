@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/matcher`, priority: 0.9, changeFrequency: "hourly" as const },
     { url: `${base}/hemma`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/restauranger`, priority: 0.7, changeFrequency: "weekly" as const },
+    { url: `${base}/restauranger-vm`, priority: 0.9, changeFrequency: "weekly" as const },
     { url: `${base}/artiklar`, priority: 0.8, changeFrequency: "weekly" as const },
     { url: `${base}/tippa`, priority: 0.7, changeFrequency: "daily" as const },
     { url: `${base}/tippa-vm`, priority: 0.9, changeFrequency: "weekly" as const },

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://kollavm.se/restauranger" },
-  title: "Restauranger & sportbarer för VM 2026 – KollaVM",
-  description: "Hitta de bästa restaurangerna och sportbarerna att se fotbolls-VM 2026 på i Stockholm, Göteborg, Malmö och fler städer.",
+  title: "Restauranger som visar VM 2026 – sportbarer i hela Sverige – KollaVM",
+  description: "Vilka restauranger visar VM 2026? Hitta sportbarer och krogar som visar fotbolls-VM i Stockholm, Göteborg, Malmö och 12 fler städer.",
   openGraph: {
     title: "Restauranger & sportbarer – KollaVM",
     description: "Hitta bästa stället att se VM-matcherna på i Sverige.",
